@@ -100,3 +100,8 @@ Thumbs.db
 /var/
 /.php-cs-fixer.cache
 /.phpunit.result.cache
+
+#──────────────────────────────────────────────────────────────
+# Specs (design documents, not code)
+#──────────────────────────────────────────────────────────────
+/specs/

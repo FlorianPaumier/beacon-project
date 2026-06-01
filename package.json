@@ -1,0 +1,20 @@
+{
+    "devDependencies": {
+        "@biomejs/biome": "^1.9.4",
+        "@fortawesome/fontawesome-free": "^6.7.1",
+        "@hotwired/stimulus": "^3.2.2",
+        "@popperjs/core": "^2.11.8",
+        "bootstrap": "^5.3.8",
+        "chart.js": "^4.4.7"
+    },
+    "license": "MIT",
+    "private": true,
+    "scripts": {
+        "dev": "bun run build --watch",
+        "build": "bun run --bun biome check --write assets/",
+        "ci": "bun run --bun biome ci assets/",
+        "lint": "bun run --bun biome check assets/",
+        "format": "bun run --bun biome format --write assets/"
+    },
+    "dependencies": {}
+}
