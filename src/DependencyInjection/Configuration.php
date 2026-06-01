@@ -67,7 +67,6 @@ final readonly class Configuration implements ConfigurationInterface
                     ->children()
                         ->scalarNode('css_framework')
                             ->defaultValue('custom')
-                            ->validateIfString()
                             ->info('Which CSS framework to use: custom, bootstrap, or tailwind')
                         ->end()
                     ->end()

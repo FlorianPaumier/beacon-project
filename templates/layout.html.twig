@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="{{ app.request.locale|default('en') }}"{% if beacon_theme().dark_mode %} data-bs-theme="auto"{% endif %}>
+<html lang="{{ app.request.locale|default('en') }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}{{ beacon_config().title }}{% endblock %}</title>
+    <title>{% block title %}Beacon Admin{% endblock %}</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📡</text></svg>">
     {% block stylesheets %}
         <link rel="stylesheet" href="{{ asset('bundles/beaconadmin/beacon.css') }}">
@@ -14,14 +14,10 @@
         {% block sidebar %}
             <aside class="beacon-sidebar">
                 <div class="beacon-brand">
-                    {% if beacon_config().logo %}
-                        <img src="{{ asset(beacon_config().logo) }}" alt="{{ beacon_config().title }}" class="beacon-logo">
-                    {% else %}
-                        <span class="beacon-title">{{ beacon_config().title }}</span>
-                    {% endif %}
+                    <span class="beacon-title">Beacon Admin</span>
                 </div>
                 <nav class="beacon-nav">
-                    {{ beacon_menu()|raw }}
+                    {# menu rendered by consuming app #}
                 </nav>
             </aside>
         {% endblock %}

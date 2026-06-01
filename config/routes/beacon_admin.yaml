@@ -1,0 +1,7 @@
+# Beacon Admin Bundle — Route Configuration
+# Auto-discovered by Symfony when placed in config/routes/
+
+beacon_admin:
+    resource: '@BeaconAdminBundle/Controller/'
+    type: attribute
+    prefix: '%beacon_admin.route_prefix%'

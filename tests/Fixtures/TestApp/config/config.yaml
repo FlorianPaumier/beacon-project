@@ -3,6 +3,8 @@ framework:
     test: true
     router:
         utf8: true
+        resource: '%kernel.project_dir%/config/routes.php'
+        type: php
     session:
         handler_id: null
         cookie_secure: auto
@@ -11,9 +13,12 @@ framework:
 
 twig:
     strict_variables: true
-    exception_controller: null
     paths:
-        '%kernel.project_dir%/../../templates': BeaconAdmin
+        '%kernel.project_dir%/../../../templates': BeaconAdmin
+
+beacon_admin:
+    route_prefix: /admin
+    title: 'Beacon Admin'
 
 security:
     password_hashers:

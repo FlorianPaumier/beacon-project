@@ -10,6 +10,7 @@ use Symfony\Bundle\SecurityBundle\SecurityBundle;
 use Symfony\Bundle\TwigBundle\TwigBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Kernel;
+use Symfony\UX\StimulusBundle\StimulusBundle;
 
 final class TestKernel extends Kernel
 {
@@ -20,6 +21,7 @@ final class TestKernel extends Kernel
             new FrameworkBundle(),
             new SecurityBundle(),
             new TwigBundle(),
+            new StimulusBundle(),
             new BeaconAdminBundle(),
         ];
     }
@@ -37,5 +39,10 @@ final class TestKernel extends Kernel
     public function getLogDir(): string
     {
         return sys_get_temp_dir() . '/beacon-admin/logs';
+    }
+
+    public function getProjectDir(): string
+    {
+        return __DIR__;
     }
 }

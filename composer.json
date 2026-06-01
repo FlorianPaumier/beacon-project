@@ -49,6 +49,7 @@
         "doctrine/doctrine-fixtures-bundle": "^3.4|^4.0",
         "friendsofphp/php-cs-fixer": "^3.75",
         "infection/infection": "^0.29",
+        "laravel/pao": "1.x-dev",
         "phpstan/extension-installer": "^1.4",
         "phpstan/phpstan": "^2.0",
         "phpstan/phpstan-doctrine": "^2.0",
@@ -69,6 +70,7 @@
         "symfony/process": "^7.4|^8.0",
         "symfony/var-dumper": "^7.4|^8.0",
         "symfony/web-link": "^7.4|^8.0",
+        "symfony/yaml": "8.2.x-dev",
         "vincentlanglet/twig-cs-fixer": "^3.10",
         "zenstruck/foundry": "^2.3"
     },
