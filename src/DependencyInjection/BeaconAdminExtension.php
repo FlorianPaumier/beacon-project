@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Devgeek\BeaconAdmin\DependencyInjection;
 
+use Devgeek\BeaconAdmin\Security\BeaconAccessVoter;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
@@ -19,11 +20,26 @@ final class BeaconAdminExtension extends Extension
         $loader = new PhpFileLoader($container, new FileLocator(\dirname(__DIR__, 2) . '/config'));
         $loader->load('services.php');
 
+        // Core
         $container->setParameter('beacon_admin.route_prefix', $config['route_prefix']);
         $container->setParameter('beacon_admin.title', $config['title']);
+
+        // Theme
         $container->setParameter('beacon_admin.theme.primary_color', $config['theme']['primary_color']);
         $container->setParameter('beacon_admin.theme.dark_mode', $config['theme']['dark_mode']);
+
+        // Menu
         $container->setParameter('beacon_admin.menu.items', $config['menu']);
+
+        // Security
+        $container->setParameter('beacon_admin.security.role', $config['security']['role']);
+
+        if ($config['security']['voters']) {
+            $container->findDefinition(BeaconAccessVoter::class)
+                ->setArgument('$adminRole', $config['security']['role']);
+        } else {
+            $container->removeDefinition(BeaconAccessVoter::class);
+        }
     }
 
     public function getAlias(): string

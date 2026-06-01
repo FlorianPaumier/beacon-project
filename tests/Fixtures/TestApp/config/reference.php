@@ -1049,6 +1049,10 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             role?: scalar|Param|null,
  *         }>,
  *     }>,
+ *     security?: array{
+ *         role?: scalar|Param|null, // Role required to access the admin panel // Default: "ROLE_ADMIN"
+ *         voters?: bool|Param, // Enable BeaconAccessVoter for #[BeaconAccess] attribute checks // Default: true
+ *     },
  *     assets?: array{
  *         css_framework?: scalar|Param|null, // Which CSS framework to use: custom, bootstrap, or tailwind // Default: "custom"
  *     },

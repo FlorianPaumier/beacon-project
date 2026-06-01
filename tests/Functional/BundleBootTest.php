@@ -22,6 +22,7 @@ final class BundleBootTest extends WebTestCase
         $this->assertSame('/admin', $container->getParameter('beacon_admin.route_prefix'));
         $this->assertSame('Beacon Admin', $container->getParameter('beacon_admin.title'));
         $this->assertTrue($container->getParameter('beacon_admin.theme.dark_mode'));
+        $this->assertSame('ROLE_ADMIN', $container->getParameter('beacon_admin.security.role'));
     }
 
     public function testWidgetRegistryIsAvailable(): void
@@ -30,7 +31,7 @@ final class BundleBootTest extends WebTestCase
         $container = $client->getContainer();
 
         $registry = $container->get('Devgeek\BeaconAdmin\Widget\WidgetRegistry');
-        $this->assertSame([], $registry->all(), 'Widget registry should start empty in a fresh boot.');
+        $this->assertSame([], $registry->all());
     }
 
     public function testMenuBuilderIsAvailable(): void
@@ -39,7 +40,7 @@ final class BundleBootTest extends WebTestCase
         $container = $client->getContainer();
 
         $menuBuilder = $container->get('Devgeek\BeaconAdmin\Menu\MenuBuilder');
-        $this->assertSame([], $menuBuilder->build(), 'Menu should be empty with no items configured.');
+        $this->assertSame([], $menuBuilder->build());
     }
 
     public function testDashboardRouteIsRegistered(): void
@@ -47,8 +48,6 @@ final class BundleBootTest extends WebTestCase
         $client = static::createClient();
         $client->request('GET', '/admin');
 
-        // Without any widgets, the response will be 200 but may show an empty state.
-        // If no route is registered, we get a 404 instead.
         $this->assertResponseIsSuccessful();
     }
 }
