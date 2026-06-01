@@ -1,0 +1,18 @@
+/*──────────────────────────────────────────────────────────────
+  Beacon Admin -- Tailwind CSS entry point
+  Import this in apps using Tailwind as their CSS framework.
+  Compile with: bun run css:tailwind
+──────────────────────────────────────────────────────────────*/
+
+@import "tailwindcss";
+
+/* Beacon design tokens as Tailwind theme extensions */
+@theme {
+    --color-beacon-primary: #2563eb;
+    --color-beacon-primary-hover: #1d4ed8;
+    --color-beacon-bg: #f8fafc;
+    --color-beacon-surface: #ffffff;
+    --color-beacon-text: #0f172a;
+    --color-beacon-text-muted: #64748b;
+    --color-beacon-border: #e2e8f0;
+}

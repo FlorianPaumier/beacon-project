@@ -1,0 +1,28 @@
+{% extends '@BeaconAdmin/layout.html.twig' %}
+
+{% block page_title %}Dashboard{% endblock %}
+
+{% block content %}
+    <div class="beacon-dashboard" {{ stimulus_controller('beacon-admin/dashboard') }}>
+        <div class="beacon-widget-grid">
+            {% for widget in widgets %}
+                <div class="beacon-widget beacon-widget--cols-{{ widget.cols }}"
+                    {{ stimulus_target('beacon-admin/dashboard', 'widget') }}
+                    data-widget-name="{{ widget.name }}"
+                >
+                    <div class="beacon-widget__header">
+                        <h2 class="beacon-widget__title">{{ widget.label }}</h2>
+                    </div>
+                    <div class="beacon-widget__body">
+                        {{ widget.render()|raw }}
+                    </div>
+                </div>
+            {% else %}
+                <div class="beacon-empty-state">
+                    <p>No widgets configured.</p>
+                    <p>Create a service implementing <code>DashboardWidgetInterface</code> and tag it with <code>beacon_admin.widget</code>.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,28 @@
+/*──────────────────────────────────────────────────────────────
+  Beacon Admin -- Bootstrap entry point
+  Import this in apps using Bootstrap as their CSS framework.
+  Compile with: bun run css:bootstrap
+──────────────────────────────────────────────────────────────*/
+
+// Override Bootstrap defaults with Beacon theme
+$primary: #2563eb;
+
+@import "bootstrap/scss/bootstrap";
+
+// Beacon layout overrides for Bootstrap
+.beacon-widget-grid {
+    @extend .row;
+    gap: 1rem;
+}
+
+.beacon-widget {
+    @extend .card;
+}
+
+.beacon-widget__header {
+    @extend .card-header;
+}
+
+.beacon-widget__body {
+    @extend .card-body;
+}
