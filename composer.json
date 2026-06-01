@@ -66,6 +66,7 @@
         "symfony/dom-crawler": "^7.4|^8.0",
         "symfony/expression-language": "^7.4|^8.0",
         "symfony/finder": "^7.4|^8.0",
+        "symfony/maker-bundle": "1.x-dev",
         "symfony/phpunit-bridge": "^7.4|^8.0",
         "symfony/process": "^7.4|^8.0",
         "symfony/var-dumper": "^7.4|^8.0",
