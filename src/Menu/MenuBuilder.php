@@ -16,9 +16,9 @@ class MenuBuilder
 
     protected ?AuthorizationCheckerInterface $checker;
 
-    public static function make(): static
+    public static function make(): self
     {
-        return new static();
+        return new self();
     }
 
     public function __construct(?AuthorizationCheckerInterface $checker = null)
@@ -71,7 +71,11 @@ class MenuBuilder
         return $this->filterByRole($items);
     }
 
-    /** @param array<MenuItem> $items */
+    /**
+     * @param array<MenuItem> $items
+     *
+     * @return array<MenuItem>
+     */
     private function filterByRole(array $items): array
     {
         if (null === $this->checker) {
@@ -86,7 +90,7 @@ class MenuBuilder
 
     private function isAccessible(MenuItem $item): bool
     {
-        if (null !== $item->getRole() && ! $this->checker->isGranted($item->getRole())) {
+        if (null !== $item->getRole() && !$this->checker->isGranted($item->getRole())) {
             return false;
         }
 

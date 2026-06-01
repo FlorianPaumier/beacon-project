@@ -13,7 +13,7 @@ class MenuPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container): void
     {
-        if (! $container->has(MenuBuilder::class)) {
+        if (!$container->has(MenuBuilder::class)) {
             return;
         }
 

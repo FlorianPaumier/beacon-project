@@ -13,7 +13,7 @@ class WidgetPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container): void
     {
-        if (! $container->has(WidgetRegistry::class)) {
+        if (!$container->has(WidgetRegistry::class)) {
             return;
         }
 

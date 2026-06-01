@@ -17,9 +17,9 @@ class MenuItem
     /** @var array<MenuItem> */
     protected array $children = [];
 
-    public static function make(): static
+    public static function make(): self
     {
-        return new static();
+        return new self();
     }
 
     public function label(string $label): static

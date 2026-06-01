@@ -17,7 +17,7 @@ class BeaconAdminExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $loader = new PhpFileLoader($container, new FileLocator(\dirname(__DIR__, 2) . '/config'));
+        $loader = new PhpFileLoader($container, new FileLocator(\dirname(__DIR__, 2).'/config'));
         $loader->load('services.php');
 
         $container->setParameter('beacon_admin.route_prefix', $config['route_prefix']);

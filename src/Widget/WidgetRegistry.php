@@ -9,9 +9,9 @@ class WidgetRegistry
     /** @var array<string, DashboardWidgetInterface> */
     protected array $widgets = [];
 
-    public static function make(): static
+    public static function make(): self
     {
-        return new static();
+        return new self();
     }
 
     public function register(DashboardWidgetInterface $widget): static

@@ -7,22 +7,18 @@ namespace Devgeek\BeaconAdmin\Security;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Vote;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
+use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 /**
- * Votes on #[BeaconAccess] attributes on controller classes and methods.
- *
- * Registered automatically via symfony/security-bundle's AddSecurityVotersPass
- * which collects all services implementing VoterInterface (via autoconfigure).
- *
- * Consuming apps implement their own VoterInterface for custom permissions.
+ * @extends Voter<string, mixed>
  */
 class BeaconAccessVoter extends Voter
 {
     protected string $adminRole;
 
-    public static function make(): static
+    public static function make(): self
     {
-        return new static();
+        return new self();
     }
 
     public function __construct(string $adminRole = 'ROLE_ADMIN')
@@ -42,15 +38,46 @@ class BeaconAccessVoter extends Voter
         return $this->adminRole;
     }
 
+    /**
+     * Override vote() directly because the parent supports() has signature
+     * `string $attribute` — BeaconAccess objects cause a TypeError that gets
+     * silently caught and skipped, resulting in ACCESS_ABSTAIN.
+     */
+    public function vote(TokenInterface $token, mixed $subject, array $attributes, ?Vote $vote = null): int
+    {
+        foreach ($attributes as $attribute) {
+            if (!$attribute instanceof BeaconAccess) {
+                continue;
+            }
+
+            if (null !== $vote) {
+                $vote->result = VoterInterface::ACCESS_DENIED;
+            }
+
+            if ($this->voteOn($token, $attribute)) {
+                if (null !== $vote) {
+                    $vote->result = VoterInterface::ACCESS_GRANTED;
+                }
+
+                return VoterInterface::ACCESS_GRANTED;
+            }
+        }
+
+        return VoterInterface::ACCESS_ABSTAIN;
+    }
+
     protected function supports(string $attribute, mixed $subject): bool
     {
-        return $attribute instanceof BeaconAccess;
+        return false;
     }
 
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token, ?Vote $vote = null): bool
     {
-        \assert($attribute instanceof BeaconAccess);
+        return false;
+    }
 
+    private function voteOn(TokenInterface $token, BeaconAccess $attribute): bool
+    {
         if (null !== $attribute->getRole()) {
             return $this->hasRole($token, $attribute->getRole());
         }

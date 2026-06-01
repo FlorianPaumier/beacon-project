@@ -28,17 +28,17 @@ final class TestKernel extends Kernel
 
     public function registerContainerConfiguration(LoaderInterface $loader): void
     {
-        $loader->load(__DIR__ . '/config/config.yaml');
+        $loader->load(__DIR__.'/config/config.yaml');
     }
 
     public function getCacheDir(): string
     {
-        return sys_get_temp_dir() . '/beacon-admin/cache/' . $this->environment;
+        return sys_get_temp_dir().'/beacon-admin/cache/'.$this->environment;
     }
 
     public function getLogDir(): string
     {
-        return sys_get_temp_dir() . '/beacon-admin/logs';
+        return sys_get_temp_dir().'/beacon-admin/logs';
     }
 
     public function getProjectDir(): string

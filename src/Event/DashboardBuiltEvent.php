@@ -12,9 +12,9 @@ class DashboardBuiltEvent
     protected array $widgets = [];
 
     /** @param array<DashboardWidgetInterface> $widgets */
-    public static function make(array $widgets = []): static
+    public static function make(array $widgets = []): self
     {
-        $event = new static();
+        $event = new self();
         $event->widgets = $widgets;
 
         return $event;

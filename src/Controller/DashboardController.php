@@ -22,9 +22,9 @@ class DashboardController extends AbstractController
         $this->widgets = $widgets;
     }
 
-    public static function make(WidgetRegistry $widgets): static
+    public static function make(WidgetRegistry $widgets): self
     {
-        return new static($widgets);
+        return new self($widgets);
     }
 
     #[Route('/%beacon_admin.route_prefix%', name: 'beacon_admin.dashboard')]

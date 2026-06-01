@@ -105,3 +105,9 @@ Thumbs.db
 # Specs (design documents, not code)
 #──────────────────────────────────────────────────────────────
 /specs/
+
+#──────────────────────────────────────────────────────────────
+# Reference / scratch files
+#──────────────────────────────────────────────────────────────
+config/reference.php
+tests/Fixtures/TestApp/config/reference.php
