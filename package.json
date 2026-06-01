@@ -4,17 +4,29 @@
         "@fortawesome/fontawesome-free": "^6.7.1",
         "@hotwired/stimulus": "^3.2.2",
         "@popperjs/core": "^2.11.8",
+        "@tailwindcss/cli": "^4.0.0",
+        "autoprefixer": "^10.4.21",
         "bootstrap": "^5.3.8",
-        "chart.js": "^4.4.7"
+        "chart.js": "^4.4.7",
+        "postcss": "^8.5.3",
+        "sass": "^1.86.3",
+        "tailwindcss": "^4.0.0"
     },
     "license": "MIT",
     "private": true,
     "scripts": {
-        "dev": "bun run build --watch",
-        "build": "bun run --bun biome check --write assets/",
-        "ci": "bun run --bun biome ci assets/",
-        "lint": "bun run --bun biome check assets/",
-        "format": "bun run --bun biome format --write assets/"
+        "dev": "bun run css:watch",
+        "build": "bun run css:build && bun run lint",
+        "css:build": "bun run css:bootstrap && bun run css:tailwind && bun run css:custom",
+        "css:bootstrap": "bun run --bun sass assets/styles/beacon-bootstrap.scss:assets/dist/beacon-bootstrap.css --no-source-map --style=compressed",
+        "css:tailwind": "bun run --bun tailwindcss -i assets/styles/beacon-tailwind.css -o assets/dist/beacon-tailwind.css --minify",
+        "css:custom": "bun run --bun postcss assets/styles/beacon-custom.css -o assets/dist/beacon-custom.css --no-map",
+        "css:watch": "bun run --bun sass --watch assets/styles/beacon-bootstrap.scss:assets/dist/beacon-bootstrap.css --no-source-map & bun run --bun tailwindcss -i assets/styles/beacon-tailwind.css -o assets/dist/beacon-tailwind.css --watch",
+        "lint": "bun run biome:check && bun run css:lint",
+        "biome:check": "bun run --bun biome check assets/",
+        "biome:format": "bun run --bun biome format --write assets/",
+        "css:lint": "bun run --bun biome lint assets/styles/",
+        "ci": "bun run --bun biome ci assets/ && bun run css:build"
     },
     "dependencies": {}
 }
