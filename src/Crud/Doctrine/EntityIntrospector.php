@@ -63,6 +63,7 @@ class EntityIntrospector
 
     /**
      * @param ClassMetadata<object> $metadata
+     *
      * @return array<FieldMetadata>
      */
     private function extractFields(ClassMetadata $metadata): array
@@ -85,7 +86,8 @@ class EntityIntrospector
 
     /**
      * @param ClassMetadata<object> $metadata
-     * @param array<FieldMetadata> $fields
+     * @param array<FieldMetadata>  $fields
+     *
      * @return array<FieldMetadata>
      */
     private function extractIdentifier(ClassMetadata $metadata, array $fields): array
@@ -104,6 +106,7 @@ class EntityIntrospector
 
     /**
      * @param ClassMetadata<object> $metadata
+     *
      * @return array<AssociationMetadata>
      */
     private function extractAssociations(ClassMetadata $metadata): array
