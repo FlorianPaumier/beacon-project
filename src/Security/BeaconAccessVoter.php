@@ -36,10 +36,11 @@ final class BeaconAccessVoter extends Voter
             return $this->hasRole($token, $attribute->role);
         }
 
-        // Custom permission string — abstain so app-specific voters handle it
-        // This keeps the bundle's voter from making decisions it shouldn't
+        // Custom permission string — fail-closed: the app MUST provide a voter
+        // that explicitly grants. Returning false ensures a missing voter
+        // results in denied access rather than silently granting it.
         if (null !== $attribute->permission) {
-            return true; // Grant — let the app revoke via its own voter with higher priority
+            return false;
         }
 
         // Neither role nor permission set — fall back to configured admin role
