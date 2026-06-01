@@ -13,11 +13,18 @@ use Symfony\Component\Routing\Attribute\Route;
 
 #[AsController]
 #[BeaconAccess(role: 'ROLE_ADMIN')]
-final class DashboardController extends AbstractController
+class DashboardController extends AbstractController
 {
-    public function __construct(
-        private readonly WidgetRegistry $widgets,
-    ) {
+    protected WidgetRegistry $widgets;
+
+    public function __construct(WidgetRegistry $widgets)
+    {
+        $this->widgets = $widgets;
+    }
+
+    public static function make(WidgetRegistry $widgets): static
+    {
+        return new static($widgets);
     }
 
     #[Route('/%beacon_admin.route_prefix%', name: 'beacon_admin.dashboard')]

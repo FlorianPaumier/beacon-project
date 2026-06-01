@@ -4,14 +4,21 @@ declare(strict_types=1);
 
 namespace Devgeek\BeaconAdmin\Widget;
 
-final class WidgetRegistry
+class WidgetRegistry
 {
     /** @var array<string, DashboardWidgetInterface> */
-    private array $widgets = [];
+    protected array $widgets = [];
 
-    public function register(DashboardWidgetInterface $widget): void
+    public static function make(): static
+    {
+        return new static();
+    }
+
+    public function register(DashboardWidgetInterface $widget): static
     {
         $this->widgets[$widget->getName()] = $widget;
+
+        return $this;
     }
 
     /** @return DashboardWidgetInterface[] sorted by priority */

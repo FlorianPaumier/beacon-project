@@ -7,14 +7,13 @@ namespace Devgeek\BeaconAdmin\DependencyInjection;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
-final readonly class Configuration implements ConfigurationInterface
+class Configuration implements ConfigurationInterface
 {
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('beacon_admin');
         $root = $treeBuilder->getRootNode();
 
-        // @formatter:off
         $root
             ->children()
                 ->scalarNode('route_prefix')
@@ -84,9 +83,7 @@ final readonly class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
-            ->end()
-        ;
-        // @formatter:on
+            ->end();
 
         return $treeBuilder;
     }

@@ -14,11 +14,30 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
  * Registered automatically via autoconfigure (implements VoterInterface).
  * Consuming apps implement their own VoterInterface for custom permissions.
  */
-final class BeaconAccessVoter extends Voter
+class BeaconAccessVoter extends Voter
 {
-    public function __construct(
-        private readonly string $adminRole = 'ROLE_ADMIN',
-    ) {
+    protected string $adminRole;
+
+    public static function make(): static
+    {
+        return new static();
+    }
+
+    public function __construct(string $adminRole = 'ROLE_ADMIN')
+    {
+        $this->adminRole = $adminRole;
+    }
+
+    public function adminRole(string $adminRole): static
+    {
+        $this->adminRole = $adminRole;
+
+        return $this;
+    }
+
+    public function getAdminRole(): string
+    {
+        return $this->adminRole;
     }
 
     protected function supports(string $attribute, mixed $subject): bool
@@ -31,19 +50,15 @@ final class BeaconAccessVoter extends Voter
     {
         \assert($attribute instanceof BeaconAccess);
 
-        // If the attribute specifies a role, check it directly
-        if (null !== $attribute->role) {
-            return $this->hasRole($token, $attribute->role);
+        if (null !== $attribute->getRole()) {
+            return $this->hasRole($token, $attribute->getRole());
         }
 
-        // Custom permission string — fail-closed: the app MUST provide a voter
-        // that explicitly grants. Returning false ensures a missing voter
-        // results in denied access rather than silently granting it.
-        if (null !== $attribute->permission) {
+        // Custom permission — fail-closed: app MUST provide a granting voter
+        if (null !== $attribute->getPermission()) {
             return false;
         }
 
-        // Neither role nor permission set — fall back to configured admin role
         return $this->hasRole($token, $this->adminRole);
     }
 

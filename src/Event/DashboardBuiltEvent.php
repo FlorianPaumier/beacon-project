@@ -6,30 +6,48 @@ namespace Devgeek\BeaconAdmin\Event;
 
 use Devgeek\BeaconAdmin\Widget\DashboardWidgetInterface;
 
-final class DashboardBuiltEvent
+class DashboardBuiltEvent
 {
-    /** @param DashboardWidgetInterface[] $widgets */
-    public function __construct(
-        private array $widgets,
-    ) {
+    /** @var array<DashboardWidgetInterface> */
+    protected array $widgets = [];
+
+    /** @param array<DashboardWidgetInterface> $widgets */
+    public static function make(array $widgets = []): static
+    {
+        $event = new static();
+        $event->widgets = $widgets;
+
+        return $event;
     }
 
-    /** @return DashboardWidgetInterface[] */
+    /** @return array<DashboardWidgetInterface> */
     public function getWidgets(): array
     {
         return $this->widgets;
     }
 
-    public function addWidget(DashboardWidgetInterface $widget): void
+    /** @param array<DashboardWidgetInterface> $widgets */
+    public function widgets(array $widgets): static
     {
-        $this->widgets[] = $widget;
+        $this->widgets = $widgets;
+
+        return $this;
     }
 
-    public function removeWidget(string $name): void
+    public function addWidget(DashboardWidgetInterface $widget): static
+    {
+        $this->widgets[] = $widget;
+
+        return $this;
+    }
+
+    public function removeWidget(string $name): static
     {
         $this->widgets = array_values(array_filter(
             $this->widgets,
             static fn (DashboardWidgetInterface $w): bool => $w->getName() !== $name,
         ));
+
+        return $this;
     }
 }

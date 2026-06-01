@@ -6,31 +6,60 @@ namespace Devgeek\BeaconAdmin\Menu;
 
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
-final class MenuBuilder
+class MenuBuilder
 {
-    /** @var callable[] */
-    private array $extensions = [];
+    /** @var array<MenuItem> */
+    protected array $items = [];
 
-    /** @var MenuItem[] */
-    private array $items = [];
+    /** @var array<callable> */
+    protected array $extensions = [];
 
-    public function __construct(
-        private readonly ?AuthorizationCheckerInterface $checker = null,
-    ) {
-    }
+    protected ?AuthorizationCheckerInterface $checker;
 
-    public function addExtension(callable $extension): void
+    public static function make(): static
     {
-        $this->extensions[] = $extension;
+        return new static();
     }
 
-    /** @param MenuItem[] $items */
-    public function setItems(array $items): void
+    public function __construct(?AuthorizationCheckerInterface $checker = null)
+    {
+        $this->checker = $checker;
+    }
+
+    public function checker(?AuthorizationCheckerInterface $checker): static
+    {
+        $this->checker = $checker;
+
+        return $this;
+    }
+
+    public function getChecker(): ?AuthorizationCheckerInterface
+    {
+        return $this->checker;
+    }
+
+    /** @param array<MenuItem> $items */
+    public function items(array $items): static
     {
         $this->items = $items;
+
+        return $this;
     }
 
-    /** @return MenuItem[] */
+    /** @return array<MenuItem> */
+    public function getItems(): array
+    {
+        return $this->items;
+    }
+
+    public function addExtension(callable $extension): static
+    {
+        $this->extensions[] = $extension;
+
+        return $this;
+    }
+
+    /** @return array<MenuItem> */
     public function build(): array
     {
         $items = $this->items;
@@ -42,7 +71,7 @@ final class MenuBuilder
         return $this->filterByRole($items);
     }
 
-    /** @param MenuItem[] $items */
+    /** @param array<MenuItem> $items */
     private function filterByRole(array $items): array
     {
         if (null === $this->checker) {
@@ -57,13 +86,13 @@ final class MenuBuilder
 
     private function isAccessible(MenuItem $item): bool
     {
-        if (null !== $item->role && ! $this->checker->isGranted($item->role)) {
+        if (null !== $item->getRole() && ! $this->checker->isGranted($item->getRole())) {
             return false;
         }
 
         if ($item->hasChildren()) {
             $accessible = array_filter(
-                $item->children,
+                $item->getChildren(),
                 fn (MenuItem $child): bool => $this->isAccessible($child),
             );
 

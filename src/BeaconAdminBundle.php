@@ -11,7 +11,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-final class BeaconAdminBundle extends Bundle
+class BeaconAdminBundle extends Bundle
 {
     public function build(ContainerBuilder $container): void
     {
@@ -27,5 +27,4 @@ final class BeaconAdminBundle extends Bundle
 
         return $this->extension;
     }
-
 }

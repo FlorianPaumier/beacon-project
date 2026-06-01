@@ -7,9 +7,9 @@ namespace Devgeek\BeaconAdmin\Twig;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-final class BeaconAdminExtension extends AbstractExtension
+class BeaconAdminExtension extends AbstractExtension
 {
-    /** @return TwigFunction[] */
+    /** @return array<TwigFunction> */
     public function getFunctions(): array
     {
         return [
@@ -18,14 +18,18 @@ final class BeaconAdminExtension extends AbstractExtension
         ];
     }
 
-    /** Returns the full beacon_admin.* parameter bag for templates. */
+    public static function make(): static
+    {
+        return new static();
+    }
+
+    /** @return array<string, mixed> */
     public function beaconConfig(): array
     {
-        // Parameters are injected via container; use a runtime for actual impl
         return [];
     }
 
-    /** Returns theme-specific values (primary color, dark mode enabled). */
+    /** @return array<string, mixed> */
     public function themeConfig(): array
     {
         return [

@@ -5,31 +5,54 @@ declare(strict_types=1);
 namespace Devgeek\BeaconAdmin\Security;
 
 /**
- * Attribute to control access on admin controllers and CRUD operations.
- *
- * Place on a controller class (applies to all methods) or individual method.
- * When omitted, the default role from beacon_admin.security.role is checked.
+ * Access control attribute for admin controllers and CRUD operations.
  *
  * Usage:
- *   #[BeaconAccess(role: 'ROLE_SUPER_ADMIN')]
- *   #[BeaconAccess(permission: 'entity.edit')]
+ *   #[BeaconAccess::make()->role('ROLE_SUPER_ADMIN')]
+ *   #[BeaconAccess::make()->permission('entity.edit')]
  */
 #[\Attribute(\Attribute::TARGET_CLASS | \Attribute::TARGET_METHOD | \Attribute::IS_REPEATABLE)]
-final readonly class BeaconAccess
+class BeaconAccess
 {
-    /** The Symfony security role required (e.g. ROLE_ADMIN). */
-    public ?string $role;
-
-    /** A custom permission string checked by your own voter. */
-    public ?string $permission;
+    protected ?string $role = null;
+    protected ?string $permission = null;
 
     public function __construct(?string $role = null, ?string $permission = null)
     {
-        if (null === $role && null === $permission) {
-            throw new \InvalidArgumentException('BeaconAccess requires at least one of: role, permission.');
+        if (null !== $role) {
+            $this->role = $role;
         }
+        if (null !== $permission) {
+            $this->permission = $permission;
+        }
+    }
 
+    public static function make(): static
+    {
+        return new static();
+    }
+
+    public function role(?string $role): static
+    {
         $this->role = $role;
+
+        return $this;
+    }
+
+    public function getRole(): ?string
+    {
+        return $this->role;
+    }
+
+    public function permission(?string $permission): static
+    {
         $this->permission = $permission;
+
+        return $this;
+    }
+
+    public function getPermission(): ?string
+    {
+        return $this->permission;
     }
 }

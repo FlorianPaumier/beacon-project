@@ -43,7 +43,7 @@ final class SecurityTest extends WebTestCase
 
         /** @var BeaconAccess $instance */
         $instance = $attrs[0]->newInstance();
-        $this->assertSame('ROLE_ADMIN', $instance->role);
+        $this->assertSame('ROLE_ADMIN', $instance->getRole());
     }
 
     public function testDashboardRouteIsAccessible(): void
