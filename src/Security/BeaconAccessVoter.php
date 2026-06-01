@@ -11,7 +11,9 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 /**
  * Votes on #[BeaconAccess] attributes on controller classes and methods.
  *
- * Registered automatically via autoconfigure (implements VoterInterface).
+ * Registered automatically via symfony/security-bundle's AddSecurityVotersPass
+ * which collects all services implementing VoterInterface (via autoconfigure).
+ *
  * Consuming apps implement their own VoterInterface for custom permissions.
  */
 class BeaconAccessVoter extends Voter
@@ -45,7 +47,6 @@ class BeaconAccessVoter extends Voter
         return $attribute instanceof BeaconAccess;
     }
 
-    /** @param BeaconAccess $attribute */
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token, ?Vote $vote = null): bool
     {
         \assert($attribute instanceof BeaconAccess);
