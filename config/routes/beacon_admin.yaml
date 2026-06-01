@@ -2,6 +2,6 @@
 # Auto-discovered by Symfony when placed in config/routes/
 
 beacon_admin:
-    resource: '@BeaconAdminBundle/Controller/'
+    resource: '@BeaconAdminBundle/src/Controller/'
     type: attribute
     prefix: '%beacon_admin.route_prefix%'

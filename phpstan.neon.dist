@@ -13,3 +13,5 @@ parameters:
         - '#Dynamic call to static method#'
         # Tests: assertInstanceOf with known type is harmless
         - '#Call to method.*assertInstanceOf\(\).*will always evaluate to true#'
+        # AbstractBundle::loadExtension inherits untyped array from parent
+        - '#Method Devgeek\\BeaconAdmin\\BeaconAdminBundle::loadExtension\(\) has parameter \$config with no value type specified#'
