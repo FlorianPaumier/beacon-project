@@ -35,3 +35,14 @@ security:
             lazy: true
             provider: in_memory
             http_basic: ~
+
+doctrine:
+    dbal:
+        url: 'sqlite:///:memory:'
+    orm:
+        auto_mapping: true
+        mappings:
+            TestApp:
+                dir: '%kernel.project_dir%/Entity'
+                prefix: 'Devgeek\BeaconAdmin\Tests\Fixtures\TestApp\Entity'
+                type: attribute

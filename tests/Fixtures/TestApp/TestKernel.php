@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Devgeek\BeaconAdmin\Tests\Fixtures\TestApp;
 
 use Devgeek\BeaconAdmin\BeaconAdminBundle;
+use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\SecurityBundle\SecurityBundle;
 use Symfony\Bundle\TwigBundle\TwigBundle;
@@ -21,6 +22,7 @@ final class TestKernel extends Kernel
             new FrameworkBundle(),
             new SecurityBundle(),
             new TwigBundle(),
+            new DoctrineBundle(),
             new StimulusBundle(),
             new BeaconAdminBundle(),
         ];
