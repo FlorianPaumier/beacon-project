@@ -17,7 +17,7 @@ class DataTableRenderer
     public function render(DataTableResult $result, CrudConfig $config): string
     {
         return $this->twig->render('@BeaconAdmin/crud/list.html.twig', [
-            'dataTable' => $result,
+            'result' => $result,
             'config' => $config,
         ]);
     }

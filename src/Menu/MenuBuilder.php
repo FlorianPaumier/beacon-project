@@ -8,7 +8,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class MenuBuilder
 {
-    /** @var array<MenuItem> */
+    /** @var array<MenuItemInterface> */
     protected array $items = [];
 
     /** @var array<callable> */
@@ -38,7 +38,7 @@ class MenuBuilder
         return $this->checker;
     }
 
-    /** @param array<MenuItem> $items */
+    /** @param array<MenuItemInterface> $items */
     public function items(array $items): static
     {
         $this->items = $items;
@@ -46,7 +46,7 @@ class MenuBuilder
         return $this;
     }
 
-    /** @return array<MenuItem> */
+    /** @return array<MenuItemInterface> */
     public function getItems(): array
     {
         return $this->items;
@@ -59,7 +59,7 @@ class MenuBuilder
         return $this;
     }
 
-    /** @return array<MenuItem> */
+    /** @return array<MenuItemInterface> */
     public function build(): array
     {
         $items = $this->items;
@@ -72,35 +72,35 @@ class MenuBuilder
     }
 
     /**
-     * @param array<MenuItem> $items
+     * @param array<MenuItemInterface> $items
      *
-     * @return array<MenuItem>
+     * @return array<MenuItemInterface>
      */
     private function filterByRole(array $items): array
     {
-        if (null === $this->checker) {
+        if ($this->checker === null) {
             return $items;
         }
 
         return array_values(array_filter(
             $items,
-            fn (MenuItem $item): bool => $this->isAccessible($item),
+            fn (MenuItemInterface $item): bool => $this->isAccessible($item),
         ));
     }
 
-    private function isAccessible(MenuItem $item): bool
+    private function isAccessible(MenuItemInterface $item): bool
     {
-        if (null !== $item->getRole() && !$this->checker->isGranted($item->getRole())) {
+        if ($this->checker !== null && $item->getRole() !== null && !$this->checker->isGranted($item->getRole())) {
             return false;
         }
 
         if ($item->hasChildren()) {
             $accessible = array_filter(
                 $item->getChildren(),
-                fn (MenuItem $child): bool => $this->isAccessible($child),
+                fn (MenuItemInterface $child): bool => $this->isAccessible($child),
             );
 
-            return [] !== $accessible;
+            return $accessible !== [];
         }
 
         return true;

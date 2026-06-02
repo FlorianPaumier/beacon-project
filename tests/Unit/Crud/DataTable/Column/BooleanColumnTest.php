@@ -34,4 +34,33 @@ final class BooleanColumnTest extends TestCase
 
         $this->assertSame('Is active', $column->getLabel());
     }
+
+    #[Test]
+    public function itDefaultsToggleableToFalse(): void
+    {
+        $column = BooleanColumn::make('active');
+
+        $this->assertFalse($column->isToggleable());
+    }
+
+    #[Test]
+    public function itSetsToggleable(): void
+    {
+        $column = BooleanColumn::make('active')->toggleable();
+
+        $this->assertTrue($column->isToggleable());
+    }
+
+    #[Test]
+    public function itChainsToggleableWithOtherSetters(): void
+    {
+        $column = BooleanColumn::make('active')
+            ->trueLabel('On')
+            ->falseLabel('Off')
+            ->toggleable();
+
+        $this->assertTrue($column->isToggleable());
+        $this->assertSame('On', $column->getTrueLabel());
+        $this->assertSame('Off', $column->getFalseLabel());
+    }
 }

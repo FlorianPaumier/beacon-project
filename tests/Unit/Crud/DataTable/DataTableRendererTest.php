@@ -23,7 +23,7 @@ final class DataTableRendererTest extends TestCase
         $twig->expects($this->once())
             ->method('render')
             ->with('@BeaconAdmin/crud/list.html.twig', [
-                'dataTable' => $result,
+                'result' => $result,
                 'config' => $config,
             ])
             ->willReturn('<html>rendered</html>');

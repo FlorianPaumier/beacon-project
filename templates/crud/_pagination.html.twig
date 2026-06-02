@@ -1,10 +1,10 @@
-{% if dataTable.totalPages > 1 %}
+{% if result.totalPages > 1 %}
     <div class="beacon-pagination">
         <div class="beacon-pagination__info">
-            Showing page {{ dataTable.page }} of {{ dataTable.totalPages }} ({{ dataTable.total }} total)
+            Showing page {{ result.currentPage }} of {{ result.totalPages }} ({{ result.totalItems }} total)
         </div>
         <div class="beacon-pagination__controls">
-            {% if dataTable.hasPrevious %}
+            {% if result.hasPreviousPage %}
                 <button type="button"
                         class="beacon-btn beacon-btn--small beacon-btn--secondary"
                         data-action="beacon--datatable#goToPage"
@@ -14,22 +14,22 @@
                 <button type="button"
                         class="beacon-btn beacon-btn--small beacon-btn--secondary"
                         data-action="beacon--datatable#goToPage"
-                        data-beacon--datatable-page-param="{{ dataTable.page - 1 }}">
+                        data-beacon--datatable-page-param="{{ result.currentPage - 1 }}">
                     &lsaquo; Previous
                 </button>
             {% endif %}
 
-            {% if dataTable.hasNext %}
+            {% if result.hasNextPage %}
                 <button type="button"
                         class="beacon-btn beacon-btn--small beacon-btn--secondary"
                         data-action="beacon--datatable#goToPage"
-                        data-beacon--datatable-page-param="{{ dataTable.page + 1 }}">
+                        data-beacon--datatable-page-param="{{ result.currentPage + 1 }}">
                     Next &rsaquo;
                 </button>
                 <button type="button"
                         class="beacon-btn beacon-btn--small beacon-btn--secondary"
                         data-action="beacon--datatable#goToPage"
-                        data-beacon--datatable-page-param="{{ dataTable.totalPages }}">
+                        data-beacon--datatable-page-param="{{ result.totalPages }}">
                     Last &raquo;
                 </button>
             {% endif %}

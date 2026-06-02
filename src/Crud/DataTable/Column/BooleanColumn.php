@@ -14,6 +14,8 @@ class BooleanColumn extends Column
 
     protected bool $useIcons = false;
 
+    protected bool $toggleable = false;
+
     protected string $trueColor = 'success';
 
     protected string $falseColor = 'danger';
@@ -76,5 +78,17 @@ class BooleanColumn extends Column
     public function getFalseColor(): string
     {
         return $this->falseColor;
+    }
+
+    public function toggleable(bool $toggleable = true): static
+    {
+        $this->toggleable = $toggleable;
+
+        return $this;
+    }
+
+    public function isToggleable(): bool
+    {
+        return $this->toggleable;
     }
 }

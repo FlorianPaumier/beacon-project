@@ -122,6 +122,35 @@ class MakeResourceCommand extends Command
         return $singular.'s';
     }
 
+    protected function getSkeletonPath(): string
+    {
+        return __DIR__.'/../Resources/skeleton/crud-controller.php.skeleton';
+    }
+
+    /** @param array<string, string> $variables */
+    protected function renderSkeleton(array $variables): string
+    {
+        $skeletonPath = $this->getSkeletonPath();
+
+        if (!file_exists($skeletonPath)) {
+            throw new \RuntimeException(sprintf('Skeleton file not found at "%s".', $skeletonPath));
+        }
+
+        $skeleton = file_get_contents($skeletonPath);
+
+        if ($variables === []) {
+            return $skeleton;
+        }
+
+        $pattern = '/(?:' . implode('|', array_map(static fn (string $key): string => preg_quote($key, '/'), array_keys($variables))) . ')/';
+
+        return preg_replace_callback(
+            $pattern,
+            static fn (array $match): string => $variables[$match[0]] ?? $match[0],
+            $skeleton,
+        ) ?? $skeleton;
+    }
+
     private function generateController(
         string $controllerClass,
         string $entityClass,
@@ -139,37 +168,16 @@ class MakeResourceCommand extends Command
         }
         $fieldsCode = implode(', ', $stringFields);
 
-        return <<<PHP
-            <?php
-
-            declare(strict_types=1);
-
-            namespace {$namespace};
-
-            use Devgeek\\BeaconAdmin\\Controller\\AbstractCrudController;
-            use Devgeek\\BeaconAdmin\\Crud\\CrudConfig;
-            use {$entityClass};
-            use Symfony\\Component\\Routing\\Attribute\\Route;
-
-            #[Route('{$routePrefix}', name: '{$routeName}_')]
-            class {$controllerClass} extends AbstractCrudController
-            {
-                protected function configureCrud(CrudConfig \$config): void
-                {
-                    \$config
-                        ->entityLabel('{$shortName}')
-                        ->entityLabelPlural('{$this->pluralize($shortName)}')
-                        ->fields([{$fieldsCode}])
-                        ->sortableFields([{$fieldsCode}])
-                        ->searchableFields([{$fieldsCode}])
-                        ->pageSize(25);
-                }
-
-                protected function getEntityClass(): string
-                {
-                    return \\{$entityClass}::class;
-                }
-            }
-            PHP;
+        return $this->renderSkeleton([
+            '{namespace}' => $namespace,
+            '{entity_class}' => $entityClass,
+            '{controller_class}' => $controllerClass,
+            '{route_prefix}' => $routePrefix,
+            '{route_name}' => $routeName,
+            '{entity_label}' => $shortName,
+            '{entity_label_plural}' => $this->pluralize($shortName),
+            '{fields}' => $fieldsCode,
+            '{page_size}' => '25',
+        ]);
     }
 }

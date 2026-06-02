@@ -6,9 +6,9 @@ namespace Devgeek\BeaconAdmin\Tests\Functional\Crud;
 
 use Devgeek\BeaconAdmin\Tests\Fixtures\TestApp\Entity\TestEntity;
 use Devgeek\BeaconAdmin\Tests\Fixtures\TestApp\TestKernel;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Devgeek\BeaconAdmin\Tests\Functional\BeaconWebTestCase;
 
-final class EntityIntrospectorFunctionalTest extends WebTestCase
+final class EntityIntrospectorFunctionalTest extends BeaconWebTestCase
 {
     protected static function getKernelClass(): string
     {

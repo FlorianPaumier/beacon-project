@@ -6,6 +6,7 @@ namespace Devgeek\BeaconAdmin\Tests\Unit\Menu;
 
 use Devgeek\BeaconAdmin\Menu\MenuBuilder;
 use Devgeek\BeaconAdmin\Menu\MenuItem;
+use Devgeek\BeaconAdmin\Menu\MenuItemGroup;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -128,6 +129,70 @@ final class MenuBuilderTest extends TestCase
         $result = $builder->items([]);
 
         $this->assertSame($builder, $result);
+    }
+
+    #[Test]
+    public function itBuildsMenuWithGroups(): void
+    {
+        $items = [
+            MenuItem::make()->label('Dashboard')->route('dashboard'),
+            MenuItemGroup::make()
+                ->label('Settings')
+                ->children([
+                    MenuItem::make()->label('Profile')->route('profile'),
+                    MenuItem::make()->label('Security')->route('security'),
+                ]),
+        ];
+
+        $builder = MenuBuilder::make()->items($items);
+
+        $result = $builder->build();
+        $this->assertCount(2, $result);
+        $this->assertInstanceOf(MenuItemGroup::class, $result[1]);
+        $this->assertSame('Settings', $result[1]->getLabel());
+        $this->assertCount(2, $result[1]->getChildren());
+    }
+
+    #[Test]
+    public function itKeepsGroupWhenAtLeastOneChildIsAccessible(): void
+    {
+        $checker = $this->createChecker(allowed: ['ROLE_USER']);
+        $items = [
+            MenuItemGroup::make()
+                ->label('Settings')
+                ->children([
+                    MenuItem::make()->label('Profile')->route('profile')->role('ROLE_USER'),
+                    MenuItem::make()->label('Admin')->route('admin')->role('ROLE_ADMIN'),
+                ]),
+        ];
+
+        $builder = MenuBuilder::make()
+            ->checker($checker)
+            ->items($items);
+
+        $result = $builder->build();
+        $this->assertCount(1, $result);
+        $this->assertSame('Settings', $result[0]->getLabel());
+    }
+
+    #[Test]
+    public function itRemovesGroupWhenNoChildrenAreAccessible(): void
+    {
+        $checker = $this->createChecker(allowed: []);
+        $items = [
+            MenuItemGroup::make()
+                ->label('Settings')
+                ->children([
+                    MenuItem::make()->label('Profile')->route('profile')->role('ROLE_USER'),
+                ]),
+        ];
+
+        $builder = MenuBuilder::make()
+            ->checker($checker)
+            ->items($items);
+
+        $result = $builder->build();
+        $this->assertCount(0, $result);
     }
 
     /** @param string[] $allowed */

@@ -15,11 +15,30 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 final class MakeResourceCommandTest extends TestCase
 {
+    private const FIXTURE_SKELETON = __DIR__.'/../../Fixtures/skeleton/crud-controller.php.skeleton';
+
+    private function createCommand(EntityIntrospector $introspector, string $skeletonPath): MakeResourceCommand
+    {
+        return new class($introspector, $skeletonPath) extends MakeResourceCommand {
+            public function __construct(
+                EntityIntrospector $introspector,
+                private readonly string $skeletonPath,
+            ) {
+                parent::__construct($introspector);
+            }
+
+            protected function getSkeletonPath(): string
+            {
+                return $this->skeletonPath;
+            }
+        };
+    }
+
     #[Test]
     public function itFailsWhenEntityDoesNotExist(): void
     {
         $introspector = $this->createMock(EntityIntrospector::class);
-        $command = new MakeResourceCommand($introspector);
+        $command = $this->createCommand($introspector, self::FIXTURE_SKELETON);
         $tester = new CommandTester($command);
 
         $exitCode = $tester->execute(['entity' => 'App\Entity\DoesNotExist']);
@@ -44,7 +63,7 @@ final class MakeResourceCommandTest extends TestCase
             ->with(TestEntity::class)
             ->willReturn($metadata);
 
-        $command = new MakeResourceCommand($introspector);
+        $command = $this->createCommand($introspector, self::FIXTURE_SKELETON);
         $tester = new CommandTester($command);
 
         $tempDir = sys_get_temp_dir().'/beacon-test-'.uniqid();
@@ -82,7 +101,7 @@ final class MakeResourceCommandTest extends TestCase
         $introspector = $this->createMock(EntityIntrospector::class);
         $introspector->method('introspectFromDefault')->willReturn($metadata);
 
-        $command = new MakeResourceCommand($introspector);
+        $command = $this->createCommand($introspector, self::FIXTURE_SKELETON);
         $tester = new CommandTester($command);
 
         $tempDir = sys_get_temp_dir().'/beacon-test-'.uniqid();
@@ -108,7 +127,7 @@ final class MakeResourceCommandTest extends TestCase
         $introspector = $this->createMock(EntityIntrospector::class);
         $introspector->method('introspectFromDefault')->willReturn($metadata);
 
-        $command = new MakeResourceCommand($introspector);
+        $command = $this->createCommand($introspector, self::FIXTURE_SKELETON);
         $tester = new CommandTester($command);
 
         $tempDir = sys_get_temp_dir().'/beacon-test-'.uniqid();
@@ -125,6 +144,84 @@ final class MakeResourceCommandTest extends TestCase
             $this->assertStringContainsString('already exists', $tester->getDisplay());
         } finally {
             unlink($tempDir.'/TestEntityCrudController.php');
+            rmdir($tempDir);
+        }
+    }
+
+    #[Test]
+    public function itResolvesDefaultSkeletonRelativePath(): void
+    {
+        $introspector = $this->createMock(EntityIntrospector::class);
+        $command = new MakeResourceCommand($introspector);
+
+        $reflection = new \ReflectionMethod($command, 'getSkeletonPath');
+        $path = $reflection->invoke($command);
+
+        $this->assertFileExists($path);
+        $this->assertStringContainsString(
+            'Resources/skeleton/crud-controller.php.skeleton',
+            $path,
+        );
+    }
+
+    #[Test]
+    public function itThrowsExceptionWhenSkeletonMissing(): void
+    {
+        $metadata = EntityMetadata::make()
+            ->className(TestEntity::class)
+            ->tableName('test_entity')
+            ->fields([FieldMetadata::make()->name('id')->type('integer')]);
+
+        $introspector = $this->createMock(EntityIntrospector::class);
+        $introspector->method('introspectFromDefault')->willReturn($metadata);
+
+        $command = $this->createCommand(
+            $introspector,
+            '/dev/null/nonexistent-skeleton.php.skeleton',
+        );
+        $tester = new CommandTester($command);
+
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Skeleton file not found');
+
+        $tester->execute([
+            'entity' => TestEntity::class,
+            '--dry-run' => true,
+        ]);
+    }
+
+    #[Test]
+    public function itDoesNotReSubstituteValuesContainingPlaceholderTokens(): void
+    {
+        $introspector = $this->createMock(EntityIntrospector::class);
+
+        $tempDir = sys_get_temp_dir().'/beacon-test-skel-'.uniqid();
+        mkdir($tempDir, 0o755, true);
+
+        $skeletonPath = $tempDir.'/trap.skeleton';
+        file_put_contents(
+            $skeletonPath,
+            "namespace {namespace};\nuse {entity_class};\nclass {controller_class}\n{\n    public const MARKER = '{marker}';\n}\n",
+        );
+
+        try {
+            $command = $this->createCommand($introspector, $skeletonPath);
+
+            $reflection = new \ReflectionMethod($command, 'renderSkeleton');
+
+            $output = $reflection->invoke($command, [
+                '{namespace}' => 'App\\Foo',
+                '{entity_class}' => 'App\\Entity\\User',
+                '{controller_class}' => 'UserCrudController',
+                '{marker}' => '{controller_class}',
+            ]);
+
+            $this->assertStringContainsString('namespace App\\Foo;', $output);
+            $this->assertStringContainsString('use App\\Entity\\User;', $output);
+            $this->assertStringContainsString('class UserCrudController', $output);
+            $this->assertStringContainsString("public const MARKER = '{controller_class}';", $output);
+        } finally {
+            unlink($skeletonPath);
             rmdir($tempDir);
         }
     }

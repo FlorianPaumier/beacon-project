@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace Devgeek\BeaconAdmin\Tests\Functional;
 
 use Devgeek\BeaconAdmin\Tests\Fixtures\TestApp\TestKernel;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-final class BundleBootTest extends WebTestCase
+final class BundleBootTest extends BeaconWebTestCase
 {
     protected static function getKernelClass(): string
     {

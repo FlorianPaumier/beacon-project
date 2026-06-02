@@ -10,14 +10,23 @@
 
 {% block content %}
     <div class="beacon-card"
-         data-controller="beacon--datatable"
+         data-controller="beacon--datatable beacon--bulk-actions"
          data-beacon--datatable-url-value="{{ path(app.current_route) }}">
         {% include '@BeaconAdmin/crud/_filters.html.twig' %}
+
+        {% include '@BeaconAdmin/crud/_bulk_actions.html.twig' %}
 
         <div class="beacon-table-wrapper">
             <table class="beacon-table">
                 <thead>
                     <tr>
+                        <th class="beacon-table__th beacon-table__th--select"
+                            data-beacon--bulk-actions-target="selectAllContainer">
+                            <input type="checkbox"
+                                   class="beacon-table__select-all"
+                                   data-action="change->beacon--bulk-actions#toggleAll"
+                                   data-beacon--bulk-actions-target="selectAll">
+                        </th>
                         {% for column in config.columns %}
                             {% include '@BeaconAdmin/columns/sorting.html.twig' %}
                         {% endfor %}
@@ -25,8 +34,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for row in dataTable.results %}
+                    {% for row in result.items %}
                         <tr class="beacon-table__row">
+                            <td class="beacon-table__td beacon-table__td--select">
+                                <input type="checkbox"
+                                       class="beacon-table__row-checkbox"
+                                       value="{{ row.id }}"
+                                       data-action="change->beacon--bulk-actions#toggle"
+                                       data-beacon--bulk-actions-target="checkbox">
+                            </td>
                             {% for column in config.columns %}
                                 {% include '@BeaconAdmin/columns/' ~ column.template %}
                             {% endfor %}

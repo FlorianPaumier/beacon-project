@@ -1,16 +1,34 @@
 <td class="beacon-table__td beacon-table__td--boolean">
     {% set value = attribute(row, column.name) %}
-    {% if value %}
-        {% if column.useIcons %}
-            <span class="beacon-icon beacon-icon--{{ column.trueColor }}" title="{{ column.trueLabel }}">✓</span>
-        {% else %}
-            <span class="beacon-badge beacon-badge--{{ column.trueColor }}">{{ column.trueLabel }}</span>
-        {% endif %}
+    {% if column.toggleable is defined and column.toggleable %}
+        <button type="button"
+                class="beacon-toggle{% if value %} beacon-toggle--on{% endif %}"
+                data-controller="beacon--inline-toggle"
+                data-action="click->beacon--inline-toggle#toggle"
+                data-beacon--inline-toggle-url-param="{{ path(app.current_route ~ '_toggle', { id: row.id, field: column.name }) }}"
+                data-beacon--inline-toggle-token-param="{{ csrf_token('toggle_' ~ row.id ~ '_' ~ column.name) }}"
+                data-beacon--inline-toggle-value-param="{{ value ? '1' : '0' }}"
+                data-beacon--inline-toggle-labels-value="{{ { true: column.trueLabel, false: column.falseLabel }|json_encode|e('html_attr') }}"
+                aria-label="Toggle {{ column.label }}">
+            <span class="beacon-toggle__thumb" data-beacon--inline-toggle-target="thumb"></span>
+        </button>
+        <span class="beacon-toggle__label"
+              data-beacon--inline-toggle-target="label">
+            {{ value ? column.trueLabel : column.falseLabel }}
+        </span>
     {% else %}
-        {% if column.useIcons %}
-            <span class="beacon-icon beacon-icon--{{ column.falseColor }}" title="{{ column.falseLabel }}">✗</span>
+        {% if value %}
+            {% if column.useIcons %}
+                <span class="beacon-icon beacon-icon--{{ column.trueColor }}" title="{{ column.trueLabel }}">&#x2713;</span>
+            {% else %}
+                <span class="beacon-badge beacon-badge--{{ column.trueColor }}">{{ column.trueLabel }}</span>
+            {% endif %}
         {% else %}
-            <span class="beacon-badge beacon-badge--{{ column.falseColor }}">{{ column.falseLabel }}</span>
+            {% if column.useIcons %}
+                <span class="beacon-icon beacon-icon--{{ column.falseColor }}" title="{{ column.falseLabel }}">&#x2717;</span>
+            {% else %}
+                <span class="beacon-badge beacon-badge--{{ column.falseColor }}">{{ column.falseLabel }}</span>
+            {% endif %}
         {% endif %}
     {% endif %}
 </td>

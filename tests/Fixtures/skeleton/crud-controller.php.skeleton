@@ -1,0 +1,30 @@
+<?php
+
+declare(strict_types=1);
+
+namespace {namespace};
+
+use Devgeek\BeaconAdmin\Controller\AbstractCrudController;
+use Devgeek\BeaconAdmin\Crud\CrudConfig;
+use {entity_class};
+use Symfony\Component\Routing\Attribute\Route;
+
+#[Route('{route_prefix}', name: '{route_name}_')]
+class {controller_class} extends AbstractCrudController
+{
+    protected function configureCrud(CrudConfig $config): void
+    {
+        $config
+            ->entityLabel('{entity_label}')
+            ->entityLabelPlural('{entity_label_plural}')
+            ->fields([{fields}])
+            ->sortableFields([{fields}])
+            ->searchableFields([{fields}])
+            ->pageSize({page_size});
+    }
+
+    protected function getEntityClass(): string
+    {
+        return \{entity_class}::class;
+    }
+}

@@ -6,9 +6,8 @@ namespace Devgeek\BeaconAdmin\Tests\Functional;
 
 use Devgeek\BeaconAdmin\Security\BeaconAccess;
 use Devgeek\BeaconAdmin\Tests\Fixtures\TestApp\TestKernel;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-final class SecurityTest extends WebTestCase
+final class SecurityTest extends BeaconWebTestCase
 {
     protected static function getKernelClass(): string
     {

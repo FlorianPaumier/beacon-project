@@ -5,9 +5,9 @@
                 data-action="beacon--datatable#sort"
                 data-beacon--datatable-field-param="{{ column.name }}">
             {{ column.label }}
-            {% if dataTable.sortField == column.name %}
+            {% if result.sortField == column.name %}
                 <span class="beacon-table__sort-icon">
-                    {% if dataTable.sortDir == 'asc' %}&uarr;{% else %}&darr;{% endif %}
+                    {% if result.sortDir == 'asc' %}&uarr;{% else %}&darr;{% endif %}
                 </span>
             {% endif %}
         </button>

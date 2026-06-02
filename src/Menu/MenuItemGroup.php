@@ -4,15 +4,11 @@ declare(strict_types=1);
 
 namespace Devgeek\BeaconAdmin\Menu;
 
-class MenuItem implements MenuItemInterface
+class MenuItemGroup implements MenuItemInterface
 {
     protected string $label;
 
-    protected ?string $route = null;
-
     protected ?string $icon = null;
-
-    protected ?string $role = null;
 
     /** @var array<MenuItemInterface> */
     protected array $children = [];
@@ -34,18 +30,6 @@ class MenuItem implements MenuItemInterface
         return $this->label;
     }
 
-    public function route(?string $route): static
-    {
-        $this->route = $route;
-
-        return $this;
-    }
-
-    public function getRoute(): ?string
-    {
-        return $this->route;
-    }
-
     public function icon(?string $icon): static
     {
         $this->icon = $icon;
@@ -56,18 +40,6 @@ class MenuItem implements MenuItemInterface
     public function getIcon(): ?string
     {
         return $this->icon;
-    }
-
-    public function role(?string $role): static
-    {
-        $this->role = $role;
-
-        return $this;
-    }
-
-    public function getRole(): ?string
-    {
-        return $this->role;
     }
 
     /** @param array<MenuItemInterface> $children */
@@ -86,6 +58,16 @@ class MenuItem implements MenuItemInterface
 
     public function hasChildren(): bool
     {
-        return [] !== $this->children;
+        return $this->children !== [];
+    }
+
+    public function getRoute(): ?string
+    {
+        return null;
+    }
+
+    public function getRole(): ?string
+    {
+        return null;
     }
 }
