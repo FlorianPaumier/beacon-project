@@ -14,7 +14,9 @@ final class RepeaterTest extends TestCase
     #[Test]
     public function itCreatesViaMake(): void
     {
-        $this->assertInstanceOf(Repeater::class, Repeater::make());
+        $input = Repeater::make()->name('test');
+
+        $this->assertSame('test', $input->getName());
     }
 
     #[Test]

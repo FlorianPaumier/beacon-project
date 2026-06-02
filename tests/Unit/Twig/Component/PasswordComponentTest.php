@@ -16,7 +16,8 @@ final class PasswordComponentTest extends TestCase
     #[Test]
     public function itCanBeInstantiated(): void
     {
-        $this->assertInstanceOf(PasswordComponent::class, new PasswordComponent());
+        $c = new PasswordComponent();
+        $this->assertSame('', $c->name);
     }
 
     #[Test]

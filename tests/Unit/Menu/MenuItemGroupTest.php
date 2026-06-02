@@ -16,7 +16,7 @@ final class MenuItemGroupTest extends TestCase
     {
         $group = MenuItemGroup::make();
 
-        $this->assertInstanceOf(MenuItemGroup::class, $group);
+        $this->assertNull($group->getIcon());
     }
 
     #[Test]

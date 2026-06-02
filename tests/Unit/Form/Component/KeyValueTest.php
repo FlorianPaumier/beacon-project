@@ -13,7 +13,9 @@ final class KeyValueTest extends TestCase
     #[Test]
     public function itCreatesViaMake(): void
     {
-        $this->assertInstanceOf(KeyValue::class, KeyValue::make());
+        $input = KeyValue::make()->name('test');
+
+        $this->assertSame('test', $input->getName());
     }
 
     #[Test]

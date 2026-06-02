@@ -18,7 +18,7 @@ final class ToggleComponentTest extends TestCase
     {
         $component = new ToggleComponent();
 
-        $this->assertInstanceOf(ToggleComponent::class, $component);
+        $this->assertSame('', $component->name);
     }
 
     #[Test]

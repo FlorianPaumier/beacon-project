@@ -80,6 +80,6 @@ final class BeaconAdminExtensionTest extends TestCase
     {
         $extension = BeaconAdminExtension::make();
 
-        $this->assertInstanceOf(BeaconAdminExtension::class, $extension);
+        $this->assertNotEmpty($extension->getFunctions());
     }
 }

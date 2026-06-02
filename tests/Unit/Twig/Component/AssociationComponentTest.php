@@ -16,7 +16,8 @@ final class AssociationComponentTest extends TestCase
     #[Test]
     public function itCanBeInstantiated(): void
     {
-        $this->assertInstanceOf(AssociationComponent::class, new AssociationComponent());
+        $c = new AssociationComponent();
+        $this->assertSame('', $c->name);
     }
 
     #[Test]

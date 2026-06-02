@@ -15,7 +15,7 @@ final class BeaconAccessTest extends TestCase
     {
         $access = BeaconAccess::make();
 
-        $this->assertInstanceOf(BeaconAccess::class, $access);
+        $this->assertNull($access->getRole());
     }
 
     #[Test]

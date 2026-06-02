@@ -16,7 +16,8 @@ final class TimeComponentTest extends TestCase
     #[Test]
     public function itCanBeInstantiated(): void
     {
-        $this->assertInstanceOf(TimeComponent::class, new TimeComponent());
+        $c = new TimeComponent();
+        $this->assertSame('', $c->name);
     }
 
     #[Test]

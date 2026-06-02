@@ -16,7 +16,8 @@ final class ColorComponentTest extends TestCase
     #[Test]
     public function itCanBeInstantiated(): void
     {
-        $this->assertInstanceOf(ColorComponent::class, new ColorComponent());
+        $c = new ColorComponent();
+        $this->assertSame('', $c->name);
     }
 
     #[Test]

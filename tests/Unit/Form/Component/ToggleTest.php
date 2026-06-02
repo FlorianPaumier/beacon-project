@@ -13,9 +13,9 @@ final class ToggleTest extends TestCase
     #[Test]
     public function itCreatesViaMake(): void
     {
-        $toggle = Toggle::make();
+        $toggle = Toggle::make()->name('test');
 
-        $this->assertNotNull($toggle);
+        $this->assertSame('test', $toggle->getName());
     }
 
     #[Test]

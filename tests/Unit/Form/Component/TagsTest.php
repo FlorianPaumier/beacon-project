@@ -13,7 +13,9 @@ final class TagsTest extends TestCase
     #[Test]
     public function itCreatesViaMake(): void
     {
-        $this->assertInstanceOf(Tags::class, Tags::make());
+        $input = Tags::make()->name('test');
+
+        $this->assertSame('test', $input->getName());
     }
 
     #[Test]

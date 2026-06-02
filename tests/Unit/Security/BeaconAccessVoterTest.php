@@ -18,7 +18,7 @@ final class BeaconAccessVoterTest extends TestCase
     {
         $voter = BeaconAccessVoter::make();
 
-        $this->assertInstanceOf(BeaconAccessVoter::class, $voter);
+        $this->assertSame('ROLE_ADMIN', $voter->getAdminRole());
     }
 
     #[Test]

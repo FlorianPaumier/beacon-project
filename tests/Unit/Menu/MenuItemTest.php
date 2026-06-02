@@ -15,7 +15,7 @@ final class MenuItemTest extends TestCase
     {
         $item = MenuItem::make();
 
-        $this->assertInstanceOf(MenuItem::class, $item);
+        $this->assertNull($item->getRoute());
     }
 
     #[Test]

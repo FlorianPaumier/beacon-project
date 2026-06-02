@@ -18,7 +18,7 @@ final class TextFilterTest extends TestCase
     {
         $filter = TextFilter::make();
 
-        $this->assertInstanceOf(TextFilter::class, $filter);
+        $this->assertNull($filter->getLabel());
     }
 
     #[Test]

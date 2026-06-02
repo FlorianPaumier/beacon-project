@@ -16,7 +16,8 @@ final class RepeaterComponentTest extends TestCase
     #[Test]
     public function itCanBeInstantiated(): void
     {
-        $this->assertInstanceOf(RepeaterComponent::class, new RepeaterComponent());
+        $c = new RepeaterComponent();
+        $this->assertSame('', $c->name);
     }
 
     #[Test]

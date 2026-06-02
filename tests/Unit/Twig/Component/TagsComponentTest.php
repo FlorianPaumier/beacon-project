@@ -16,7 +16,8 @@ final class TagsComponentTest extends TestCase
     #[Test]
     public function itCanBeInstantiated(): void
     {
-        $this->assertInstanceOf(TagsComponent::class, new TagsComponent());
+        $c = new TagsComponent();
+        $this->assertSame('', $c->name);
     }
 
     #[Test]

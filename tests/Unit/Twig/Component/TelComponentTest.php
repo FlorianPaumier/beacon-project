@@ -16,7 +16,8 @@ final class TelComponentTest extends TestCase
     #[Test]
     public function itCanBeInstantiated(): void
     {
-        $this->assertInstanceOf(TelComponent::class, new TelComponent());
+        $c = new TelComponent();
+        $this->assertSame('', $c->name);
     }
 
     #[Test]

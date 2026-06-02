@@ -16,7 +16,8 @@ final class NumberComponentTest extends TestCase
     #[Test]
     public function itCanBeInstantiated(): void
     {
-        $this->assertInstanceOf(NumberComponent::class, new NumberComponent());
+        $c = new NumberComponent();
+        $this->assertSame('', $c->name);
     }
 
     #[Test]

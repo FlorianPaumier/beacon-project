@@ -15,7 +15,7 @@ final class ComponentTest extends TestCase
     {
         $instance = TestComponent::make();
 
-        $this->assertInstanceOf(TestComponent::class, $instance);
+        $this->assertSame(42, $instance->evaluate(42));
     }
 
     #[Test]

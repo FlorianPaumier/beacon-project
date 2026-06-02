@@ -18,7 +18,7 @@ final class SelectComponentTest extends TestCase
     {
         $component = new SelectComponent();
 
-        $this->assertInstanceOf(SelectComponent::class, $component);
+        $this->assertSame('', $component->name);
     }
 
     #[Test]

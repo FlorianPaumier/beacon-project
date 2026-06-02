@@ -13,9 +13,9 @@ final class TextareaTest extends TestCase
     #[Test]
     public function itCreatesViaMake(): void
     {
-        $input = Textarea::make();
+        $input = Textarea::make()->name('test');
 
-        $this->assertNotNull($input);
+        $this->assertSame('test', $input->getName());
     }
 
     #[Test]

@@ -16,7 +16,8 @@ final class UrlComponentTest extends TestCase
     #[Test]
     public function itCanBeInstantiated(): void
     {
-        $this->assertInstanceOf(UrlComponent::class, new UrlComponent());
+        $c = new UrlComponent();
+        $this->assertSame('', $c->name);
     }
 
     #[Test]

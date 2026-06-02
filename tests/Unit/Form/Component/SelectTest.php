@@ -13,9 +13,9 @@ final class SelectTest extends TestCase
     #[Test]
     public function itCreatesViaMake(): void
     {
-        $select = Select::make();
+        $select = Select::make()->name('test');
 
-        $this->assertNotNull($select);
+        $this->assertSame('test', $select->getName());
     }
 
     #[Test]

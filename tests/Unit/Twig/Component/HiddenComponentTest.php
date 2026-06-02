@@ -16,7 +16,8 @@ final class HiddenComponentTest extends TestCase
     #[Test]
     public function itCanBeInstantiated(): void
     {
-        $this->assertInstanceOf(HiddenComponent::class, new HiddenComponent());
+        $c = new HiddenComponent();
+        $this->assertSame('', $c->name);
     }
 
     #[Test]

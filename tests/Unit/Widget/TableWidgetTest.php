@@ -19,7 +19,7 @@ final class TableWidgetTest extends TestCase
         $container = $this->createMock(ContainerInterface::class);
         $widget = TableWidget::make($twig, $container);
 
-        $this->assertInstanceOf(TableWidget::class, $widget);
+        $this->assertSame('findLatest', $widget->getMethod());
     }
 
     #[Test]
@@ -84,6 +84,7 @@ final class TableWidgetTest extends TestCase
     public function itRendersWithTwig(): void
     {
         $repository = new class {
+            /** @return list<array{id: int, name: string}> */
             public function findLatest(): array
             {
                 return [

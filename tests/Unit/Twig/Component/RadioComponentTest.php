@@ -16,7 +16,8 @@ final class RadioComponentTest extends TestCase
     #[Test]
     public function itCanBeInstantiated(): void
     {
-        $this->assertInstanceOf(RadioComponent::class, new RadioComponent());
+        $c = new RadioComponent();
+        $this->assertSame('', $c->name);
     }
 
     #[Test]

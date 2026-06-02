@@ -66,6 +66,7 @@ final class FormBuilderTest extends TestCase
             ->addText('title', 'Title', fn (TextInput $t) => $t->required()->maxLength(255))
             ->all();
 
+        $this->assertInstanceOf(TextInput::class, $components[0]);
         $this->assertTrue($components[0]->isRequired());
         $this->assertSame(255, $components[0]->getMaxLength());
     }
@@ -88,6 +89,7 @@ final class FormBuilderTest extends TestCase
             ->addTextarea('bio', 'Bio', fn (Textarea $t) => $t->rows(10)->autoResize())
             ->all();
 
+        $this->assertInstanceOf(Textarea::class, $components[0]);
         $this->assertSame(10, $components[0]->getRows());
         $this->assertTrue($components[0]->isAutoResize());
     }
@@ -110,6 +112,7 @@ final class FormBuilderTest extends TestCase
             ->addNumber('price', 'Price', fn (Number $n) => $n->min(0)->max(1000)->step(0.5))
             ->all();
 
+        $this->assertInstanceOf(Number::class, $components[0]);
         $this->assertSame(0.0, $components[0]->getMin());
         $this->assertSame(1000.0, $components[0]->getMax());
         $this->assertSame(0.5, $components[0]->getStep());
@@ -133,6 +136,7 @@ final class FormBuilderTest extends TestCase
             ->addEmail('contact', 'Contact', fn (Email $e) => $e->multiple())
             ->all();
 
+        $this->assertInstanceOf(Email::class, $components[0]);
         $this->assertTrue($components[0]->isMultiple());
     }
 
@@ -154,6 +158,7 @@ final class FormBuilderTest extends TestCase
             ->addPassword('pwd', 'Password', fn (Password $p) => $p->showToggle()->maxLength(128))
             ->all();
 
+        $this->assertInstanceOf(Password::class, $components[0]);
         $this->assertTrue($components[0]->hasShowToggle());
         $this->assertSame(128, $components[0]->getMaxLength());
     }
@@ -177,6 +182,7 @@ final class FormBuilderTest extends TestCase
             ->addSelect('role', 'Role', fn (Select $s) => $s->options($options)->searchable()->multiple())
             ->all();
 
+        $this->assertInstanceOf(Select::class, $components[0]);
         $this->assertSame($options, $components[0]->getOptions());
         $this->assertTrue($components[0]->isSearchable());
         $this->assertTrue($components[0]->isMultiple());
@@ -200,6 +206,7 @@ final class FormBuilderTest extends TestCase
             ->addCheckbox('active', 'Active', fn (Checkbox $c) => $c->default(true))
             ->all();
 
+        $this->assertInstanceOf(Checkbox::class, $components[0]);
         $this->assertTrue($components[0]->isDefault());
     }
 
@@ -221,6 +228,7 @@ final class FormBuilderTest extends TestCase
             ->addToggle('notifications', 'Notifications', fn (Toggle $t) => $t->onColor('green'))
             ->all();
 
+        $this->assertInstanceOf(Toggle::class, $components[0]);
         $this->assertSame('green', $components[0]->getOnColor());
     }
 
@@ -242,6 +250,7 @@ final class FormBuilderTest extends TestCase
             ->addDate('start', 'Start', fn (Date $d) => $d->min('2024-01-01')->max('2024-12-31'))
             ->all();
 
+        $this->assertInstanceOf(Date::class, $components[0]);
         $this->assertSame('2024-01-01', $components[0]->getMin());
         $this->assertSame('2024-12-31', $components[0]->getMax());
     }
@@ -286,6 +295,7 @@ final class FormBuilderTest extends TestCase
             ->addFile('doc', 'Document', fn (File $f) => $f->accept('.pdf')->maxSize(1024))
             ->all();
 
+        $this->assertInstanceOf(File::class, $components[0]);
         $this->assertSame('.pdf', $components[0]->getAccept());
         $this->assertSame(1024, $components[0]->getMaxSize());
     }
@@ -319,6 +329,7 @@ final class FormBuilderTest extends TestCase
             ->addUrl('site', 'Site', fn (Url $u) => $u->placeholder('https://'))
             ->all();
 
+        $this->assertInstanceOf(Url::class, $components[0]);
         $this->assertSame('https://', $components[0]->getPlaceholder());
     }
 
@@ -340,6 +351,7 @@ final class FormBuilderTest extends TestCase
             ->addRadio('gender', 'Gender', fn (Radio $r) => $r->options(['m' => 'Male'])->layout('horizontal'))
             ->all();
 
+        $this->assertInstanceOf(Radio::class, $components[0]);
         $this->assertSame(['m' => 'Male'], $components[0]->getOptions());
         $this->assertSame('horizontal', $components[0]->getLayout());
     }
@@ -373,6 +385,7 @@ final class FormBuilderTest extends TestCase
             ->addRange('volume', 'Volume', fn (Range $r) => $r->min(0)->max(200)->step(5))
             ->all();
 
+        $this->assertInstanceOf(Range::class, $components[0]);
         $this->assertSame(0.0, $components[0]->getMin());
         $this->assertSame(200.0, $components[0]->getMax());
         $this->assertSame(5.0, $components[0]->getStep());
@@ -396,6 +409,7 @@ final class FormBuilderTest extends TestCase
             ->addTel('phone', 'Phone', fn (Tel $t) => $t->pattern('[0-9]+'))
             ->all();
 
+        $this->assertInstanceOf(Tel::class, $components[0]);
         $this->assertSame('[0-9]+', $components[0]->getPattern());
     }
 
@@ -417,6 +431,7 @@ final class FormBuilderTest extends TestCase
             ->addSearch('q', 'Search', fn (Search $s) => $s->placeholder('Find...'))
             ->all();
 
+        $this->assertInstanceOf(Search::class, $components[0]);
         $this->assertSame('Find...', $components[0]->getPlaceholder());
     }
 
@@ -438,6 +453,7 @@ final class FormBuilderTest extends TestCase
             ->addAssociation('tags', 'Tags', fn (Association $a) => $a->targetEntity('App\Entity\Tag')->multiple()->searchable())
             ->all();
 
+        $this->assertInstanceOf(Association::class, $components[0]);
         $this->assertSame('App\Entity\Tag', $components[0]->getTargetEntity());
         $this->assertTrue($components[0]->isMultiple());
         $this->assertTrue($components[0]->isSearchable());
@@ -462,6 +478,7 @@ final class FormBuilderTest extends TestCase
             ->addFieldset('Details', fn (Fieldset $f) => $f->schema($inner))
             ->all();
 
+        $this->assertInstanceOf(Fieldset::class, $components[0]);
         $this->assertSame($inner, $components[0]->getSchema());
     }
 
@@ -483,6 +500,7 @@ final class FormBuilderTest extends TestCase
             ->addKeyValue('meta', 'Meta', fn (KeyValue $k) => $k->allowAdd(false)->keyPlaceholder('Key'))
             ->all();
 
+        $this->assertInstanceOf(KeyValue::class, $components[0]);
         $this->assertFalse($components[0]->isAllowAdd());
         $this->assertSame('Key', $components[0]->getKeyPlaceholder());
     }
@@ -505,6 +523,7 @@ final class FormBuilderTest extends TestCase
             ->addTags('skills', 'Skills', fn (Tags $t) => $t->maxTags(5)->suggestions(['PHP']))
             ->all();
 
+        $this->assertInstanceOf(Tags::class, $components[0]);
         $this->assertSame(5, $components[0]->getMaxTags());
         $this->assertSame(['PHP'], $components[0]->getSuggestions());
     }
@@ -527,6 +546,7 @@ final class FormBuilderTest extends TestCase
             ->addRepeater('items', 'Items', fn (Repeater $r) => $r->minItems(1)->maxItems(10)->addLabel('Add Item'))
             ->all();
 
+        $this->assertInstanceOf(Repeater::class, $components[0]);
         $this->assertSame(1, $components[0]->getMinItems());
         $this->assertSame(10, $components[0]->getMaxItems());
         $this->assertSame('Add Item', $components[0]->getAddLabel());

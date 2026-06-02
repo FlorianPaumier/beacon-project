@@ -18,7 +18,7 @@ final class CheckboxComponentTest extends TestCase
     {
         $component = new CheckboxComponent();
 
-        $this->assertInstanceOf(CheckboxComponent::class, $component);
+        $this->assertFalse($component->default);
     }
 
     #[Test]

@@ -18,7 +18,7 @@ final class TextInputComponentTest extends TestCase
     {
         $component = new TextInputComponent();
 
-        $this->assertInstanceOf(TextInputComponent::class, $component);
+        $this->assertSame('', $component->name);
     }
 
     #[Test]

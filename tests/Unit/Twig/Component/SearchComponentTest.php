@@ -16,7 +16,8 @@ final class SearchComponentTest extends TestCase
     #[Test]
     public function itCanBeInstantiated(): void
     {
-        $this->assertInstanceOf(SearchComponent::class, new SearchComponent());
+        $c = new SearchComponent();
+        $this->assertSame('', $c->name);
     }
 
     #[Test]

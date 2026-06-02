@@ -13,9 +13,9 @@ final class RadioTest extends TestCase
     #[Test]
     public function itCreatesViaMake(): void
     {
-        $input = Radio::make();
+        $input = Radio::make()->name('test');
 
-        $this->assertNotNull($input);
+        $this->assertSame('test', $input->getName());
     }
 
     #[Test]

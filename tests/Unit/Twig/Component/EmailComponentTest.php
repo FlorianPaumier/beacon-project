@@ -16,7 +16,8 @@ final class EmailComponentTest extends TestCase
     #[Test]
     public function itCanBeInstantiated(): void
     {
-        $this->assertInstanceOf(EmailComponent::class, new EmailComponent());
+        $c = new EmailComponent();
+        $this->assertSame('', $c->name);
     }
 
     #[Test]

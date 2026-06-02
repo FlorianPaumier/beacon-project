@@ -15,7 +15,7 @@ final class RuleTest extends TestCase
     {
         $rule = Rule::make('required');
 
-        $this->assertInstanceOf(Rule::class, $rule);
+        $this->assertSame('required', $rule->getRule());
     }
 
     #[Test]

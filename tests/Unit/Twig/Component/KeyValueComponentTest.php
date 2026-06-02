@@ -16,7 +16,8 @@ final class KeyValueComponentTest extends TestCase
     #[Test]
     public function itCanBeInstantiated(): void
     {
-        $this->assertInstanceOf(KeyValueComponent::class, new KeyValueComponent());
+        $c = new KeyValueComponent();
+        $this->assertSame('', $c->name);
     }
 
     #[Test]

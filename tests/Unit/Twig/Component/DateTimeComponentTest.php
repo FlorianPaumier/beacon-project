@@ -16,7 +16,8 @@ final class DateTimeComponentTest extends TestCase
     #[Test]
     public function itCanBeInstantiated(): void
     {
-        $this->assertInstanceOf(DateTimeComponent::class, new DateTimeComponent());
+        $c = new DateTimeComponent();
+        $this->assertSame('', $c->name);
     }
 
     #[Test]

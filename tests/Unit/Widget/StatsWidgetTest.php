@@ -17,7 +17,7 @@ final class StatsWidgetTest extends TestCase
         $twig = $this->createMock(Environment::class);
         $widget = StatsWidget::make($twig);
 
-        $this->assertInstanceOf(StatsWidget::class, $widget);
+        $this->assertSame(3, $widget->getCols());
     }
 
     #[Test]

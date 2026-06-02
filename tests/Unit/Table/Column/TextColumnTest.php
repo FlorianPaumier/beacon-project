@@ -15,7 +15,7 @@ final class TextColumnTest extends TestCase
     {
         $column = TextColumn::make();
 
-        $this->assertInstanceOf(TextColumn::class, $column);
+        $this->assertNull($column->getLabel());
     }
 
     #[Test]

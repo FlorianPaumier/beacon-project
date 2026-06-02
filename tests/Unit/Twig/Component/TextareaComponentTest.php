@@ -18,7 +18,7 @@ final class TextareaComponentTest extends TestCase
     {
         $component = new TextareaComponent();
 
-        $this->assertInstanceOf(TextareaComponent::class, $component);
+        $this->assertSame('', $component->name);
     }
 
     #[Test]

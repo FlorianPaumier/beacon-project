@@ -13,9 +13,9 @@ final class NumberTest extends TestCase
     #[Test]
     public function itCreatesViaMake(): void
     {
-        $input = Number::make();
+        $input = Number::make()->name('test');
 
-        $this->assertNotNull($input);
+        $this->assertSame('test', $input->getName());
     }
 
     #[Test]

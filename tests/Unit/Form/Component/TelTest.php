@@ -13,9 +13,9 @@ final class TelTest extends TestCase
     #[Test]
     public function itCreatesViaMake(): void
     {
-        $input = Tel::make();
+        $input = Tel::make()->name('test');
 
-        $this->assertNotNull($input);
+        $this->assertSame('test', $input->getName());
     }
 
     #[Test]

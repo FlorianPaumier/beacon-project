@@ -210,7 +210,7 @@ final class TableTest extends TestCase
         $request = new Request();
         $result = $table->getResults($request);
 
-        $this->assertInstanceOf(DataTableResult::class, $result);
+        $this->assertSame([], $result->getRows());
         $this->assertSame(0, $result->getTotal());
     }
 

@@ -13,9 +13,9 @@ final class TextInputTest extends TestCase
     #[Test]
     public function itCreatesViaMake(): void
     {
-        $input = TextInput::make();
+        $input = TextInput::make()->name('test');
 
-        $this->assertNotNull($input);
+        $this->assertSame('test', $input->getName());
     }
 
     #[Test]

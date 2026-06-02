@@ -13,9 +13,9 @@ final class RangeTest extends TestCase
     #[Test]
     public function itCreatesViaMake(): void
     {
-        $input = Range::make();
+        $input = Range::make()->name('test');
 
-        $this->assertNotNull($input);
+        $this->assertSame('test', $input->getName());
     }
 
     #[Test]

@@ -190,7 +190,8 @@ final class PaginationServiceTest extends TestCase
             mapper: static fn (object $item) => 'mapped',
         );
 
-        $this->assertIsArray($result->items);
+        $this->assertSame([], $result->items);
+        $this->assertSame(0, $result->totalItems);
     }
 
     #[Test]

@@ -18,7 +18,7 @@ final class SelectFilterTest extends TestCase
     {
         $filter = SelectFilter::make();
 
-        $this->assertInstanceOf(SelectFilter::class, $filter);
+        $this->assertNull($filter->getLabel());
     }
 
     #[Test]

@@ -13,9 +13,9 @@ final class TimeTest extends TestCase
     #[Test]
     public function itCreatesViaMake(): void
     {
-        $input = Time::make();
+        $input = Time::make()->name('test');
 
-        $this->assertNotNull($input);
+        $this->assertSame('test', $input->getName());
     }
 
     #[Test]

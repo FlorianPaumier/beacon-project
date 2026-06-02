@@ -18,7 +18,7 @@ final class FieldsetComponentTest extends TestCase
     {
         $component = new FieldsetComponent();
 
-        $this->assertInstanceOf(FieldsetComponent::class, $component);
+        $this->assertNull($component->label);
     }
 
     #[Test]

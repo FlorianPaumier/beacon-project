@@ -13,9 +13,9 @@ final class PasswordTest extends TestCase
     #[Test]
     public function itCreatesViaMake(): void
     {
-        $input = Password::make();
+        $input = Password::make()->name('test');
 
-        $this->assertNotNull($input);
+        $this->assertSame('test', $input->getName());
     }
 
     #[Test]

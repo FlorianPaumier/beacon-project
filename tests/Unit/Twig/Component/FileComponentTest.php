@@ -16,7 +16,8 @@ final class FileComponentTest extends TestCase
     #[Test]
     public function itCanBeInstantiated(): void
     {
-        $this->assertInstanceOf(FileComponent::class, new FileComponent());
+        $c = new FileComponent();
+        $this->assertSame('', $c->name);
     }
 
     #[Test]

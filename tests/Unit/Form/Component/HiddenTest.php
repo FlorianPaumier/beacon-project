@@ -13,9 +13,9 @@ final class HiddenTest extends TestCase
     #[Test]
     public function itCreatesViaMake(): void
     {
-        $input = Hidden::make();
+        $input = Hidden::make()->name('test');
 
-        $this->assertNotNull($input);
+        $this->assertSame('test', $input->getName());
     }
 
     #[Test]

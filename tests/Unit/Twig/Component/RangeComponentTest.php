@@ -16,7 +16,8 @@ final class RangeComponentTest extends TestCase
     #[Test]
     public function itCanBeInstantiated(): void
     {
-        $this->assertInstanceOf(RangeComponent::class, new RangeComponent());
+        $c = new RangeComponent();
+        $this->assertSame('', $c->name);
     }
 
     #[Test]
