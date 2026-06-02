@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Devgeek\BeaconAdmin\Widget;
 
+use Devgeek\BeaconAdmin\Support\EvaluatesClosures;
 use Twig\Environment;
 
 class StatsWidget implements DashboardWidgetInterface
 {
+    use EvaluatesClosures;
     protected string $name;
     protected string $label;
     protected int|float|string|\Closure $value;
@@ -135,12 +137,8 @@ class StatsWidget implements DashboardWidgetInterface
         ]);
     }
 
-    protected function evaluate(mixed $value): mixed
+    public function getType(): string
     {
-        if ($value instanceof \Closure) {
-            return $value();
-        }
-
-        return $value;
+        return 'stats';
     }
 }

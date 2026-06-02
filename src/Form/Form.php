@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace Devgeek\BeaconAdmin\Form;
 
 use Devgeek\BeaconAdmin\Support\Component as BaseComponent;
+use Devgeek\BeaconAdmin\Support\EvaluatesClosures;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
 class Form
 {
+    use EvaluatesClosures;
     /** @var array<BaseComponent> */
     protected array $schema = [];
 
@@ -55,11 +57,6 @@ class Form
     public function getModel(): ?string
     {
         return $this->evaluate($this->model);
-    }
-
-    public function evaluate(mixed $value): mixed
-    {
-        return $value instanceof \Closure ? $value() : $value;
     }
 
     /** @param array<string, mixed> $state */

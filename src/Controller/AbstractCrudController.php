@@ -193,13 +193,14 @@ abstract class AbstractCrudController extends AbstractController
             return $this->json(['success' => false, 'error' => 'Invalid CSRF token.'], Response::HTTP_FORBIDDEN);
         }
 
-        $refl = new \ReflectionClass($entity);
-        if (!$refl->hasProperty($field)) {
+        $reflectionClass = new \ReflectionClass($entity);
+        if (!$reflectionClass->hasProperty($field)) {
             return $this->json(['success' => false, 'error' => 'Field not found.'], Response::HTTP_BAD_REQUEST);
         }
 
-        $currentValue = (bool) $refl->getProperty($field)->getValue($entity);
-        $refl->getProperty($field)->setValue($entity, !$currentValue);
+        $property = $reflectionClass->getProperty($field);
+        $currentValue = (bool) $property->getValue($entity);
+        $property->setValue($entity, !$currentValue);
 
         $this->eventDispatcher->dispatch(new BeforeUpdateEvent($entity, $config));
 

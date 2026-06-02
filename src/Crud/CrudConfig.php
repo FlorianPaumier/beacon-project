@@ -8,6 +8,7 @@ use Devgeek\BeaconAdmin\Crud\DataTable\Column\Column;
 use Devgeek\BeaconAdmin\Crud\Field\Field;
 use Doctrine\ORM\QueryBuilder;
 
+/** @phpstan-consistent-constructor */
 class CrudConfig
 {
     protected string $entityClass;
@@ -38,7 +39,7 @@ class CrudConfig
     /** @var array<\Closure(QueryBuilder): void> */
     protected array $queryModifiers = [];
 
-    public function repositoryMethod(?\Closure $callback): self
+    public function repositoryMethod(?\Closure $callback): static
     {
         $this->repositoryMethod = $callback;
 
@@ -50,7 +51,7 @@ class CrudConfig
         return $this->repositoryMethod;
     }
 
-    public function modifyQuery(\Closure $callback): self
+    public function modifyQuery(\Closure $callback): static
     {
         $this->queryModifiers[] = $callback;
 
@@ -70,13 +71,13 @@ class CrudConfig
         }
     }
 
-    public static function make(): self
+    public static function make(): static
     {
-        return new self();
+        return new static();
     }
 
     /** @param class-string $entityClass */
-    public function entityClass(string $entityClass): self
+    public function entityClass(string $entityClass): static
     {
         $this->entityClass = $entityClass;
 
@@ -90,7 +91,7 @@ class CrudConfig
     }
 
     /** @param array<string> $fields */
-    public function fields(array $fields): self
+    public function fields(array $fields): static
     {
         $this->fields = $fields;
 
@@ -103,7 +104,7 @@ class CrudConfig
         return $this->fields;
     }
 
-    public function field(Field $field): self
+    public function field(Field $field): static
     {
         $this->fieldObjects[] = $field;
 
@@ -116,7 +117,7 @@ class CrudConfig
         return $this->fieldObjects;
     }
 
-    public function column(Column $column): self
+    public function column(Column $column): static
     {
         $this->columns[] = $column;
 
@@ -129,7 +130,7 @@ class CrudConfig
         return $this->columns;
     }
 
-    public function entityLabel(string $entityLabel): self
+    public function entityLabel(string $entityLabel): static
     {
         $this->entityLabel = $entityLabel;
 
@@ -141,7 +142,7 @@ class CrudConfig
         return $this->entityLabel;
     }
 
-    public function entityLabelPlural(string $entityLabelPlural): self
+    public function entityLabelPlural(string $entityLabelPlural): static
     {
         $this->entityLabelPlural = $entityLabelPlural;
 
@@ -154,7 +155,7 @@ class CrudConfig
     }
 
     /** @param array<string> $fields */
-    public function sortableFields(array $fields): self
+    public function sortableFields(array $fields): static
     {
         $this->sortableFields = $fields;
 
@@ -168,7 +169,7 @@ class CrudConfig
     }
 
     /** @param array<string> $fields */
-    public function searchableFields(array $fields): self
+    public function searchableFields(array $fields): static
     {
         $this->searchableFields = $fields;
 
@@ -181,7 +182,7 @@ class CrudConfig
         return $this->searchableFields;
     }
 
-    public function pageSize(int $pageSize): self
+    public function pageSize(int $pageSize): static
     {
         $this->pageSize = $pageSize;
 

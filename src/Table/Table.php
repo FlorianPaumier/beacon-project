@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Devgeek\BeaconAdmin\Table;
 
+use Devgeek\BeaconAdmin\Support\EvaluatesClosures;
 use Devgeek\BeaconAdmin\Table\Column\TextColumn;
 use Devgeek\BeaconAdmin\Table\Filter\Filter;
 use Doctrine\ORM\EntityManagerInterface;
@@ -12,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class Table
 {
+    use EvaluatesClosures;
     protected QueryBuilder|string|null $query = null;
 
     /** @var array<TextColumn> */
@@ -116,11 +118,6 @@ class Table
         return (bool) $this->evaluate($this->searchable);
     }
 
-    public function evaluate(mixed $value): mixed
-    {
-        return $value instanceof \Closure ? $value() : $value;
-    }
-
     public function getResults(Request $request): DataTableResult
     {
         $queryBuilder = $this->resolveQueryBuilder();
@@ -128,6 +125,11 @@ class Table
         $page = $request->query->getInt('page', 1);
         $sortField = $request->query->get('sort', $this->defaultSortField);
         $sortDirection = $request->query->get('direction', $this->defaultSortDirection);
+
+        $validFields = array_map(static fn (TextColumn $c): string => $c->getName(), $this->columns);
+        if (!in_array($sortField, $validFields, true)) {
+            $sortField = $this->defaultSortField;
+        }
 
         $filterValues = $request->query->all('filters');
 

@@ -7,17 +7,10 @@ namespace Devgeek\BeaconAdmin\Support;
 /** @phpstan-consistent-constructor */
 abstract class Component
 {
+    use EvaluatesClosures;
+
     public static function make(): static
     {
         return new static();
-    }
-
-    public function evaluate(mixed $value): mixed
-    {
-        if ($value instanceof \Closure) {
-            return $value();
-        }
-
-        return $value;
     }
 }
