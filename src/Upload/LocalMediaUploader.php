@@ -17,7 +17,8 @@ class LocalMediaUploader implements MediaUploaderInterface
         private readonly array $allowedMimeTypes,
         private readonly int $maxSize,
         private readonly SluggerInterface $slugger,
-    ) {}
+    ) {
+    }
 
     /** @param array<string, mixed> $options */
     public function upload(UploadedFile $file, array $options = []): string

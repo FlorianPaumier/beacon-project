@@ -142,7 +142,7 @@ class MakeResourceCommand extends Command
             return $skeleton;
         }
 
-        $pattern = '/(?:' . implode('|', array_map(static fn (string $key): string => preg_quote($key, '/'), array_keys($variables))) . ')/';
+        $pattern = '/(?:'.implode('|', array_map(static fn (string $key): string => preg_quote($key, '/'), array_keys($variables))).')/';
 
         return preg_replace_callback(
             $pattern,

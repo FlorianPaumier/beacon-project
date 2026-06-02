@@ -17,7 +17,8 @@ class UploadController extends AbstractController
 {
     public function __construct(
         private readonly MediaUploaderInterface $uploader,
-    ) {}
+    ) {
+    }
 
     public static function make(MediaUploaderInterface $uploader): self
     {

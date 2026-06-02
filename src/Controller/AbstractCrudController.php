@@ -17,9 +17,9 @@ use Devgeek\BeaconAdmin\Crud\PaginationService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Service\Attribute\Required;
 
@@ -189,7 +189,7 @@ abstract class AbstractCrudController extends AbstractController
         }
 
         $submittedToken = (string) $request->request->get('_token', '');
-        if (!$this->isCsrfTokenValid('toggle_' . $id . '_' . $field, $submittedToken)) {
+        if (!$this->isCsrfTokenValid('toggle_'.$id.'_'.$field, $submittedToken)) {
             return $this->json(['success' => false, 'error' => 'Invalid CSRF token.'], Response::HTTP_FORBIDDEN);
         }
 
@@ -198,7 +198,7 @@ abstract class AbstractCrudController extends AbstractController
             return $this->json(['success' => false, 'error' => 'Field not found.'], Response::HTTP_BAD_REQUEST);
         }
 
-        $currentValue = (bool) ($refl->getProperty($field)->getValue($entity));
+        $currentValue = (bool) $refl->getProperty($field)->getValue($entity);
         $refl->getProperty($field)->setValue($entity, !$currentValue);
 
         $this->eventDispatcher->dispatch(new BeforeUpdateEvent($entity, $config));

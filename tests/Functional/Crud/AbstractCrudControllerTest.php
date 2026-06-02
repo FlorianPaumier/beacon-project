@@ -10,8 +10,8 @@ use Devgeek\BeaconAdmin\Tests\Fixtures\TestApp\Entity\TestEntity;
 use Devgeek\BeaconAdmin\Tests\Fixtures\TestApp\TestKernel;
 use Devgeek\BeaconAdmin\Tests\Functional\BeaconWebTestCase;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpKernel\Attribute\AsController;
+use Symfony\Component\Routing\Attribute\Route;
 
 final class AbstractCrudControllerTest extends BeaconWebTestCase
 {

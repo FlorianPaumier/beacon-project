@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
 use Devgeek\BeaconAdmin\Menu\MenuBuilder;
-use Devgeek\BeaconAdmin\Upload\LocalMediaUploader;
-use Devgeek\BeaconAdmin\Upload\MediaUploaderInterface;
 use Devgeek\BeaconAdmin\Twig\AdminRuntime;
 use Devgeek\BeaconAdmin\Twig\BeaconAdminExtension;
 use Devgeek\BeaconAdmin\Twig\SchemaExtension;
+use Devgeek\BeaconAdmin\Upload\LocalMediaUploader;
+use Devgeek\BeaconAdmin\Upload\MediaUploaderInterface;
 use Devgeek\BeaconAdmin\Widget\WidgetRegistry;
 
 return static function (ContainerConfigurator $container): void {

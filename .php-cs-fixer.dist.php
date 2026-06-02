@@ -5,6 +5,7 @@ declare(strict_types=1);
 $finder = PhpCsFixer\Finder::create()
     ->in(__DIR__)
     ->exclude(['vendor', 'specs', 'assets/dist', 'var'])
+    ->notPath('tests/Fixtures/TestApp/config/reference.php')
     ->notName('*.twig')
 ;
 

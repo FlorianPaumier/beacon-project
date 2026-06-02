@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Devgeek\BeaconAdmin\Crud;
 
-use DateTime;
-use DateTimeImmutable;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -69,7 +67,7 @@ final readonly class PaginationService
 
         $countQueryBuilder = clone $queryBuilder;
         $alias = $this->getEntityAlias($queryBuilder);
-        $countQueryBuilder->select('COUNT(DISTINCT ' . $alias . ')');
+        $countQueryBuilder->select('COUNT(DISTINCT '.$alias.')');
         $countQueryBuilder->resetDQLPart('orderBy');
         $countQueryBuilder->resetDQLPart('groupBy');
         $countQueryBuilder->resetDQLPart('having');
@@ -118,14 +116,14 @@ final readonly class PaginationService
         $parameterIndex = 0;
 
         if ($search !== '' && $allowedFilters !== []) {
-            $paramName = 'search_' . $parameterIndex++;
+            $paramName = 'search_'.$parameterIndex++;
             $expr = $queryBuilder->expr()->orX();
             foreach (array_keys($allowedFilters) as $field) {
-                $fieldPath = str_contains($field, '.') ? $field : $alias . '.' . $field;
+                $fieldPath = str_contains($field, '.') ? $field : $alias.'.'.$field;
                 $expr->add(sprintf('LOWER(%s) LIKE LOWER(:%s)', $fieldPath, $paramName));
             }
             $queryBuilder->andWhere($expr);
-            $queryBuilder->setParameter($paramName, '%' . $search . '%');
+            $queryBuilder->setParameter($paramName, '%'.$search.'%');
         }
 
         $filters = $this->extractFilters($request, $allowedFilters);
@@ -138,12 +136,12 @@ final readonly class PaginationService
             $config = $allowedFilters[$key];
             $operator = $config['operator'] ?? 'eq';
             $fieldType = $config['type'] ?? 'string';
-            $paramName = 'filter_' . $parameterIndex++;
+            $paramName = 'filter_'.$parameterIndex++;
             $field = $config['field'] ?? $key;
 
             $fieldPath = str_contains($field, '.')
                 ? $field
-                : $alias . '.' . $field;
+                : $alias.'.'.$field;
 
             $this->applyFilterToQuery($queryBuilder, $operator, $fieldPath, $paramName, $value, $fieldType);
         }
@@ -180,15 +178,15 @@ final readonly class PaginationService
         match ($operator) {
             'like' => $queryBuilder
                 ->andWhere(sprintf('LOWER(%s) LIKE LOWER(:%s)', $fieldPath, $paramName))
-                ->setParameter($paramName, '%' . $value . '%'),
+                ->setParameter($paramName, '%'.$value.'%'),
 
             'startsWith' => $queryBuilder
                 ->andWhere(sprintf('LOWER(%s) LIKE LOWER(:%s)', $fieldPath, $paramName))
-                ->setParameter($paramName, $value . '%'),
+                ->setParameter($paramName, $value.'%'),
 
             'endsWith' => $queryBuilder
                 ->andWhere(sprintf('LOWER(%s) LIKE LOWER(:%s)', $fieldPath, $paramName))
-                ->setParameter($paramName, '%' . $value),
+                ->setParameter($paramName, '%'.$value),
 
             'gt' => $queryBuilder
                 ->andWhere(sprintf('%s > :%s', $fieldPath, $paramName))
@@ -231,8 +229,8 @@ final readonly class PaginationService
 
         $placeholders = [];
         foreach ($values as $index => $v) {
-            $placeholder = $paramName . '_' . $index;
-            $placeholders[] = ':' . $placeholder;
+            $placeholder = $paramName.'_'.$index;
+            $placeholders[] = ':'.$placeholder;
             $queryBuilder->setParameter($placeholder, $v);
         }
 
@@ -249,8 +247,8 @@ final readonly class PaginationService
         if (is_array($value) && count($value) === 2) {
             $queryBuilder
                 ->andWhere(sprintf('%s BETWEEN :%s_min AND :%s_max', $fieldPath, $paramName, $paramName))
-                ->setParameter($paramName . '_min', $this->castValue($value[0], $fieldType))
-                ->setParameter($paramName . '_max', $this->castValue($value[1], $fieldType));
+                ->setParameter($paramName.'_min', $this->castValue($value[0], $fieldType))
+                ->setParameter($paramName.'_max', $this->castValue($value[1], $fieldType));
         }
 
         return $queryBuilder;
@@ -268,7 +266,7 @@ final readonly class PaginationService
             foreach ($allowedSorts as $field => $config) {
                 if (isset($config['default'])) {
                     $direction = strtoupper($config['default']) === 'DESC' ? 'DESC' : 'ASC';
-                    $fieldPath = str_contains($field, '.') ? $field : $alias . '.' . $field;
+                    $fieldPath = str_contains($field, '.') ? $field : $alias.'.'.$field;
                     $queryBuilder->addOrderBy($fieldPath, $direction);
 
                     break;
@@ -293,7 +291,7 @@ final readonly class PaginationService
                 continue;
             }
 
-            $fieldPath = str_contains($field, '.') ? $field : $alias . '.' . $field;
+            $fieldPath = str_contains($field, '.') ? $field : $alias.'.'.$field;
             $queryBuilder->addOrderBy($fieldPath, $direction);
         }
 
@@ -312,8 +310,8 @@ final readonly class PaginationService
         return match ($type) {
             'int', 'integer' => (int) $value,
             'bool', 'boolean' => filter_var($value, FILTER_VALIDATE_BOOLEAN),
-            'date' => new DateTime((string) $value),
-            'datetime' => new DateTimeImmutable((string) $value),
+            'date' => new \DateTime((string) $value),
+            'datetime' => new \DateTimeImmutable((string) $value),
             'float' => (float) $value,
             default => (string) $value,
         };
