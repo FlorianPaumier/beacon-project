@@ -6,6 +6,9 @@ namespace Devgeek\BeaconAdmin\Crud;
 
 final readonly class PaginatedResult
 {
+    /**
+     * @param list<object> $items
+     */
     public function __construct(
         public array $items,
         public int $currentPage,

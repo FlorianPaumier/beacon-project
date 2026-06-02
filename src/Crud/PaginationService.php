@@ -52,9 +52,9 @@ final readonly class PaginationService
         $page = max(1, $request->query->getInt('page', 1));
         $limit = min($maxLimit, max(1, $request->query->getInt('limit', $defaultLimit)));
 
-        $search = (string) $request->query->get('search', '');
-        $sortField = (string) $request->query->get('sort', '');
-        $sortDir = strtolower((string) $request->query->get('dir', 'asc'));
+        $search = $request->query->get('search', '');
+        $sortField = $request->query->get('sort', '');
+        $sortDir = strtolower($request->query->get('dir', 'asc'));
         if ($sortDir !== 'asc' && $sortDir !== 'desc') {
             $sortDir = 'asc';
         }
@@ -162,7 +162,7 @@ final readonly class PaginationService
         );
 
         $nestedFilters = $request->query->all('filter');
-        if (is_array($nestedFilters)) {
+        if ($nestedFilters !== []) {
             $filters = array_merge($filters, $nestedFilters);
         }
 

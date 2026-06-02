@@ -220,10 +220,10 @@ abstract class AbstractCrudController extends AbstractController
             throw $this->createAccessDeniedException('Invalid CSRF token.');
         }
 
-        /** @var array<string>|null $ids */
+        /** @var string[] $ids */
         $ids = $request->request->all('ids');
 
-        if ($ids === null || $ids === []) {
+        if ($ids === []) {
             $this->addFlash('warning', 'No items selected.');
 
             return $this->redirectToRoute($this->getListRoute($request));
@@ -231,7 +231,8 @@ abstract class AbstractCrudController extends AbstractController
 
         $entityClass = $this->getEntityClass();
         $repository = $this->entityManager->getRepository($entityClass);
-        ['identifier' => $idField] = $this->entityManager->getClassMetadata($entityClass)->getIdentifier();
+        $identifier = $this->entityManager->getClassMetadata($entityClass)->getIdentifier();
+        $idField = $identifier[0];
         $entities = $repository->findBy([$idField => $ids]);
 
         foreach ($entities as $entity) {
