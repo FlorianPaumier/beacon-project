@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Devgeek\BeaconAdmin\Tests\Unit\Crud;
 
 use Devgeek\BeaconAdmin\Crud\CrudConfig;
-use Devgeek\BeaconAdmin\Crud\PaginatedResult;
 use Devgeek\BeaconAdmin\Crud\PaginationService;
 use Devgeek\BeaconAdmin\Tests\Fixtures\TestApp\Entity\TestEntity;
 use Doctrine\DBAL\DriverManager;

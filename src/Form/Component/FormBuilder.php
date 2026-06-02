@@ -9,7 +9,7 @@ use Devgeek\BeaconAdmin\Support\Component;
 final class FormBuilder
 {
     /** @var array<Component> */
-    protected array $components = [];
+    private array $components = [];
 
     public static function make(): static
     {

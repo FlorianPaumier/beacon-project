@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Devgeek\BeaconAdmin\Tests\Unit\Crud\DataTable;
 
 use Devgeek\BeaconAdmin\Crud\CrudConfig;
-use Devgeek\BeaconAdmin\Crud\DataTable\DataTableResult;
 use Devgeek\BeaconAdmin\Crud\DataTable\DataTableService;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\EntityManager;

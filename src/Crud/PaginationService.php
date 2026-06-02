@@ -40,16 +40,16 @@ final readonly class PaginationService
 
     /**
      * @param array<string, array{operator?: string, type?: string, field?: string}> $allowedFilters
-     * @param array<string, array{default?: string}>                                  $allowedSorts
+     * @param array<string, array{default?: string}>                                 $allowedSorts
      */
     public function paginate(
         QueryBuilder $queryBuilder,
         Request $request,
         int $defaultLimit = self::DEFAULT_LIMIT,
         int $maxLimit = self::MAX_LIMIT,
-        /** @var array<string, array{operator?: string, type?: string, field?: string}> */
+        /* @var array<string, array{operator?: string, type?: string, field?: string}> */
         array $allowedFilters = [],
-        /** @var array<string, array{default?: string}> */
+        /* @var array<string, array{default?: string}> */
         array $allowedSorts = [],
         ?callable $mapper = null,
     ): PaginatedResult {

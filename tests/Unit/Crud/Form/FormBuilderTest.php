@@ -32,7 +32,7 @@ final class FormBuilderTest extends TestCase
     }
 
     /**
-     * @param array<FieldMetadata> $fields
+     * @param array<FieldMetadata>       $fields
      * @param array<AssociationMetadata> $associations
      */
     private function createIntrospectorMock(array $fields, array $associations): EntityIntrospector
