@@ -1,0 +1,10 @@
+<td class="beacon-table__td beacon-table__td--date">
+    {% set value = attribute(row, column.name) %}
+    {% if value is null %}
+        <span class="beacon-table__null">—</span>
+    {% elseif value is iterable %}
+        {{ value|date(column.format|default('Y-m-d H:i')) }}
+    {% else %}
+        {{ value|date(column.format|default('Y-m-d H:i')) }}
+    {% endif %}
+</td>

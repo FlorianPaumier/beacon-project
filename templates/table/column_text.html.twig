@@ -1,0 +1,13 @@
+<twig:BeaconAdmin:TextColumn>
+    {% set value = attribute(row, column.name) %}
+
+    {% if column.format is defined and column.format is not null %}
+        {% set value = column.format(value) %}
+    {% endif %}
+
+    {% if column.limit is defined and column.limit is not null and value|length > column.limit %}
+        {{ value|slice(0, column.limit) ~ '...' }}
+    {% else %}
+        {{ value }}
+    {% endif %}
+</twig:BeaconAdmin:TextColumn>

@@ -21,7 +21,7 @@ final class BundleBootTest extends WebTestCase
 
         $this->assertSame('/admin', $container->getParameter('beacon_admin.route_prefix'));
         $this->assertSame('Beacon Admin', $container->getParameter('beacon_admin.title'));
-        $this->assertTrue($container->getParameter('beacon_admin.theme.dark_mode'));
+        $this->assertSame('modern', $container->getParameter('beacon_admin.default_theme'));
         $this->assertSame('ROLE_ADMIN', $container->getParameter('beacon_admin.security.role'));
     }
 

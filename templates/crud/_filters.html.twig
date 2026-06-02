@@ -1,0 +1,10 @@
+<div class="beacon-filters">
+    <div class="beacon-filters__search">
+        <input type="text"
+               class="beacon-input"
+               placeholder="Search {{ config.entityLabelPlural|lower }}..."
+               value="{{ dataTable.search }}"
+               data-action="input->beacon--datatable#search"
+               data-beacon--datatable-target="search">
+    </div>
+</div>

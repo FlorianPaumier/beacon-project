@@ -1,0 +1,11 @@
+<fieldset class="fi-fo-fieldset">
+    {% if component.label is defined and component.label is not null %}
+        <legend class="fi-fo-fieldset-legend">{{ component.label }}</legend>
+    {% endif %}
+
+    <div class="fi-fo-fieldset-content">
+        {% for field in component.schema %}
+            {{ field|raw }}
+        {% endfor %}
+    </div>
+</fieldset>

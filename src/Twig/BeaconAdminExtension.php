@@ -13,28 +13,16 @@ class BeaconAdminExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('beacon_config', [$this, 'beaconConfig']),
-            new TwigFunction('beacon_theme', [$this, 'themeConfig']),
+            new TwigFunction('beacon_admin_config', [AdminRuntime::class, 'getConfig']),
+            new TwigFunction('beacon_admin_theme', [AdminRuntime::class, 'getTheme']),
+            new TwigFunction('beacon_admin_themes', [AdminRuntime::class, 'getThemes']),
+            new TwigFunction('beacon_admin_menu', [AdminRuntime::class, 'getMenu']),
+            new TwigFunction('beacon_admin_widgets', [AdminRuntime::class, 'getWidgets']),
         ];
     }
 
     public static function make(): self
     {
         return new self();
-    }
-
-    /** @return array<string, mixed> */
-    public function beaconConfig(): array
-    {
-        return [];
-    }
-
-    /** @return array<string, mixed> */
-    public function themeConfig(): array
-    {
-        return [
-            'primary_color' => '#2563eb',
-            'dark_mode' => true,
-        ];
     }
 }

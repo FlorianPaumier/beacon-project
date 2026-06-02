@@ -1,0 +1,9 @@
+{% block field %}
+    {{ form_row(form, {
+        attr: {
+            class: 'beacon-input',
+            placeholder: field.placeholder|default(''),
+            maxlength: field.maxLength|default(''),
+        }
+    }) }}
+{% endblock %}

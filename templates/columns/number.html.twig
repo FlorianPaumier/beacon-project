@@ -1,0 +1,8 @@
+<td class="beacon-table__td beacon-table__td--number">
+    {% set value = attribute(row, column.name) %}
+    {% if value is null %}
+        <span class="beacon-table__null">—</span>
+    {% else %}
+        {{ value|number_format(0, '.', ',') }}
+    {% endif %}
+</td>

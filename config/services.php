@@ -5,7 +5,11 @@ declare(strict_types=1);
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
 use Devgeek\BeaconAdmin\Menu\MenuBuilder;
+use Devgeek\BeaconAdmin\Upload\LocalMediaUploader;
+use Devgeek\BeaconAdmin\Upload\MediaUploaderInterface;
+use Devgeek\BeaconAdmin\Twig\AdminRuntime;
 use Devgeek\BeaconAdmin\Twig\BeaconAdminExtension;
+use Devgeek\BeaconAdmin\Twig\SchemaExtension;
 use Devgeek\BeaconAdmin\Widget\WidgetRegistry;
 
 return static function (ContainerConfigurator $container): void {
@@ -31,4 +35,21 @@ return static function (ContainerConfigurator $container): void {
 
     // Twig extension
     $services->set(BeaconAdminExtension::class)->tag('twig.extension');
+
+    // Twig runtime (lazy-loaded)
+    $services->set(AdminRuntime::class)
+        ->arg('$config', '%beacon_admin.config%')
+        ->tag('twig.runtime');
+
+    // Schema Twig extension (Turbo frame integration)
+    $services->set(SchemaExtension::class)->tag('twig.extension');
+
+    // Default media uploader (local filesystem)
+    // Override MediaUploaderInterface alias to use S3, GCS, etc.
+    $services->alias(MediaUploaderInterface::class, LocalMediaUploader::class);
+    $services->set(LocalMediaUploader::class)
+        ->arg('$targetDirectory', '%beacon_admin.upload.target_directory%')
+        ->arg('$publicPath', '%beacon_admin.upload.public_path%')
+        ->arg('$allowedMimeTypes', '%beacon_admin.upload.allowed_mime_types%')
+        ->arg('$maxSize', '%beacon_admin.upload.max_size%');
 };

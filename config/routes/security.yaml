@@ -1,0 +1,8 @@
+beacon_admin_login:
+    path: /{_locale}/admin/login
+    controller: Devgeek\BeaconAdmin\Controller\SecurityController::login
+    methods: [GET, POST]
+
+beacon_admin_logout:
+    path: /admin/logout
+    methods: GET

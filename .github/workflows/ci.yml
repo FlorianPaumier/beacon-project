@@ -1,0 +1,22 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: ['8.4']
+        symfony: ['^7.4', '^8.0']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          tools: composer:v2
+      - run: composer require symfony/framework-bundle:${{ matrix.symfony }} --no-update
+      - run: composer install --prefer-dist --no-interaction
+      - run: vendor/bin/phpunit
+      - run: vendor/bin/phpstan analyse --level 6
+      - run: vendor/bin/php-cs-fixer fix --dry-run --diff

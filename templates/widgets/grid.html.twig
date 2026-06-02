@@ -1,0 +1,14 @@
+<div class="beacon-widget-grid">
+    {% for widget in widgets %}
+        <div class="beacon-widget beacon-widget--cols-{{ widget.cols }}"
+            data-widget-name="{{ widget.name }}"
+        >
+            {{ widget.render()|raw }}
+        </div>
+    {% else %}
+        <div class="beacon-empty-state">
+            <p>No widgets configured.</p>
+            <p>Create a service implementing <code>DashboardWidgetInterface</code> and tag it with <code>beacon_admin.widget</code>.</p>
+        </div>
+    {% endfor %}
+</div>

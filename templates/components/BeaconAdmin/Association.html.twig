@@ -1,0 +1,36 @@
+<div class="fi-fo-field fi-fo-association">
+    {% if component.label is defined and component.label is not null %}
+        <label for="{{ component.name }}" class="fi-fo-field-label">
+            {{ component.label }}
+            {% if component.required is defined and component.required %}
+                <span class="fi-fo-required-indicator">*</span>
+            {% endif %}
+        </label>
+    {% endif %}
+
+    {% if component.targetEntity is defined and component.targetEntity is not null %}
+        <span class="fi-fo-association-entity">{{ component.targetEntity|split('\\')|last }}</span>
+    {% endif %}
+
+    <select
+        id="{{ component.name }}"
+        name="{{ component.name }}{% if component.multiple is defined and component.multiple %}[]{% endif %}"
+        {% if component.required is defined and component.required %}required{% endif %}
+        {% if component.multiple is defined and component.multiple %}multiple{% endif %}
+        {% if component.searchable is defined and component.searchable %}data-searchable{% endif %}
+        class="fi-fo-select-input"
+        data-model="value"
+    >
+        {% if component.multiple is not defined or not component.multiple %}
+            <option value="">{{ 'Select an option'|trans }}</option>
+        {% endif %}
+
+        {% for key, label in component.options %}
+            <option value="{{ key }}">{{ label }}</option>
+        {% endfor %}
+    </select>
+
+    {% if component.error is defined and component.error is not null %}
+        <p class="fi-fo-error">{{ component.error }}</p>
+    {% endif %}
+</div>

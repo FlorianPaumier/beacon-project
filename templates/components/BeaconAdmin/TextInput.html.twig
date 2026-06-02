@@ -1,0 +1,26 @@
+<div class="fi-fo-field fi-fo-text-input">
+    {% if component.label is defined and component.label is not null %}
+        <label for="{{ component.name }}" class="fi-fo-field-label">
+            {{ component.label }}
+            {% if component.required is defined and component.required %}
+                <span class="fi-fo-required-indicator">*</span>
+            {% endif %}
+        </label>
+    {% endif %}
+
+    <input
+        type="{% if component.email is defined and component.email %}email{% else %}text{% endif %}"
+        id="{{ component.name }}"
+        name="{{ component.name }}"
+        value="{{ component.value ?? '' }}"
+        {% if component.required is defined and component.required %}required{% endif %}
+        {% if component.placeholder is defined and component.placeholder is not null %}placeholder="{{ component.placeholder }}"{% endif %}
+        {% if component.maxLength is defined and component.maxLength is not null %}maxlength="{{ component.maxLength }}"{% endif %}
+        class="fi-fo-input"
+        data-model="value"
+    />
+
+    {% if component.error is defined and component.error is not null %}
+        <p class="fi-fo-error">{{ component.error }}</p>
+    {% endif %}
+</div>

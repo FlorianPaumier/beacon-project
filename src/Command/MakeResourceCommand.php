@@ -30,6 +30,8 @@ class MakeResourceCommand extends Command
         $this
             ->addArgument('entity', InputArgument::REQUIRED, 'The entity FQCN (e.g. App\\Entity\\User)')
             ->addOption('output-dir', 'o', InputOption::VALUE_OPTIONAL, 'Output directory for the controller', 'src/Controller/Admin')
+            ->addOption('route-prefix', null, InputOption::VALUE_OPTIONAL, 'Route prefix (e.g. /admin/users)', null)
+            ->addOption('route-name', null, InputOption::VALUE_OPTIONAL, 'Route name prefix (e.g. admin_user)', null)
             ->addOption('dry-run', null, InputOption::VALUE_NONE, 'Show what would be generated without writing files');
     }
 
@@ -52,7 +54,17 @@ class MakeResourceCommand extends Command
         $controllerClass = $shortName.'CrudController';
         $filePath = $outputDir.'/'.$controllerClass.'.php';
 
-        $code = $this->generateController($controllerClass, $entityClass, $metadata);
+        $routePrefix = $input->getOption('route-prefix');
+        if ($routePrefix === null) {
+            $routePrefix = '/admin/'.$this->camelToKebab($shortName);
+        }
+
+        $routeName = $input->getOption('route-name');
+        if ($routeName === null) {
+            $routeName = 'admin_'.$this->camelToSnake($shortName);
+        }
+
+        $code = $this->generateController($controllerClass, $entityClass, $metadata, $routePrefix, $routeName);
 
         if ((bool) $input->getOption('dry-run')) {
             $io->section('Generated code (dry run)');
@@ -87,12 +99,45 @@ class MakeResourceCommand extends Command
         return end($parts);
     }
 
-    private function generateController(string $controllerClass, string $entityClass, \Devgeek\BeaconAdmin\Crud\Doctrine\EntityMetadata $metadata): string
+    private function camelToKebab(string $string): string
     {
+        return strtolower(preg_replace('/(?<!^)[A-Z]/', '-$0', $string));
+    }
+
+    private function camelToSnake(string $string): string
+    {
+        return strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $string));
+    }
+
+    private function pluralize(string $singular): string
+    {
+        if (preg_match('/[sxz]|ch|sh$/i', $singular)) {
+            return $singular.'es';
+        }
+
+        if (preg_match('/[^aeiou]y$/i', $singular)) {
+            return substr($singular, 0, -1).'ies';
+        }
+
+        return $singular.'s';
+    }
+
+    private function generateController(
+        string $controllerClass,
+        string $entityClass,
+        \Devgeek\BeaconAdmin\Crud\Doctrine\EntityMetadata $metadata,
+        string $routePrefix,
+        string $routeName,
+    ): string {
         $namespace = 'App\\Controller\\Admin';
+        $shortName = $this->getShortName($entityClass);
         $fieldList = $metadata->getFieldNames();
-        $fieldsCode = implode("',\n            '", $fieldList);
-        $searchableFields = implode("',\n            '", $fieldList);
+
+        $stringFields = [];
+        foreach ($fieldList as $field) {
+            $stringFields[] = "'".$field."'";
+        }
+        $fieldsCode = implode(', ', $stringFields);
 
         return <<<PHP
             <?php
@@ -104,21 +149,19 @@ class MakeResourceCommand extends Command
             use Devgeek\\BeaconAdmin\\Controller\\AbstractCrudController;
             use Devgeek\\BeaconAdmin\\Crud\\CrudConfig;
             use {$entityClass};
+            use Symfony\\Component\\Routing\\Attribute\\Route;
 
+            #[Route('{$routePrefix}', name: '{$routeName}_')]
             class {$controllerClass} extends AbstractCrudController
             {
                 protected function configureCrud(CrudConfig \$config): void
                 {
                     \$config
-                        ->fields([
-                            '{$fieldsCode}',
-                        ])
-                        ->sortableFields([
-                            '{$fieldsCode}',
-                        ])
-                        ->searchableFields([
-                            '{$searchableFields}',
-                        ])
+                        ->entityLabel('{$shortName}')
+                        ->entityLabelPlural('{$this->pluralize($shortName)}')
+                        ->fields([{$fieldsCode}])
+                        ->sortableFields([{$fieldsCode}])
+                        ->searchableFields([{$fieldsCode}])
                         ->pageSize(25);
                 }
 

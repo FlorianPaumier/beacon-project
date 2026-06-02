@@ -1,0 +1,34 @@
+<div class="beacon-table-widget">
+    <div class="beacon-table-widget__header">
+        <h3>{{ label }}</h3>
+    </div>
+    <div class="beacon-table-widget__body">
+        <table class="beacon-table">
+            <thead>
+                <tr>
+                    {% for column in columns %}
+                        <th>{{ column.label ?? column.name|humanize }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in data %}
+                    <tr>
+                        {% for column in columns %}
+                            <td>{{ attribute(row, column.name) }}</td>
+                        {% endfor %}
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="{{ columns|length }}">No records found.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% if viewAllRoute is defined %}
+        <div class="beacon-table-widget__footer">
+            <a href="{{ path(viewAllRoute) }}">View All</a>
+        </div>
+    {% endif %}
+</div>

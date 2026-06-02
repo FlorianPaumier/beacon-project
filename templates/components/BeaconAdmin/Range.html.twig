@@ -1,0 +1,28 @@
+<div class="fi-fo-field fi-fo-range">
+    {% if component.label is defined and component.label is not null %}
+        <label for="{{ component.name }}" class="fi-fo-field-label">
+            {{ component.label }}
+        </label>
+    {% endif %}
+
+    <div class="fi-fo-range-wrapper">
+        <input
+            type="range"
+            id="{{ component.name }}"
+            name="{{ component.name }}"
+            value="{{ component.value ?? 0 }}"
+            min="{{ component.min }}"
+            max="{{ component.max }}"
+            step="{{ component.step }}"
+            class="fi-fo-range-input"
+            data-model="value"
+        />
+        {% if component.showValue %}
+            <span class="fi-fo-range-value">{{ component.value ?? 0 }}</span>
+        {% endif %}
+    </div>
+
+    {% if component.error is defined and component.error is not null %}
+        <p class="fi-fo-error">{{ component.error }}</p>
+    {% endif %}
+</div>

@@ -1,0 +1,38 @@
+{% if dataTable.totalPages > 1 %}
+    <div class="beacon-pagination">
+        <div class="beacon-pagination__info">
+            Showing page {{ dataTable.page }} of {{ dataTable.totalPages }} ({{ dataTable.total }} total)
+        </div>
+        <div class="beacon-pagination__controls">
+            {% if dataTable.hasPrevious %}
+                <button type="button"
+                        class="beacon-btn beacon-btn--small beacon-btn--secondary"
+                        data-action="beacon--datatable#goToPage"
+                        data-beacon--datatable-page-param="1">
+                    &laquo; First
+                </button>
+                <button type="button"
+                        class="beacon-btn beacon-btn--small beacon-btn--secondary"
+                        data-action="beacon--datatable#goToPage"
+                        data-beacon--datatable-page-param="{{ dataTable.page - 1 }}">
+                    &lsaquo; Previous
+                </button>
+            {% endif %}
+
+            {% if dataTable.hasNext %}
+                <button type="button"
+                        class="beacon-btn beacon-btn--small beacon-btn--secondary"
+                        data-action="beacon--datatable#goToPage"
+                        data-beacon--datatable-page-param="{{ dataTable.page + 1 }}">
+                    Next &rsaquo;
+                </button>
+                <button type="button"
+                        class="beacon-btn beacon-btn--small beacon-btn--secondary"
+                        data-action="beacon--datatable#goToPage"
+                        data-beacon--datatable-page-param="{{ dataTable.totalPages }}">
+                    Last &raquo;
+                </button>
+            {% endif %}
+        </div>
+    </div>
+{% endif %}

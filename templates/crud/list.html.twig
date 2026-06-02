@@ -1,0 +1,50 @@
+{% extends '@BeaconAdmin/layout.html.twig' %}
+
+{% block page_title %}{{ config.entityLabelPlural }}{% endblock %}
+
+{% block header_actions %}
+    <a href="{{ path(app.current_route ~ '_create') }}" class="beacon-btn beacon-btn--primary">
+        Add {{ config.entityLabel }}
+    </a>
+{% endblock %}
+
+{% block content %}
+    <div class="beacon-card"
+         data-controller="beacon--datatable"
+         data-beacon--datatable-url-value="{{ path(app.current_route) }}">
+        {% include '@BeaconAdmin/crud/_filters.html.twig' %}
+
+        <div class="beacon-table-wrapper">
+            <table class="beacon-table">
+                <thead>
+                    <tr>
+                        {% for column in config.columns %}
+                            {% include '@BeaconAdmin/columns/sorting.html.twig' %}
+                        {% endfor %}
+                        <th class="beacon-table__th beacon-table__th--actions">{{ 'Actions'|trans }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in dataTable.results %}
+                        <tr class="beacon-table__row">
+                            {% for column in config.columns %}
+                                {% include '@BeaconAdmin/columns/' ~ column.template %}
+                            {% endfor %}
+                            {% include '@BeaconAdmin/crud/_actions.html.twig' %}
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="99" class="beacon-table__empty">
+                                <div class="beacon-empty-state">
+                                    <p>No records found.</p>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% include '@BeaconAdmin/crud/_pagination.html.twig' %}
+    </div>
+{% endblock %}

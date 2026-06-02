@@ -1,0 +1,42 @@
+<div class="fi-fo-field fi-fo-repeater">
+    {% if component.label is defined and component.label is not null %}
+        <label class="fi-fo-field-label">
+            {{ component.label }}
+        </label>
+    {% endif %}
+
+    <div class="fi-fo-repeater-rows" data-model="items">
+        {% for idx in 0..(component.items|length - 1) %}
+            <div class="fi-fo-repeater-row">
+                {% for field in component.schema %}
+                    <div class="fi-fo-repeater-field">
+                        {% if field.label is defined and field.label is not null %}
+                            <label>{{ field.label }}</label>
+                        {% endif %}
+                        <input
+                            type="text"
+                            name="{{ component.name }}[{{ idx }}][{{ field.name }}]"
+                            class="fi-fo-repeater-input"
+                            value="{{ component.items[idx][field.name] ?? '' }}"
+                            data-model="items[{{ idx }}].{{ field.name }}"
+                        />
+                    </div>
+                {% endfor %}
+
+                {% if component.items|length > (component.minItems ?? 0) %}
+                    <button type="button" class="fi-fo-repeater-remove" data-index="{{ idx }}">&times;</button>
+                {% endif %}
+            </div>
+        {% else %}
+            <div class="fi-fo-repeater-empty">{{ 'No items' }}</div>
+        {% endfor %}
+    </div>
+
+    {% if component.maxItems is null or component.items|length < component.maxItems %}
+        <button type="button" class="fi-fo-repeater-add">{{ component.addLabel }}</button>
+    {% endif %}
+
+    {% if component.error is defined and component.error is not null %}
+        <p class="fi-fo-error">{{ component.error }}</p>
+    {% endif %}
+</div>

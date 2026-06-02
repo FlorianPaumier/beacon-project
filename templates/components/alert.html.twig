@@ -1,0 +1,18 @@
+{% for type, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="beacon-alert beacon-alert--{{ type }}"
+             role="alert"
+             data-controller="@beacon-admin/notification"
+             data-action="click->@beacon-admin/notification#dismiss">
+            <div class="beacon-alert-content">
+                <span class="beacon-alert-icon">
+                    {% if type == 'success' %}✓{% elseif type == 'error' %}✗{% elseif type == 'warning' %}⚠{% else %}ℹ{% endif %}
+                </span>
+                <span class="beacon-alert-message">{{ message }}</span>
+            </div>
+            <button class="beacon-alert-close"
+                    data-action="@beacon-admin/notification#dismiss"
+                    aria-label="Close">&times;</button>
+        </div>
+    {% endfor %}
+{% endfor %}

@@ -1,0 +1,15 @@
+<twig:BeaconAdmin:TextFilter>
+    <div class="fi-ta-filter fi-ta-filter-text">
+        <label for="filter_{{ filter.name }}" class="fi-ta-filter-label">
+            {{ filter.label ?? filter.name }}
+        </label>
+        <input
+            type="text"
+            id="filter_{{ filter.name }}"
+            name="filters[{{ filter.name }}]"
+            value="{{ app.request.query.get('filters')[filter.name] ?? '' }}"
+            class="fi-ta-filter-input"
+            data-action="input->table#filter"
+        />
+    </div>
+</twig:BeaconAdmin:TextFilter>

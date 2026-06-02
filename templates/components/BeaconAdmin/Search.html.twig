@@ -1,0 +1,24 @@
+<div class="fi-fo-field fi-fo-search">
+    {% if component.label is defined and component.label is not null %}
+        <label for="{{ component.name }}" class="fi-fo-field-label">
+            {{ component.label }}
+        </label>
+    {% endif %}
+
+    <div class="fi-fo-search-wrapper">
+        <span class="fi-fo-search-icon">🔍</span>
+        <input
+            type="search"
+            id="{{ component.name }}"
+            name="{{ component.name }}"
+            value="{{ component.value ?? '' }}"
+            {% if component.placeholder is defined and component.placeholder is not null %}placeholder="{{ component.placeholder }}"{% endif %}
+            class="fi-fo-input fi-fo-search-input"
+            data-model="value"
+        />
+    </div>
+
+    {% if component.error is defined and component.error is not null %}
+        <p class="fi-fo-error">{{ component.error }}</p>
+    {% endif %}
+</div>

@@ -1,0 +1,10 @@
+<td class="beacon-table__td">
+    {% set value = attribute(row, column.name) %}
+    {% if value is null %}
+        <span class="beacon-table__null">—</span>
+    {% elseif column.limit is defined and column.limit and value|length > column.limit %}
+        {{ value|slice(0, column.limit) }}&hellip;
+    {% else %}
+        {{ value }}
+    {% endif %}
+</td>

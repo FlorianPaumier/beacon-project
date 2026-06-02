@@ -1,0 +1,34 @@
+<header class="beacon-header">
+    <div class="beacon-header-left">
+        <button class="beacon-header-mobile-toggle"
+                data-action="@beacon-admin/sidebar#toggle"
+                aria-label="Toggle navigation">
+            <span class="beacon-icon">☰</span>
+        </button>
+        <h1 class="beacon-page-title">{% block page_title %}{% endblock %}</h1>
+    </div>
+
+    <div class="beacon-header-right">
+        <select class="beacon-theme-select"
+                data-action="change->@beacon-admin/theme#setTheme"
+                aria-label="Select theme">
+            {% for name, path in beacon_admin_themes() %}
+                <option value="{{ name }}" {{ name == beacon_admin_theme() ? 'selected' : '' }}>
+                    {{ name|capitalize }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <button class="beacon-theme-toggle"
+                data-action="@beacon-admin/theme#toggleColorScheme"
+                aria-label="Toggle dark mode">
+            <span class="beacon-icon">🌓</span>
+        </button>
+
+        {% if app.user is not null %}
+            <div class="beacon-user-menu">
+                <span class="beacon-user-name">{{ app.user.userIdentifier }}</span>
+            </div>
+        {% endif %}
+    </div>
+</header>

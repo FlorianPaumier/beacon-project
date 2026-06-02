@@ -1,0 +1,19 @@
+<div class="beacon-stat-card">
+    <div class="beacon-stat-card__header">
+        {% if icon %}
+            <span class="beacon-stat-card__icon">{{ icon }}</span>
+        {% endif %}
+        <span class="beacon-stat-card__label">{{ label }}</span>
+    </div>
+    <div class="beacon-stat-card__value">{{ value }}</div>
+    {% if trend is not null %}
+        <div class="beacon-stat-card__trend">
+            <span class="beacon-stat-card__trend-indicator beacon-stat-card__trend--{{ trend >= 0 ? 'up' : 'down' }}">
+                {{ trend > 0 ? '+' : '' }}{{ trend }}%
+            </span>
+            {% if trendLabel %}
+                <span class="beacon-stat-card__trend-label">{{ trendLabel }}</span>
+            {% endif %}
+        </div>
+    {% endif %}
+</div>

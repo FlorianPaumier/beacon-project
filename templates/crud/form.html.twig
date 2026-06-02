@@ -1,0 +1,53 @@
+{% extends '@BeaconAdmin/layout.html.twig' %}
+
+{% block page_title %}
+    {% if action == 'create' %}
+        New {{ config.entityLabel }}
+    {% else %}
+        Edit {{ config.entityLabel }}
+    {% endif %}
+{% endblock %}
+
+{% block header_actions %}
+    <a href="{{ path(app.current_route ~ '_list') }}" class="beacon-btn beacon-btn--secondary">
+        Back to {{ config.entityLabelPlural }}
+    </a>
+{% endblock %}
+
+{% block content %}
+    <div class="beacon-card">
+        {% if action == 'create' %}
+            {% set form_action = path(app.current_route ~ '_create') %}
+        {% else %}
+            {% set form_action = path(app.current_route ~ '_edit', { id: entity.id }) %}
+        {% endif %}
+
+        {{ form_start(form, { attr: { class: 'beacon-form' } }) }}
+
+            {% if form.vars.errors|length > 0 %}
+                <div class="beacon-alert beacon-alert--error">
+                    {{ form_errors(form) }}
+                </div>
+            {% endif %}
+
+            {% for field in form.children %}
+                <div class="beacon-form__group">
+                    {{ form_row(field) }}
+                </div>
+            {% endfor %}
+
+            <div class="beacon-form__actions">
+                <button type="submit" class="beacon-btn beacon-btn--primary">
+                    {% if action == 'create' %}
+                        Create {{ config.entityLabel }}
+                    {% else %}
+                        Update {{ config.entityLabel }}
+                    {% endif %}
+                </button>
+                <a href="{{ path(app.current_route ~ '_list') }}" class="beacon-btn beacon-btn--secondary">
+                    Cancel
+                </a>
+            </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

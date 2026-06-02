@@ -1,0 +1,71 @@
+{% extends '@BeaconAdmin/layout.html.twig' %}
+
+{% block page_title %}Sign in{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        {% include '@BeaconAdmin/security/login.css.twig' %}
+    </style>
+{% endblock %}
+
+{% block sidebar %}{% endblock %}
+
+{% block header %}{% endblock %}
+
+{% block content %}
+    <div class="beacon-login-page">
+        <div class="beacon-login-card">
+            <div class="beacon-login-header">
+                <span class="beacon-login-brand">Beacon Admin</span>
+            </div>
+
+            {% if error %}
+                <div class="beacon-alert beacon-alert--error" role="alert">
+                    {{ error.messageKey|trans(error.messageData, 'security') }}
+                </div>
+            {% endif %}
+
+            <form method="post" action="{{ path('beacon_admin_login') }}" class="beacon-login-form">
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                <div class="beacon-form-group">
+                    <label for="username" class="beacon-label">Username or email</label>
+                    <input
+                        type="text"
+                        id="username"
+                        name="_username"
+                        class="beacon-input"
+                        value="{{ lastUsername }}"
+                        required
+                        autofocus
+                        autocomplete="username"
+                    >
+                </div>
+
+                <div class="beacon-form-group">
+                    <label for="password" class="beacon-label">Password</label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="_password"
+                        class="beacon-input"
+                        required
+                        autocomplete="current-password"
+                    >
+                </div>
+
+                <div class="beacon-form-group beacon-form-checkbox">
+                    <label class="beacon-checkbox-label">
+                        <input type="checkbox" id="remember_me" name="_remember_me" checked>
+                        <span>Remember me</span>
+                    </label>
+                </div>
+
+                <button type="submit" class="beacon-button beacon-button--primary beacon-button--full">
+                    Sign in
+                </button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

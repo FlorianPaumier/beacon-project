@@ -1,0 +1,16 @@
+<td class="beacon-table__td beacon-table__td--link">
+    {% set value = attribute(row, column.name) %}
+    {% if value is null %}
+        <span class="beacon-table__null">—</span>
+    {% else %}
+        {% set label = column.text ?? attribute(row, column.labelField) ?? value %}
+        {% if column.maxLength and label|length > column.maxLength %}
+            {% set label = label|slice(0, column.maxLength) ~ '…' %}
+        {% endif %}
+        <a href="{{ value }}"
+           class="beacon-link"
+           {% if column.openInNewTab %}target="_blank" rel="noopener noreferrer"{% endif %}>
+            {{ label }}
+        </a>
+    {% endif %}
+</td>

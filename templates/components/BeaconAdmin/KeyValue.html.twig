@@ -1,0 +1,44 @@
+<div class="fi-fo-field fi-fo-key-value">
+    {% if component.label is defined and component.label is not null %}
+        <label class="fi-fo-field-label">
+            {{ component.label }}
+            {% if component.required is defined and component.required %}
+                <span class="fi-fo-required-indicator">*</span>
+            {% endif %}
+        </label>
+    {% endif %}
+
+    <div class="fi-fo-key-value-rows" data-model="value">
+        {% for row in component.value %}
+            <div class="fi-fo-key-value-row">
+                <input
+                    type="text"
+                    name="{{ component.name }}[{{ loop.index0 }}][key]"
+                    class="fi-fo-key-value-key"
+                    value="{{ row.key ?? '' }}"
+                    placeholder="{{ component.keyPlaceholder ?? 'Key' }}"
+                    data-model="value[{{ loop.index0 }}].key"
+                />
+                <input
+                    type="text"
+                    name="{{ component.name }}[{{ loop.index0 }}][value]"
+                    class="fi-fo-key-value-value"
+                    value="{{ row.value ?? '' }}"
+                    placeholder="{{ component.valuePlaceholder ?? 'Value' }}"
+                    data-model="value[{{ loop.index0 }}].value"
+                />
+                {% if component.allowDelete and component.value|length > 0 %}
+                    <button type="button" class="fi-fo-key-value-remove" data-action="remove" data-index="{{ loop.index0 }}">&times;</button>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+
+    {% if component.allowAdd %}
+        <button type="button" class="fi-fo-key-value-add" data-action="add">{{ 'Add row' }}</button>
+    {% endif %}
+
+    {% if component.error is defined and component.error is not null %}
+        <p class="fi-fo-error">{{ component.error }}</p>
+    {% endif %}
+</div>

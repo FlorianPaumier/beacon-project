@@ -1,0 +1,18 @@
+{% set actionsColumn = column %}
+<td class="beacon-table__td beacon-table__td--actions">
+    <div class="beacon-actions">
+        {% if actionsColumn.editRoute %}
+            <a href="{{ path(actionsColumn.editRoute, { id: row.id }) }}"
+               class="beacon-btn beacon-btn--small beacon-btn--secondary">Edit</a>
+        {% endif %}
+        {% if actionsColumn.deleteRoute %}
+            <form method="post"
+                  action="{{ path(actionsColumn.deleteRoute, { id: row.id }) }}"
+                  style="display:inline"
+                  onsubmit="return confirm('Are you sure?');">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ row.id) }}">
+                <button type="submit" class="beacon-btn beacon-btn--small beacon-btn--danger">Delete</button>
+            </form>
+        {% endif %}
+    </div>
+</td>

@@ -1,0 +1,20 @@
+<div class="fi-fo-field fi-fo-checkbox">
+    <label class="fi-fo-checkbox-label">
+        <input
+            type="checkbox"
+            id="{{ component.name }}"
+            name="{{ component.name }}"
+            value="1"
+            {% if component.default is defined and component.default %}checked{% endif %}
+            class="fi-fo-checkbox-input"
+            data-model="default"
+        />
+        {% if component.label is defined and component.label is not null %}
+            <span class="fi-fo-field-label">{{ component.label }}</span>
+        {% endif %}
+    </label>
+
+    {% if component.error is defined and component.error is not null %}
+        <p class="fi-fo-error">{{ component.error }}</p>
+    {% endif %}
+</div>

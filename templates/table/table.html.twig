@@ -1,0 +1,89 @@
+<twig:BeaconAdmin:Table>
+    <div class="fi-ta-table">
+        <div class="fi-ta-header">
+            {% if table.searchable is defined and table.searchable %}
+                <div class="fi-ta-search">
+                    <input
+                        type="text"
+                        name="search"
+                        value="{{ app.request.query.get('search', '') }}"
+                        placeholder="{{ 'Search...'|trans }}"
+                        class="fi-ta-search-input"
+                        data-action="input->table#search"
+                    />
+                </div>
+            {% endif %}
+
+            <div class="fi-ta-filters">
+                {% for filter in table.filters %}
+                    {% include filter.template with { filter: filter } %}
+                {% endfor %}
+            </div>
+        </div>
+
+        <table class="fi-ta-table-content">
+            <thead>
+                <tr>
+                    {% for column in table.columns %}
+                        <th class="fi-ta-column-header{% if column.sortable is defined and column.sortable %} fi-ta-sortable{% endif %}"
+                            {% if column.sortable is defined and column.sortable %}
+                                data-action="click->table#sort"
+                                data-sort-field="{{ column.name }}"
+                            {% endif %}>
+                            {{ column.label ?? column.name }}
+                            {% if column.sortable is defined and column.sortable %}
+                                <span class="fi-ta-sort-indicator"></span>
+                            {% endif %}
+                        </th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in rows %}
+                    <tr>
+                        {% for column in table.columns %}
+                            <td class="fi-ta-cell">
+                                {% include column.template with { column: column, row: row } %}
+                            </td>
+                        {% endfor %}
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="{{ table.columns|length }}" class="fi-ta-empty">
+                            {{ 'No records found'|trans }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="fi-ta-footer">
+            <div class="fi-ta-pagination">
+                {% set currentPage = app.request.query.get('page', 1)|int %}
+                {% set totalPages = result.totalPages %}
+
+                {% if totalPages > 1 %}
+                    <nav class="fi-ta-pagination-nav">
+                        {% if currentPage > 1 %}
+                            <a href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({ page: currentPage - 1 })) }}"
+                               class="fi-ta-pagination-prev">{{ 'Previous'|trans }}</a>
+                        {% endif %}
+
+                        <span class="fi-ta-pagination-info">
+                            {{ 'Page %current% of %total%'|trans({ '%current%': currentPage, '%total%': totalPages }) }}
+                        </span>
+
+                        {% if currentPage < totalPages %}
+                            <a href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({ page: currentPage + 1 })) }}"
+                               class="fi-ta-pagination-next">{{ 'Next'|trans }}</a>
+                        {% endif %}
+                    </nav>
+                {% endif %}
+            </div>
+
+            <div class="fi-ta-record-count">
+                {{ '%total% records'|trans({ '%total%': result.total }) }}
+            </div>
+        </div>
+    </div>
+</twig:BeaconAdmin:Table>

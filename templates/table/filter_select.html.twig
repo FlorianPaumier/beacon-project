@@ -1,0 +1,21 @@
+<twig:BeaconAdmin:SelectFilter>
+    <div class="fi-ta-filter fi-ta-filter-select">
+        <label for="filter_{{ filter.name }}" class="fi-ta-filter-label">
+            {{ filter.label ?? filter.name }}
+        </label>
+        <select
+            id="filter_{{ filter.name }}"
+            name="filters[{{ filter.name }}]"
+            class="fi-ta-filter-select-input"
+            data-action="change->table#filter"
+        >
+            <option value="">{{ 'All'|trans }}</option>
+            {% for key, label in filter.options ?? [] %}
+                <option value="{{ key }}"
+                    {% if app.request.query.get('filters')[filter.name] is defined and app.request.query.get('filters')[filter.name] == key %}selected{% endif %}>
+                    {{ label }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+</twig:BeaconAdmin:SelectFilter>

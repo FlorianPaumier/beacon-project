@@ -1,0 +1,56 @@
+<aside class="beacon-sidebar"
+       data-controller="@beacon-admin/sidebar">
+    <div class="beacon-sidebar-brand">
+        <a href="{{ path('beacon_admin.dashboard') }}" class="beacon-sidebar-logo">
+            <span class="beacon-sidebar-title">{{ beacon_admin_config('title')|default('Beacon Admin') }}</span>
+        </a>
+        <button class="beacon-sidebar-toggle"
+                data-action="@beacon-admin/sidebar#toggle"
+                aria-label="Toggle sidebar">
+            <span class="beacon-icon">☰</span>
+        </button>
+    </div>
+
+    <nav class="beacon-sidebar-nav">
+        {% for item in beacon_admin_menu() %}
+            <div class="beacon-nav-item{% if item.children is not empty %} beacon-nav-item--has-children{% endif %}">
+                {% if item.route is not null %}
+                    <a href="{{ path(item.route) }}"
+                       class="beacon-nav-link"
+                       data-action="@beacon-admin/sidebar#navigate">
+                {% else %}
+                    <span class="beacon-nav-link">
+                {% endif %}
+                    {% if item.icon %}
+                        {% include '@BeaconAdmin/components/icon.html.twig' with { name: item.icon } %}
+                    {% endif %}
+                    <span class="beacon-nav-label">{{ item.label }}</span>
+                {% if item.route is not null %}
+                    </a>
+                {% else %}
+                    </span>
+                {% endif %}
+
+                {% if item.children is not empty %}
+                    <ul class="beacon-nav-children">
+                        {% for child in item.children %}
+                            <li class="beacon-nav-child-item">
+                                {% if child.route is not null %}
+                                    <a href="{{ path(child.route) }}" class="beacon-nav-link beacon-nav-link--child">
+                                {% else %}
+                                    <span class="beacon-nav-link beacon-nav-link--child">
+                                {% endif %}
+                                    <span class="beacon-nav-label">{{ child.label }}</span>
+                                {% if child.route is not null %}
+                                    </a>
+                                {% else %}
+                                    </span>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </nav>
+</aside>

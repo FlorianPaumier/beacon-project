@@ -1,0 +1,57 @@
+[data-theme="modern"] {
+    --beacon-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --beacon-primary: #2563eb;
+    --beacon-primary-hover: #1d4ed8;
+    --beacon-bg: #f8fafc;
+    --beacon-surface: #ffffff;
+    --beacon-text: #0f172a;
+    --beacon-text-muted: #64748b;
+    --beacon-border: #e2e8f0;
+    --beacon-sidebar-bg: #ffffff;
+    --beacon-sidebar-width: 260px;
+    --beacon-header-height: 64px;
+    --beacon-radius: 0.5rem;
+    --beacon-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    --beacon-alert-success-bg: #dcfce7;
+    --beacon-alert-success-text: #166534;
+    --beacon-alert-success-border: #bbf7d0;
+    --beacon-alert-error-bg: #fef2f2;
+    --beacon-alert-error-text: #991b1b;
+    --beacon-alert-error-border: #fecaca;
+    --beacon-alert-warning-bg: #fffbeb;
+    --beacon-alert-warning-text: #92400e;
+    --beacon-alert-warning-border: #fde68a;
+    --beacon-alert-info-bg: #eff6ff;
+    --beacon-alert-info-text: #1e40af;
+    --beacon-alert-info-border: #bfdbfe;
+    --beacon-trend-up: #16a34a;
+    --beacon-trend-down: #dc2626;
+    --beacon-btn-primary-text: #ffffff;
+    --beacon-btn-danger-bg: #dc2626;
+    --beacon-btn-danger-text: #ffffff;
+    --beacon-btn-danger-hover: #b91c1c;
+}
+
+[data-theme="modern"].dark {
+    --beacon-primary: #3b82f6;
+    --beacon-primary-hover: #60a5fa;
+    --beacon-bg: #0f172a;
+    --beacon-surface: #1e293b;
+    --beacon-text: #f1f5f9;
+    --beacon-text-muted: #94a3b8;
+    --beacon-border: #334155;
+    --beacon-sidebar-bg: #1e293b;
+    --beacon-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    --beacon-alert-success-bg: #064e3b;
+    --beacon-alert-success-text: #6ee7b7;
+    --beacon-alert-success-border: #065f46;
+    --beacon-alert-error-bg: #450a0a;
+    --beacon-alert-error-text: #fca5a5;
+    --beacon-alert-error-border: #7f1d1d;
+    --beacon-alert-warning-bg: #451a03;
+    --beacon-alert-warning-text: #fcd34d;
+    --beacon-alert-warning-border: #78350f;
+    --beacon-alert-info-bg: #1e3a5f;
+    --beacon-alert-info-text: #93c5fd;
+    --beacon-alert-info-border: #1e40af;
+}

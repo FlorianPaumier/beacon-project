@@ -1,0 +1,14 @@
+<td class="beacon-table__td beacon-table__td--image">
+    {% set value = attribute(row, column.name) %}
+    {% if value is null %}
+        <span class="beacon-table__null">—</span>
+    {% else %}
+        {% set alt = column.altField ? attribute(row, column.altField) : column.label %}
+        <img src="{{ value }}"
+             alt="{{ alt }}"
+             class="beacon-image-preview{{ column.circular ? ' beacon-image-preview--circular' : '' }}"
+             {% if column.maxWidth %}width="{{ column.maxWidth }}"{% endif %}
+             {% if column.maxHeight %}height="{{ column.maxHeight }}"{% endif %}
+             loading="lazy">
+    {% endif %}
+</td>

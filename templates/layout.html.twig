@@ -1,53 +1,47 @@
 <!DOCTYPE html>
-<html lang="{{ app.request.locale|default('en') }}">
+<html lang="{{ app.request.locale|default('en') }}"
+      data-theme="{{ beacon_admin_theme() }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Beacon Admin{% endblock %}</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📡</text></svg>">
+    <title>{% block title %}{{ beacon_admin_config('title')|default('Beacon Admin') }}{% endblock %}</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📡</text></svg>">
+    <script>!function(){try{var t=localStorage.getItem("beacon-theme"),d=localStorage.getItem("beacon-color-scheme");if(t)document.documentElement.setAttribute("data-theme",t);if("dark"===d)document.documentElement.classList.add("dark")}catch(e){}}()</script>
     {% block stylesheets %}
-        <link rel="stylesheet" href="{{ asset('bundles/beaconadmin/beacon.css') }}">
+        {% include '@BeaconAdmin/_styles.html.twig' %}
     {% endblock %}
 </head>
-<body>
-    <div class="beacon-layout">
-        {% block sidebar %}
-            <aside class="beacon-sidebar">
-                <div class="beacon-brand">
-                    <span class="beacon-title">Beacon Admin</span>
-                </div>
-                <nav class="beacon-nav">
-                    {# menu rendered by consuming app #}
-                </nav>
-            </aside>
-        {% endblock %}
-
-        <main class="beacon-main">
-            {% block header %}
-                <header class="beacon-header">
-                    <h1>{% block page_title %}{% endblock %}</h1>
-                    <div class="beacon-actions">
-                        {% block header_actions %}{% endblock %}
-                    </div>
-                </header>
+<body class="beacon-body"
+      data-controller="@beacon-admin/theme"
+      data-themes="{{ beacon_admin_themes()|json_encode|e('html_attr') }}">
+    {% block body %}
+        <div class="beacon-admin-layout">
+            {% block sidebar %}
+                {% include '@BeaconAdmin/components/sidebar.html.twig' %}
             {% endblock %}
 
-            {% block flash_messages %}
-                {% for type, messages in app.flashes %}
-                    {% for message in messages %}
-                        <div class="beacon-alert beacon-alert--{{ type }}" role="alert">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
-                {% endfor %}
-            {% endblock %}
+            <div class="beacon-admin-content">
+                {% block header %}
+                    {% include '@BeaconAdmin/components/header.html.twig' %}
+                {% endblock %}
 
-            {% block content %}{% endblock %}
-        </main>
-    </div>
+                {% block flash_messages %}
+                    {% include '@BeaconAdmin/components/alert.html.twig' %}
+                {% endblock %}
+
+                <main class="beacon-admin-main">
+                    {% block content %}{% endblock %}
+                </main>
+
+                {% block footer %}
+                    {% include '@BeaconAdmin/components/footer.html.twig' %}
+                {% endblock %}
+            </div>
+        </div>
+    {% endblock %}
 
     {% block javascripts %}
-        <script src="{{ asset('bundles/beaconadmin/beacon.js') }}" type="module" defer></script>
+        {% include '@BeaconAdmin/_scripts.html.twig' %}
     {% endblock %}
 </body>
 </html>

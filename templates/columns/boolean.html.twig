@@ -1,0 +1,16 @@
+<td class="beacon-table__td beacon-table__td--boolean">
+    {% set value = attribute(row, column.name) %}
+    {% if value %}
+        {% if column.useIcons %}
+            <span class="beacon-icon beacon-icon--{{ column.trueColor }}" title="{{ column.trueLabel }}">✓</span>
+        {% else %}
+            <span class="beacon-badge beacon-badge--{{ column.trueColor }}">{{ column.trueLabel }}</span>
+        {% endif %}
+    {% else %}
+        {% if column.useIcons %}
+            <span class="beacon-icon beacon-icon--{{ column.falseColor }}" title="{{ column.falseLabel }}">✗</span>
+        {% else %}
+            <span class="beacon-badge beacon-badge--{{ column.falseColor }}">{{ column.falseLabel }}</span>
+        {% endif %}
+    {% endif %}
+</td>

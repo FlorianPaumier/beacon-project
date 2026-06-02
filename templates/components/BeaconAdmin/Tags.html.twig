@@ -1,0 +1,42 @@
+<div class="fi-fo-field fi-fo-tags">
+    {% if component.label is defined and component.label is not null %}
+        <label class="fi-fo-field-label">
+            {{ component.label }}
+            {% if component.required is defined and component.required %}
+                <span class="fi-fo-required-indicator">*</span>
+            {% endif %}
+        </label>
+    {% endif %}
+
+    <div class="fi-fo-tags-container" data-model="value">
+        <div class="fi-fo-tags-list">
+            {% for tag in component.value %}
+                <span class="fi-fo-tag" data-tag="{{ tag }}">
+                    {{ tag }}
+                    <button type="button" class="fi-fo-tag-remove" data-tag="{{ tag }}">&times;</button>
+                </span>
+            {% endfor %}
+        </div>
+
+        <input
+            type="text"
+            class="fi-fo-tags-input"
+            placeholder="{{ component.placeholder ?? 'Add tag...' }}"
+            data-model="value"
+            {% if component.maxTags is defined and component.maxTags is not null %}data-max-tags="{{ component.maxTags }}"{% endif %}
+            {% if not component.allowCustom %}data-allow-custom="false"{% endif %}
+        />
+
+        {% if component.suggestions is defined and component.suggestions is not empty %}
+            <div class="fi-fo-tags-suggestions">
+                {% for suggestion in component.suggestions %}
+                    <button type="button" class="fi-fo-tags-suggestion" data-suggestion="{{ suggestion }}">{{ suggestion }}</button>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+    {% if component.error is defined and component.error is not null %}
+        <p class="fi-fo-error">{{ component.error }}</p>
+    {% endif %}
+</div>

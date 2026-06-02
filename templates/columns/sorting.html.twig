@@ -1,0 +1,17 @@
+<th class="beacon-table__th{% if column.sortable %} beacon-table__th--sortable{% endif %}">
+    {% if column.sortable %}
+        <button type="button"
+                class="beacon-table__sort-btn"
+                data-action="beacon--datatable#sort"
+                data-beacon--datatable-field-param="{{ column.name }}">
+            {{ column.label }}
+            {% if dataTable.sortField == column.name %}
+                <span class="beacon-table__sort-icon">
+                    {% if dataTable.sortDir == 'asc' %}&uarr;{% else %}&darr;{% endif %}
+                </span>
+            {% endif %}
+        </button>
+    {% else %}
+        {{ column.label }}
+    {% endif %}
+</th>

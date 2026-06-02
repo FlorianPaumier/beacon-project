@@ -1,0 +1,10 @@
+{% block field %}
+    {{ form_row(form, {
+        attr: {
+            class: 'beacon-input beacon-input--number',
+            min: field.min|default(''),
+            max: field.max|default(''),
+            step: field.step|default('any'),
+        }
+    }) }}
+{% endblock %}

@@ -1,0 +1,32 @@
+<div class="fi-fo-field fi-fo-radio">
+    {% if component.label is defined and component.label is not null %}
+        <label class="fi-fo-field-label">
+            {{ component.label }}
+            {% if component.required is defined and component.required %}
+                <span class="fi-fo-required-indicator">*</span>
+            {% endif %}
+        </label>
+    {% endif %}
+
+    <div class="fi-fo-radio-group fi-fo-radio-group--{{ component.layout }}">
+        {% for key, label in component.options %}
+            <label class="fi-fo-radio-label">
+                <input
+                    type="radio"
+                    id="{{ component.name }}_{{ key }}"
+                    name="{{ component.name }}"
+                    value="{{ key }}"
+                    {% if component.value is defined and component.value == key %}checked{% endif %}
+                    {% if component.required is defined and component.required %}required{% endif %}
+                    class="fi-fo-radio-input"
+                    data-model="value"
+                />
+                <span class="fi-fo-radio-text">{{ label }}</span>
+            </label>
+        {% endfor %}
+    </div>
+
+    {% if component.error is defined and component.error is not null %}
+        <p class="fi-fo-error">{{ component.error }}</p>
+    {% endif %}
+</div>

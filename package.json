@@ -1,4 +1,12 @@
 {
+    "dependencies": {
+        "@symfony/ux-live-component": "^2.32.0",
+        "@tiptap/core": "^3.24.0",
+        "@tiptap/extension-image": "^3.24.0",
+        "@tiptap/extension-link": "^3.24.0",
+        "@tiptap/extension-placeholder": "^3.24.0",
+        "@tiptap/starter-kit": "^3.24.0"
+    },
     "devDependencies": {
         "@biomejs/biome": "^1.9.4",
         "@fortawesome/fontawesome-free": "^6.7.1",
@@ -16,7 +24,8 @@
     "private": true,
     "scripts": {
         "dev": "bun run css:watch",
-        "build": "bun run css:build && bun run lint",
+        "build": "bun run js:build && bun run css:build && bun run lint",
+        "js:build": "bun build assets/js/tiptap-init.js --outfile=assets/dist/tiptap-editor.js --target=browser --format=esm --minify",
         "css:build": "bun run css:bootstrap && bun run css:tailwind && bun run css:custom",
         "css:bootstrap": "bun run --bun sass assets/styles/beacon-bootstrap.scss:assets/dist/beacon-bootstrap.css --no-source-map --style=compressed",
         "css:tailwind": "bun run --bun tailwindcss -i assets/styles/beacon-tailwind.css -o assets/dist/beacon-tailwind.css --minify",
@@ -27,6 +36,5 @@
         "biome:format": "bun run --bun biome format --write assets/",
         "css:lint": "bun run --bun biome lint assets/styles/",
         "ci": "bun run --bun biome ci assets/ && bun run css:build"
-    },
-    "dependencies": {}
+    }
 }
