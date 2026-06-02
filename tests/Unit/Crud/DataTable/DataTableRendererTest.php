@@ -40,6 +40,6 @@ final class DataTableRendererTest extends TestCase
         $twig = $this->createMock(Environment::class);
         $renderer = new DataTableRenderer($twig);
 
-        $this->assertInstanceOf(DataTableRenderer::class, $renderer);
+        $this->assertStringContainsString('DataTableRenderer', get_class($renderer));
     }
 }

@@ -15,7 +15,7 @@ final class TextInputTest extends TestCase
     {
         $input = TextInput::make();
 
-        $this->assertInstanceOf(TextInput::class, $input);
+        $this->assertNotNull($input);
     }
 
     #[Test]

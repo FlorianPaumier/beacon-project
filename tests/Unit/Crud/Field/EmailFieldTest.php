@@ -16,7 +16,7 @@ final class EmailFieldTest extends TestCase
     {
         $field = EmailField::make('email');
 
-        $this->assertInstanceOf(EmailField::class, $field);
+        $this->assertSame('email', $field->getName());
     }
 
     #[Test]

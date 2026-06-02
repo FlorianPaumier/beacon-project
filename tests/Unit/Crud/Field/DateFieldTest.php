@@ -16,7 +16,7 @@ final class DateFieldTest extends TestCase
     {
         $field = DateField::make('start_date');
 
-        $this->assertInstanceOf(DateField::class, $field);
+        $this->assertSame('start_date', $field->getName());
     }
 
     #[Test]

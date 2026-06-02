@@ -15,7 +15,7 @@ final class RangeTest extends TestCase
     {
         $input = Range::make();
 
-        $this->assertInstanceOf(Range::class, $input);
+        $this->assertNotNull($input);
     }
 
     #[Test]

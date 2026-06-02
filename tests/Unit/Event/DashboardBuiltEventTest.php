@@ -50,7 +50,7 @@ final class DashboardBuiltEventTest extends TestCase
     {
         $event = DashboardBuiltEvent::make();
 
-        $this->assertInstanceOf(DashboardBuiltEvent::class, $event);
+        $this->assertSame([], $event->getWidgets());
     }
 
     #[Test]

@@ -24,7 +24,7 @@ final class CrudEventTest extends TestCase
         $config = CrudConfig::make();
         $event = new CrudEvent($entity, $config);
 
-        $this->assertInstanceOf(CrudEvent::class, $event);
+        $this->assertSame($entity, $event->getEntity());
     }
 
     #[Test]
@@ -50,55 +50,67 @@ final class CrudEventTest extends TestCase
     #[Test]
     public function itCreatesBeforeCreateEvent(): void
     {
-        $event = new BeforeCreateEvent(new \stdClass(), CrudConfig::make());
+        $entity = new \stdClass();
+        $config = CrudConfig::make();
+        $event = new BeforeCreateEvent($entity, $config);
 
-        $this->assertInstanceOf(CrudEvent::class, $event);
-        $this->assertInstanceOf(BeforeCreateEvent::class, $event);
+        $this->assertSame($entity, $event->getEntity());
+        $this->assertSame($config, $event->getConfig());
     }
 
     #[Test]
     public function itCreatesAfterCreateEvent(): void
     {
-        $event = new AfterCreateEvent(new \stdClass(), CrudConfig::make());
+        $entity = new \stdClass();
+        $config = CrudConfig::make();
+        $event = new AfterCreateEvent($entity, $config);
 
-        $this->assertInstanceOf(CrudEvent::class, $event);
-        $this->assertInstanceOf(AfterCreateEvent::class, $event);
+        $this->assertSame($entity, $event->getEntity());
+        $this->assertSame($config, $event->getConfig());
     }
 
     #[Test]
     public function itCreatesBeforeUpdateEvent(): void
     {
-        $event = new BeforeUpdateEvent(new \stdClass(), CrudConfig::make());
+        $entity = new \stdClass();
+        $config = CrudConfig::make();
+        $event = new BeforeUpdateEvent($entity, $config);
 
-        $this->assertInstanceOf(CrudEvent::class, $event);
-        $this->assertInstanceOf(BeforeUpdateEvent::class, $event);
+        $this->assertSame($entity, $event->getEntity());
+        $this->assertSame($config, $event->getConfig());
     }
 
     #[Test]
     public function itCreatesAfterUpdateEvent(): void
     {
-        $event = new AfterUpdateEvent(new \stdClass(), CrudConfig::make());
+        $entity = new \stdClass();
+        $config = CrudConfig::make();
+        $event = new AfterUpdateEvent($entity, $config);
 
-        $this->assertInstanceOf(CrudEvent::class, $event);
-        $this->assertInstanceOf(AfterUpdateEvent::class, $event);
+        $this->assertSame($entity, $event->getEntity());
+        $this->assertSame($config, $event->getConfig());
     }
 
     #[Test]
     public function itCreatesBeforeDeleteEvent(): void
     {
-        $event = new BeforeDeleteEvent(new \stdClass(), CrudConfig::make());
+        $entity = new \stdClass();
+        $config = CrudConfig::make();
+        $event = new BeforeDeleteEvent($entity, $config);
 
-        $this->assertInstanceOf(CrudEvent::class, $event);
-        $this->assertInstanceOf(BeforeDeleteEvent::class, $event);
+        $this->assertSame($entity, $event->getEntity());
+        $this->assertSame($config, $event->getConfig());
     }
 
     #[Test]
     public function itCreatesAfterDeleteEvent(): void
     {
-        $event = new AfterDeleteEvent(new \stdClass(), CrudConfig::make());
+        $entity = new \stdClass();
+        $config = CrudConfig::make();
+        $event = new AfterDeleteEvent($entity, $config);
 
-        $this->assertInstanceOf(CrudEvent::class, $event);
-        $this->assertInstanceOf(AfterDeleteEvent::class, $event);
+        $this->assertSame($entity, $event->getEntity());
+        $this->assertSame($config, $event->getConfig());
     }
 
     #[Test]

@@ -16,7 +16,7 @@ final class DataTableTest extends TestCase
     {
         $table = DataTable::make();
 
-        $this->assertInstanceOf(DataTable::class, $table);
+        $this->assertTrue($table->isSortable());
     }
 
     #[Test]

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Devgeek\BeaconAdmin\Tests\Unit\Crud;
 
 use Devgeek\BeaconAdmin\Crud\CrudConfig;
+use Devgeek\BeaconAdmin\Tests\Fixtures\TestApp\Entity\TestEntity;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
@@ -15,7 +16,7 @@ final class CrudConfigTest extends TestCase
     {
         $config = CrudConfig::make();
 
-        $this->assertInstanceOf(CrudConfig::class, $config);
+        $this->assertSame(25, $config->getPageSize());
     }
 
     #[Test]
@@ -29,9 +30,9 @@ final class CrudConfigTest extends TestCase
     #[Test]
     public function itSetsEntityClass(): void
     {
-        $config = CrudConfig::make()->entityClass('App\Entity\User');
+        $config = CrudConfig::make()->entityClass(TestEntity::class);
 
-        $this->assertSame('App\Entity\User', $config->getEntityClass());
+        $this->assertSame(TestEntity::class, $config->getEntityClass());
     }
 
     #[Test]
@@ -70,13 +71,13 @@ final class CrudConfigTest extends TestCase
     public function itChainsAllSetters(): void
     {
         $config = CrudConfig::make()
-            ->entityClass('App\Entity\User')
+            ->entityClass(TestEntity::class)
             ->fields(['id', 'name'])
             ->sortableFields(['name'])
             ->searchableFields(['name'])
             ->pageSize(50);
 
-        $this->assertSame('App\Entity\User', $config->getEntityClass());
+        $this->assertSame(TestEntity::class, $config->getEntityClass());
         $this->assertSame(['id', 'name'], $config->getFields());
         $this->assertSame(['name'], $config->getSortableFields());
         $this->assertSame(['name'], $config->getSearchableFields());

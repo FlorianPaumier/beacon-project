@@ -15,7 +15,7 @@ final class FieldTest extends TestCase
     {
         $field = $this->createField('test_name');
 
-        $this->assertInstanceOf(Field::class, $field);
+        $this->assertFalse($field->isRequired());
     }
 
     #[Test]

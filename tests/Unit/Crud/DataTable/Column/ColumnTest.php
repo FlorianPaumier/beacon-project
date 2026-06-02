@@ -15,7 +15,7 @@ final class ColumnTest extends TestCase
     {
         $column = $this->createColumn('test_name');
 
-        $this->assertInstanceOf(Column::class, $column);
+        $this->assertFalse($column->isSortable());
     }
 
     #[Test]

@@ -16,7 +16,7 @@ final class AssociationFieldTest extends TestCase
     {
         $field = AssociationField::make('category');
 
-        $this->assertInstanceOf(AssociationField::class, $field);
+        $this->assertSame('category', $field->getName());
     }
 
     #[Test]

@@ -15,7 +15,7 @@ final class DateTimeTest extends TestCase
     {
         $input = DateTime::make();
 
-        $this->assertInstanceOf(DateTime::class, $input);
+        $this->assertNull($input->getLabel());
     }
 
     #[Test]

@@ -15,7 +15,7 @@ final class ToggleTest extends TestCase
     {
         $toggle = Toggle::make();
 
-        $this->assertInstanceOf(Toggle::class, $toggle);
+        $this->assertNotNull($toggle);
     }
 
     #[Test]

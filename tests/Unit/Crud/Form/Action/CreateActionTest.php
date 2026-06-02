@@ -42,7 +42,7 @@ final class CreateActionTest extends TestCase
     {
         $action = $this->createAction();
 
-        $this->assertInstanceOf(CreateAction::class, $action);
+        $this->assertStringContainsString('CreateAction', get_class($action));
     }
 
     #[Test]

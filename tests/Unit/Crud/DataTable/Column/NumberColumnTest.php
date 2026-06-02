@@ -15,7 +15,7 @@ final class NumberColumnTest extends TestCase
     {
         $column = NumberColumn::make('price');
 
-        $this->assertInstanceOf(NumberColumn::class, $column);
+        $this->assertSame(0, $column->getDecimals());
     }
 
     #[Test]

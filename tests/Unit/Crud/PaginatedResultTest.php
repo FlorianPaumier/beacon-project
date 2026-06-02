@@ -14,7 +14,7 @@ final class PaginatedResultTest extends TestCase
     public function itCreatesWithAllProperties(): void
     {
         $result = new PaginatedResult(
-            items: ['a', 'b'],
+            items: [new \stdClass(), new \stdClass()],
             currentPage: 2,
             itemsPerPage: 10,
             totalItems: 45,
@@ -26,7 +26,7 @@ final class PaginatedResultTest extends TestCase
             hasPreviousPage: true,
         );
 
-        $this->assertSame(['a', 'b'], $result->items);
+        $this->assertCount(2, $result->items);
         $this->assertSame(2, $result->currentPage);
         $this->assertSame(10, $result->itemsPerPage);
         $this->assertSame(45, $result->totalItems);

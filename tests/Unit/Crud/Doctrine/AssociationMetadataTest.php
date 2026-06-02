@@ -15,7 +15,7 @@ final class AssociationMetadataTest extends TestCase
     {
         $assoc = AssociationMetadata::make();
 
-        $this->assertInstanceOf(AssociationMetadata::class, $assoc);
+        $this->assertTrue($assoc->getIsOwningSide());
     }
 
     #[Test]

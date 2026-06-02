@@ -33,19 +33,19 @@ class CrudConfig
 
     protected string $entityLabelPlural = '';
 
-    protected ?string $repositoryMethod = null;
+    protected ?\Closure $repositoryMethod = null;
 
     /** @var array<\Closure(QueryBuilder): void> */
     protected array $queryModifiers = [];
 
-    public function repositoryMethod(?string $method): self
+    public function repositoryMethod(?\Closure $callback): self
     {
-        $this->repositoryMethod = $method;
+        $this->repositoryMethod = $callback;
 
         return $this;
     }
 
-    public function getRepositoryMethod(): ?string
+    public function getRepositoryMethod(): ?\Closure
     {
         return $this->repositoryMethod;
     }

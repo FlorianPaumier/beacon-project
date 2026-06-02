@@ -16,7 +16,7 @@ final class NumberFieldTest extends TestCase
     {
         $field = NumberField::make('price');
 
-        $this->assertInstanceOf(NumberField::class, $field);
+        $this->assertSame('price', $field->getName());
     }
 
     #[Test]

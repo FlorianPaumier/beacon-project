@@ -15,7 +15,7 @@ final class FieldMetadataTest extends TestCase
     {
         $field = FieldMetadata::make();
 
-        $this->assertInstanceOf(FieldMetadata::class, $field);
+        $this->assertFalse($field->isNullable());
     }
 
     #[Test]

@@ -15,7 +15,7 @@ final class TextareaTest extends TestCase
     {
         $input = Textarea::make();
 
-        $this->assertInstanceOf(Textarea::class, $input);
+        $this->assertNotNull($input);
     }
 
     #[Test]

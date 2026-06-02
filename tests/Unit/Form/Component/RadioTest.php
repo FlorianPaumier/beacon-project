@@ -15,7 +15,7 @@ final class RadioTest extends TestCase
     {
         $input = Radio::make();
 
-        $this->assertInstanceOf(Radio::class, $input);
+        $this->assertNotNull($input);
     }
 
     #[Test]

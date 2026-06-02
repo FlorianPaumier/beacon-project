@@ -15,7 +15,7 @@ final class SelectTest extends TestCase
     {
         $select = Select::make();
 
-        $this->assertInstanceOf(Select::class, $select);
+        $this->assertNotNull($select);
     }
 
     #[Test]

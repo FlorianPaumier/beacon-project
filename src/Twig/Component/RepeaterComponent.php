@@ -19,6 +19,7 @@ class RepeaterComponent
     #[LiveProp]
     public ?string $label = null;
 
+    /** @var list<array<string, mixed>> */
     #[LiveProp(writable: true)]
     public array $items = [];
 

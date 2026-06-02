@@ -166,7 +166,6 @@ final class DataTableServiceTest extends TestCase
 
         $result = $service->process($qb, $request, $config);
 
-        $this->assertInstanceOf(DataTableResult::class, $result);
         $this->assertSame(2, $result->getPage());
         $this->assertSame(25, $result->getPerPage());
         $this->assertSame('test', $result->getSearch());

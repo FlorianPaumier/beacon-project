@@ -15,7 +15,7 @@ final class UrlTest extends TestCase
     {
         $input = Url::make();
 
-        $this->assertInstanceOf(Url::class, $input);
+        $this->assertNotNull($input);
     }
 
     #[Test]

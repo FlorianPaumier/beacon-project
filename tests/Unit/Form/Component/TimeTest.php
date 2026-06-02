@@ -15,7 +15,7 @@ final class TimeTest extends TestCase
     {
         $input = Time::make();
 
-        $this->assertInstanceOf(Time::class, $input);
+        $this->assertNotNull($input);
     }
 
     #[Test]

@@ -6,7 +6,7 @@ namespace Devgeek\BeaconAdmin\Form\Component;
 
 use Devgeek\BeaconAdmin\Support\Component;
 
-class FormBuilder
+final class FormBuilder
 {
     /** @var array<Component> */
     protected array $components = [];

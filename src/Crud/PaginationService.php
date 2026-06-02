@@ -38,12 +38,18 @@ final readonly class PaginationService
         );
     }
 
+    /**
+     * @param array<string, array{operator?: string, type?: string, field?: string}> $allowedFilters
+     * @param array<string, array{default?: string}>                                  $allowedSorts
+     */
     public function paginate(
         QueryBuilder $queryBuilder,
         Request $request,
         int $defaultLimit = self::DEFAULT_LIMIT,
         int $maxLimit = self::MAX_LIMIT,
+        /** @var array<string, array{operator?: string, type?: string, field?: string}> */
         array $allowedFilters = [],
+        /** @var array<string, array{default?: string}> */
         array $allowedSorts = [],
         ?callable $mapper = null,
     ): PaginatedResult {
@@ -106,6 +112,9 @@ final readonly class PaginationService
         );
     }
 
+    /**
+     * @param array<string, array{operator?: string, type?: string, field?: string}> $allowedFilters
+     */
     private function applyFilters(QueryBuilder $queryBuilder, Request $request, array $allowedFilters, string $search): QueryBuilder
     {
         if ($allowedFilters === [] && $search === '') {
@@ -149,6 +158,11 @@ final readonly class PaginationService
         return $queryBuilder;
     }
 
+    /**
+     * @param array<string, array{operator?: string, type?: string, field?: string}> $allowedFilters
+     *
+     * @return array<string, mixed>
+     */
     private function extractFilters(Request $request, array $allowedFilters): array
     {
         $filterKeys = array_keys($allowedFilters);
@@ -254,6 +268,9 @@ final readonly class PaginationService
         return $queryBuilder;
     }
 
+    /**
+     * @param array<string, array{default?: string}> $allowedSorts
+     */
     private function applySorting(QueryBuilder $queryBuilder, Request $request, array $allowedSorts, string $sortField, string $sortDir): QueryBuilder
     {
         if ($allowedSorts === []) {

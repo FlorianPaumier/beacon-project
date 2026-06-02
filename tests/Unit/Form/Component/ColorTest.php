@@ -15,7 +15,7 @@ final class ColorTest extends TestCase
     {
         $input = Color::make();
 
-        $this->assertInstanceOf(Color::class, $input);
+        $this->assertNull($input->getLabel());
     }
 
     #[Test]

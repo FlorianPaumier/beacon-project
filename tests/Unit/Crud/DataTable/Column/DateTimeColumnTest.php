@@ -15,7 +15,6 @@ final class DateTimeColumnTest extends TestCase
     {
         $column = DateTimeColumn::make('created_at');
 
-        $this->assertInstanceOf(DateTimeColumn::class, $column);
         $this->assertSame('created_at', $column->getName());
     }
 

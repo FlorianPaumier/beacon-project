@@ -16,7 +16,7 @@ final class FieldsetTest extends TestCase
     {
         $fieldset = Fieldset::make();
 
-        $this->assertInstanceOf(Fieldset::class, $fieldset);
+        $this->assertNull($fieldset->getLabel());
     }
 
     #[Test]

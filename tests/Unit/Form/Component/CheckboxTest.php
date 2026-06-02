@@ -15,7 +15,7 @@ final class CheckboxTest extends TestCase
     {
         $checkbox = Checkbox::make();
 
-        $this->assertInstanceOf(Checkbox::class, $checkbox);
+        $this->assertNull($checkbox->getLabel());
     }
 
     #[Test]

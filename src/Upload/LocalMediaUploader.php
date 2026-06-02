@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Devgeek\BeaconAdmin\Upload;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Uid\Uuid;
 
 class LocalMediaUploader implements MediaUploaderInterface
@@ -16,7 +15,6 @@ class LocalMediaUploader implements MediaUploaderInterface
         private readonly string $publicPath,
         private readonly array $allowedMimeTypes,
         private readonly int $maxSize,
-        private readonly SluggerInterface $slugger,
     ) {
     }
 

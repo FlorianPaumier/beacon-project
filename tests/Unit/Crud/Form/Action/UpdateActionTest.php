@@ -41,7 +41,7 @@ final class UpdateActionTest extends TestCase
     {
         $action = $this->createAction();
 
-        $this->assertInstanceOf(UpdateAction::class, $action);
+        $this->assertStringContainsString('UpdateAction', get_class($action));
     }
 
     #[Test]

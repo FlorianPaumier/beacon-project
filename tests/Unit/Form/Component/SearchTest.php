@@ -15,7 +15,7 @@ final class SearchTest extends TestCase
     {
         $input = Search::make();
 
-        $this->assertInstanceOf(Search::class, $input);
+        $this->assertNotNull($input);
     }
 
     #[Test]

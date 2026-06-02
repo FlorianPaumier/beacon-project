@@ -15,7 +15,6 @@ final class ActionsColumnTest extends TestCase
     {
         $column = ActionsColumn::make();
 
-        $this->assertInstanceOf(ActionsColumn::class, $column);
         $this->assertSame('__actions', $column->getName());
         $this->assertSame('Actions', $column->getLabel());
     }

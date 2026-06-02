@@ -31,6 +31,10 @@ final class FormBuilderTest extends TestCase
         return FieldMetadata::make()->name($name)->type($type)->nullable($nullable);
     }
 
+    /**
+     * @param array<FieldMetadata> $fields
+     * @param array<AssociationMetadata> $associations
+     */
     private function createIntrospectorMock(array $fields, array $associations): EntityIntrospector
     {
         $entityMetadata = $this->createMock(EntityMetadata::class);
@@ -64,7 +68,7 @@ final class FormBuilderTest extends TestCase
             $this->createMock(EntityIntrospector::class),
         );
 
-        $this->assertInstanceOf(FormBuilder::class, $formBuilder);
+        $this->assertStringContainsString('FormBuilder', get_class($formBuilder));
     }
 
     #[Test]
@@ -176,6 +180,7 @@ final class FormBuilderTest extends TestCase
                 match ($matcher->numberOfInvocations()) {
                     1 => $this->assertSame('name', $name),
                     2 => $this->assertSame('category', $name),
+                    default => $this->fail('Unexpected invocation count'),
                 };
 
                 return $innerBuilder;

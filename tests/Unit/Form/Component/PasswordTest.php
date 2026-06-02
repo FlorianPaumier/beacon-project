@@ -15,7 +15,7 @@ final class PasswordTest extends TestCase
     {
         $input = Password::make();
 
-        $this->assertInstanceOf(Password::class, $input);
+        $this->assertNotNull($input);
     }
 
     #[Test]

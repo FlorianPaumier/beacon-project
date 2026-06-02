@@ -50,7 +50,7 @@ final class DeleteActionTest extends TestCase
     {
         $action = $this->createAction();
 
-        $this->assertInstanceOf(DeleteAction::class, $action);
+        $this->assertStringContainsString('DeleteAction', get_class($action));
     }
 
     #[Test]

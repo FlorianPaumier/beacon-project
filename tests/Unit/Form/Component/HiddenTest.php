@@ -15,7 +15,7 @@ final class HiddenTest extends TestCase
     {
         $input = Hidden::make();
 
-        $this->assertInstanceOf(Hidden::class, $input);
+        $this->assertNotNull($input);
     }
 
     #[Test]

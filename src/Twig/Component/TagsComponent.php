@@ -19,6 +19,7 @@ class TagsComponent
     #[LiveProp]
     public ?string $label = null;
 
+    /** @var string[] */
     #[LiveProp(writable: true)]
     public array $value = [];
 

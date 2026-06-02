@@ -16,7 +16,7 @@ final class TextFieldTest extends TestCase
     {
         $field = TextField::make('name');
 
-        $this->assertInstanceOf(TextField::class, $field);
+        $this->assertSame('name', $field->getName());
     }
 
     #[Test]

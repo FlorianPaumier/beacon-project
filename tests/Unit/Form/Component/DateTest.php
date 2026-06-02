@@ -15,7 +15,7 @@ final class DateTest extends TestCase
     {
         $input = Date::make();
 
-        $this->assertInstanceOf(Date::class, $input);
+        $this->assertNull($input->getLabel());
     }
 
     #[Test]

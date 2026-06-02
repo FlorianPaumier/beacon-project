@@ -16,7 +16,7 @@ final class TimeFieldTest extends TestCase
     {
         $field = TimeField::make('start_time');
 
-        $this->assertInstanceOf(TimeField::class, $field);
+        $this->assertSame('start_time', $field->getName());
     }
 
     #[Test]

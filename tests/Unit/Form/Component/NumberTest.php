@@ -15,7 +15,7 @@ final class NumberTest extends TestCase
     {
         $input = Number::make();
 
-        $this->assertInstanceOf(Number::class, $input);
+        $this->assertNotNull($input);
     }
 
     #[Test]

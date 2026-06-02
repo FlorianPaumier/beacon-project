@@ -45,6 +45,6 @@ final class FormRendererTest extends TestCase
         $twig = $this->createMock(Environment::class);
         $renderer = new FormRenderer($twig);
 
-        $this->assertInstanceOf(FormRenderer::class, $renderer);
+        $this->assertStringContainsString('FormRenderer', get_class($renderer));
     }
 }

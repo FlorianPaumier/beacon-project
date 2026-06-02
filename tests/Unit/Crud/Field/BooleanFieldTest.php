@@ -16,7 +16,7 @@ final class BooleanFieldTest extends TestCase
     {
         $field = BooleanField::make('is_active');
 
-        $this->assertInstanceOf(BooleanField::class, $field);
+        $this->assertSame('is_active', $field->getName());
     }
 
     #[Test]

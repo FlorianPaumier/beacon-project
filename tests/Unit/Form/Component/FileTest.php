@@ -15,7 +15,7 @@ final class FileTest extends TestCase
     {
         $input = File::make();
 
-        $this->assertInstanceOf(File::class, $input);
+        $this->assertNull($input->getLabel());
     }
 
     #[Test]

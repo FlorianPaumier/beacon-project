@@ -56,7 +56,6 @@ final class PaginationServiceTest extends TestCase
 
         $result = $service->paginate($qb, $request);
 
-        $this->assertInstanceOf(PaginatedResult::class, $result);
         $this->assertSame(1, $result->currentPage);
         $this->assertSame(25, $result->itemsPerPage);
         $this->assertSame(0, $result->totalItems);
@@ -126,7 +125,6 @@ final class PaginationServiceTest extends TestCase
             allowedFilters: ['name' => ['operator' => 'like']],
         );
 
-        $this->assertInstanceOf(PaginatedResult::class, $result);
         $this->assertStringContainsString('LIKE', $qb->getDQL());
     }
 
@@ -143,7 +141,6 @@ final class PaginationServiceTest extends TestCase
             allowedSorts: ['name' => []],
         );
 
-        $this->assertInstanceOf(PaginatedResult::class, $result);
         $this->assertStringContainsString('ORDER BY', $qb->getDQL());
     }
 
@@ -193,7 +190,7 @@ final class PaginationServiceTest extends TestCase
             mapper: static fn (object $item) => 'mapped',
         );
 
-        $this->assertInstanceOf(PaginatedResult::class, $result);
+        $this->assertIsArray($result->items);
     }
 
     #[Test]
@@ -339,7 +336,6 @@ final class PaginationServiceTest extends TestCase
 
         $result = $service->paginate($qb, $request);
 
-        $this->assertInstanceOf(PaginatedResult::class, $result);
         $this->assertSame(0, $result->totalItems);
     }
 
@@ -371,7 +367,6 @@ final class PaginationServiceTest extends TestCase
 
         $result = $service->paginateFromConfig($qb, $request, $config);
 
-        $this->assertInstanceOf(PaginatedResult::class, $result);
         $this->assertSame(15, $result->itemsPerPage);
         $this->assertSame('name', $result->sortField);
         $this->assertSame('asc', $result->sortDir);

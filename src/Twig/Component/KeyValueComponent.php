@@ -19,6 +19,7 @@ class KeyValueComponent
     #[LiveProp]
     public ?string $label = null;
 
+    /** @var array<string, string> */
     #[LiveProp(writable: true)]
     public array $value = [];
 

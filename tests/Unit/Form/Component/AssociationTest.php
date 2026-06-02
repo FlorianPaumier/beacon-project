@@ -15,7 +15,7 @@ final class AssociationTest extends TestCase
     {
         $input = Association::make();
 
-        $this->assertInstanceOf(Association::class, $input);
+        $this->assertNull($input->getLabel());
     }
 
     #[Test]

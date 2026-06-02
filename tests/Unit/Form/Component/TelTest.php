@@ -15,7 +15,7 @@ final class TelTest extends TestCase
     {
         $input = Tel::make();
 
-        $this->assertInstanceOf(Tel::class, $input);
+        $this->assertNotNull($input);
     }
 
     #[Test]

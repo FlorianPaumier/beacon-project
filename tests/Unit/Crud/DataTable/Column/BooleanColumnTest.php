@@ -15,7 +15,6 @@ final class BooleanColumnTest extends TestCase
     {
         $column = BooleanColumn::make('is_active');
 
-        $this->assertInstanceOf(BooleanColumn::class, $column);
         $this->assertSame('is_active', $column->getName());
     }
 

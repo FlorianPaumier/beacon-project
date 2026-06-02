@@ -15,7 +15,7 @@ final class EmailTest extends TestCase
     {
         $input = Email::make();
 
-        $this->assertInstanceOf(Email::class, $input);
+        $this->assertNull($input->getLabel());
     }
 
     #[Test]

@@ -16,7 +16,7 @@ final class DateTimeFieldTest extends TestCase
     {
         $field = DateTimeField::make('created_at');
 
-        $this->assertInstanceOf(DateTimeField::class, $field);
+        $this->assertSame('created_at', $field->getName());
     }
 
     #[Test]

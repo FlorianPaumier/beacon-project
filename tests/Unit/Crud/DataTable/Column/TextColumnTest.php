@@ -15,7 +15,7 @@ final class TextColumnTest extends TestCase
     {
         $column = TextColumn::make('name');
 
-        $this->assertInstanceOf(TextColumn::class, $column);
+        $this->assertNull($column->getLimit());
     }
 
     #[Test]

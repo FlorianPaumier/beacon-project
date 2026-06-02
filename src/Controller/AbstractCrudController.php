@@ -65,8 +65,8 @@ abstract class AbstractCrudController extends AbstractController
     {
         $config = $this->getCrudConfig();
         $repository = $this->entityManager->getRepository($this->getEntityClass());
-        $method = $config->getRepositoryMethod();
-        $queryBuilder = $method !== null ? $repository->$method() : $repository->createQueryBuilder('e');
+        $callback = $config->getRepositoryMethod();
+        $queryBuilder = $callback !== null ? $callback($repository) : $repository->createQueryBuilder('e');
         $config->applyQueryModifiers($queryBuilder);
 
         $result = $this->paginationService->paginateFromConfig($queryBuilder, $request, $config);

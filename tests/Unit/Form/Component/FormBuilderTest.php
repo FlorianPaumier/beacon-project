@@ -37,7 +37,7 @@ final class FormBuilderTest extends TestCase
     #[Test]
     public function itCreatesViaMake(): void
     {
-        $this->assertInstanceOf(FormBuilder::class, FormBuilder::make());
+        $this->assertEmpty(FormBuilder::make()->all());
     }
 
     #[Test]
