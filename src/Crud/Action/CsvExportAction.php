@@ -13,9 +13,11 @@ final readonly class CsvExportAction
         return new static();
     }
 
-    /** @param iterable<object> $entities */
-    /** @param string[] $fields */
-    /** @param string[]|null $headers */
+    /**
+     * @param iterable<object> $entities
+     * @param string[]         $fields
+     * @param string[]|null    $headers
+     */
     public function export(iterable $entities, array $fields, string $filename, ?array $headers = null): Response
     {
         $response = new \Symfony\Component\HttpFoundation\StreamedResponse(function () use ($entities, $fields, $headers) {
@@ -105,18 +107,22 @@ final readonly class CsvExportAction
         $hasser = 'has'.ucfirst($field);
 
         if (method_exists($entity, $getter)) {
+            // @phpstan-ignore method.dynamicName
             return $entity->{$getter}();
         }
 
         if (method_exists($entity, $isser)) {
+            // @phpstan-ignore method.dynamicName
             return $entity->{$isser}();
         }
 
         if (method_exists($entity, $hasser)) {
+            // @phpstan-ignore method.dynamicName
             return $entity->{$hasser}();
         }
 
         if (method_exists($entity, $field)) {
+            // @phpstan-ignore method.dynamicName
             return $entity->{$field}();
         }
 

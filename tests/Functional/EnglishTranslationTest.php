@@ -20,7 +20,7 @@ final class EnglishTranslationTest extends BeaconWebTestCase
 
         $this->assertResponseIsSuccessful();
 
-        $content = $client->getResponse()->getContent() ?? '';
+        $content = (string) $client->getResponse()->getContent();
         $this->assertStringContainsString('Welcome back', $content);
     }
 
@@ -31,7 +31,7 @@ final class EnglishTranslationTest extends BeaconWebTestCase
 
         $this->assertResponseIsSuccessful();
 
-        $content = $client->getResponse()->getContent() ?? '';
+        $content = (string) $client->getResponse()->getContent();
         $this->assertStringContainsString('No widgets configured.', $content);
     }
 

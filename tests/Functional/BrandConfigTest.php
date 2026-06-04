@@ -19,7 +19,7 @@ final class BrandConfigTest extends BeaconWebTestCase
         $crawler = $client->request('GET', '/admin');
 
         $this->assertResponseIsSuccessful();
-        $this->assertStringContainsString('My Custom App', $client->getResponse()->getContent() ?? '');
+        $this->assertStringContainsString('My Custom App', (string) $client->getResponse()->getContent());
     }
 
     public function testBrandNameIsRenderedInSidebar(): void
@@ -38,7 +38,7 @@ final class BrandConfigTest extends BeaconWebTestCase
 
         $this->assertResponseIsSuccessful();
 
-        $content = $client->getResponse()->getContent() ?? '';
+        $content = (string) $client->getResponse()->getContent();
         $this->assertStringContainsString('--beacon-brand-primary: #ff5722', $content);
     }
 
@@ -49,7 +49,7 @@ final class BrandConfigTest extends BeaconWebTestCase
 
         $this->assertResponseIsSuccessful();
 
-        $content = $client->getResponse()->getContent() ?? '';
+        $content = (string) $client->getResponse()->getContent();
         $this->assertStringContainsString('--beacon-brand-accent: #03a9f4', $content);
     }
 
@@ -60,7 +60,7 @@ final class BrandConfigTest extends BeaconWebTestCase
 
         $this->assertResponseIsSuccessful();
 
-        $content = $client->getResponse()->getContent() ?? '';
+        $content = (string) $client->getResponse()->getContent();
         $this->assertMatchesRegularExpression(
             '#<style>.*--beacon-brand-primary:.*</style>#s',
             $content,
