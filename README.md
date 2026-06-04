@@ -1,5 +1,8 @@
 # Beacon Admin
 
+[![Latest Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/devgeek/beacon-admin/releases)
+[![Stable](https://img.shields.io/badge/stability-stable-green.svg)](https://github.com/devgeek/beacon-admin/releases)
+
 A lightweight, modern admin dashboard bundle for Symfony applications.
 
 ## Features
@@ -79,6 +82,7 @@ See the `docs/` directory:
 - [CRUD Engine Guide](docs/crud.md)
 - [Widget Development](docs/widgets.md)
 - [Theming Guide](docs/theming.md)
+- [Changelog](CHANGELOG.md)
 
 ## Requirements
 
