@@ -1,9 +1,0 @@
-beacon_admin:
-    route_prefix: /admin
-    title: 'Beacon Demo'
-    menu:
-        - { label: Dashboard, route: beacon_admin_dashboard, icon: home }
-        - { label: Products, route: beacon_admin_demo_product_list, icon: box }
-        - { label: Categories, route: beacon_admin_demo_category_list, icon: folder }
-        - { label: Users, route: beacon_admin_demo_user_list, icon: users }
-    default_theme: modern

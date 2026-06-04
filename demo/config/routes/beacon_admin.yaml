@@ -1,2 +1,0 @@
-beacon_admin:
-    resource: '@BeaconAdminBundle/config/routes/beacon_admin.yaml'
