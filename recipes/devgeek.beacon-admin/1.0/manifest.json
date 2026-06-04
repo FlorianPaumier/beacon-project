@@ -1,0 +1,11 @@
+{
+    "bundles": {
+        "Devgeek\\BeaconAdmin\\BeaconAdminBundle": ["all"]
+    },
+    "copy-from-recipe": {
+        "config/": "%CONFIG_DIR%/"
+    },
+    "aliases": {
+        "beacon_admin": "beacon_admin"
+    }
+}
