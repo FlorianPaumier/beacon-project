@@ -2,6 +2,14 @@
 
 All notable changes to Beacon Admin are documented in this file.
 
+## [1.1.0] — 2026-06-04
+
+### Added
+- Symfony Flex recipe — auto-creates `config/packages/beacon_admin.yaml` and `config/routes/beacon_admin.yaml` on install
+
+### Fixed
+- Release workflow: missing `GH_TOKEN` caused `gh release create` to fail on tag push
+
 ## [1.0.0] — 2026-06-04
 
 ### First Stable Release
