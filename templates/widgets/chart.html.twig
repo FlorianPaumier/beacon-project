@@ -1,0 +1,12 @@
+<div class="beacon-chart-widget">
+    <canvas id="beacon-chart-{{ name }}"></canvas>
+</div>
+<script nonce="{{ csp_nonce('script') }}">
+(function() {
+    var canvas = document.getElementById('beacon-chart-{{ name }}');
+    if (!canvas || typeof Chart === 'undefined') {
+        return;
+    }
+    new Chart(canvas.getContext('2d'), {{ chartConfig|raw }});
+})();
+</script>

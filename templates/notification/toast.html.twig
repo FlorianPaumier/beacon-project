@@ -1,0 +1,22 @@
+<div class="beacon-toast beacon-toast--{{ notification.type.value }}"
+     role="alert">
+    <span class="beacon-toast-icon">
+        {% if notification.type.value == 'success' %}✓
+        {% elseif notification.type.value == 'error' %}✗
+        {% elseif notification.type.value == 'warning' %}⚠
+        {% else %}ℹ{% endif %}
+    </span>
+
+    <div class="beacon-toast-content">
+        <span class="beacon-toast-message">{{ notification.message }}</span>
+        {% if notification.actionLabel and notification.actionUrl %}
+            <a class="beacon-toast-action"
+               href="{{ notification.actionUrl }}">{{ notification.actionLabel }}</a>
+        {% endif %}
+    </div>
+
+    <button class="beacon-toast-close"
+            type="button"
+            aria-label="Close"
+            data-action="@beacon-admin/notification#dismiss">&times;</button>
+</div>

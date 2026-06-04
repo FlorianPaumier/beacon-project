@@ -1,0 +1,23 @@
+{% set trail = beacon_admin_breadcrumbs() %}
+{% if trail is not empty %}
+    <nav aria-label="{{ 'beacon_admin.nav.breadcrumb'|trans({}, 'beacon_admin') }}" class="beacon-breadcrumbs-nav mb-4">
+        <ol class="beacon-breadcrumbs flex flex-wrap items-center gap-1 text-sm text-gray-500">
+            {% for item in trail %}
+                <li class="beacon-breadcrumb-item flex items-center gap-1
+                           {{ loop.last ? 'beacon-breadcrumb-item--current text-gray-900 font-medium' : '' }}">
+                    {% if loop.last or item.url is null %}
+                        <span aria-current="page">{{ item.label }}</span>
+                    {% else %}
+                        <a href="{{ item.url }}"
+                           class="beacon-breadcrumb-link hover:text-gray-700 hover:underline">
+                            {{ item.label }}
+                        </a>
+                    {% endif %}
+                    {% if not loop.last %}
+                        <span class="beacon-breadcrumb-separator text-gray-300" aria-hidden="true">/</span>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ol>
+    </nav>
+{% endif %}

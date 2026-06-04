@@ -1,0 +1,35 @@
+{% extends '@BeaconAdmin/base.html.twig' %}
+
+{% block page_title %}{{ 'Notifications'|trans({}, 'beacon_admin') }}{% endblock %}
+
+{% block content %}
+<div class="beacon-card">
+    <div class="beacon-notification-inbox">
+        <h2 class="beacon-notification-inbox__title">Notifications</h2>
+
+        {% if notifications is empty %}
+            <div class="beacon-empty-state">
+                <p>No notifications.</p>
+            </div>
+        {% else %}
+            <ul class="beacon-notification-inbox__list">
+                {% for notification in notifications %}
+                    <li class="beacon-notification-inbox__item beacon-notification-inbox__item--{{ notification.type.value }}">
+                        <span class="beacon-notification-inbox__icon">
+                            {% if notification.type.value == 'success' %}&#x2713;{% elseif notification.type.value == 'error' %}&#x2717;{% elseif notification.type.value == 'warning' %}&#x26A0;{% else %}&#x2139;{% endif %}
+                        </span>
+                        <div class="beacon-notification-inbox__body">
+                            <p class="beacon-notification-inbox__message">{{ notification.message }}</p>
+                        </div>
+                        {% if notification.actionUrl %}
+                            <a href="{{ notification.actionUrl }}" class="beacon-btn beacon-btn--small beacon-notification-inbox__action">
+                                {{ notification.actionLabel|default('View') }}
+                            </a>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
