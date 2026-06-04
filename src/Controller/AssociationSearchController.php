@@ -30,6 +30,15 @@ class AssociationSearchController extends AbstractController
             return $this->json(['results' => []]);
         }
 
+        if ($field !== '' && !preg_match('/^[a-zA-Z_][a-zA-Z0-9_]*$/', $field)) {
+            return $this->json(['results' => []]);
+        }
+
+        $metadata = $this->em->getClassMetadata($entityClass);
+        if ($field !== '' && !in_array($field, $metadata->getFieldNames(), true)) {
+            return $this->json(['results' => []]);
+        }
+
         $repository = $this->em->getRepository($entityClass);
         $qb = $repository->createQueryBuilder('e');
 
