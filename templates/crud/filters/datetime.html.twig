@@ -1,0 +1,28 @@
+<div class="beacon-filter beacon-filter--date">
+    {% if filter.operator == 'between' %}
+        <div class="beacon-filter__date-range">
+            <input type="date"
+                   name="filter[{{ name }}][]"
+                   value="{{ currentValue[0]|default('') }}"
+                   id="filter-{{ name }}-from"
+                   placeholder="From"
+                   data-action="change->beacon--datatable#filterChange"
+                   class="beacon-filter__input beacon-filter__input--date">
+            <span class="beacon-filter__date-separator">→</span>
+            <input type="date"
+                   name="filter[{{ name }}][]"
+                   value="{{ currentValue[1]|default('') }}"
+                   id="filter-{{ name }}-to"
+                   placeholder="To"
+                   data-action="change->beacon--datatable#filterChange"
+                   class="beacon-filter__input beacon-filter__input--date">
+        </div>
+    {% else %}
+        <input type="date"
+               name="filter[{{ name }}]"
+               value="{{ currentValue|default('') }}"
+               id="filter-{{ name }}"
+               data-action="change->beacon--datatable#filterChange"
+               class="beacon-filter__input beacon-filter__input--date">
+    {% endif %}
+</div>

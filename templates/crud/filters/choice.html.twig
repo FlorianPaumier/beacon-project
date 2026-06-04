@@ -1,0 +1,11 @@
+<div class="beacon-filter beacon-filter--choice">
+    <select name="filter[{{ name }}]"
+            id="filter-{{ name }}"
+            class="beacon-filter__select"
+            data-action="change->beacon--datatable#filterChange">
+        <option value="">Any</option>
+        {% for value, label in filter.choices %}
+            <option value="{{ value }}" {% if currentValue == value %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+    </select>
+</div>

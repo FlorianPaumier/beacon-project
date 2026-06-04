@@ -1,0 +1,33 @@
+<dialog id="beacon-global-search-dialog" class="beacon-global-search-modal"
+        data-controller="@beacon-admin/global-search"
+        data-beacon--global-search-url-value="{{ searchUrl }}"
+        data-action="keydown->@beacon-admin/global-search#handleKeydown"
+        data-beacon--global-search-target="dialog">
+    <div class="beacon-global-search-modal__content">
+        <div class="beacon-global-search-modal__input-wrapper">
+            <span class="beacon-global-search-modal__icon">&#x1F50D;</span>
+            <input type="search"
+                   class="beacon-global-search-modal__input"
+                   data-beacon--global-search-target="input"
+                   data-action="input->@beacon-admin/global-search#performSearch"
+                   placeholder="Type to search..."
+                   autocomplete="off"
+                   autofocus>
+        </div>
+        <div class="beacon-global-search-modal__results"
+             data-beacon--global-search-target="results">
+        </div>
+        <template data-beacon--global-search-target="resultTemplate">
+            <a class="beacon-global-search-modal__result" href="">
+                <span class="beacon-global-search-modal__result-title"></span>
+                <span class="beacon-global-search-modal__result-description"></span>
+                <span class="beacon-global-search-modal__result-provider"></span>
+            </a>
+        </template>
+        <template data-beacon--global-search-target="emptyTemplate">
+            <div class="beacon-global-search-modal__empty">
+                No results found.
+            </div>
+        </template>
+    </div>
+</dialog>

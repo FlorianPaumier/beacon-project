@@ -1,0 +1,30 @@
+<div class="beacon-filter beacon-filter--boolean">
+    <div class="beacon-filter__group" role="group" aria-label="{{ name|replace({'_': ' '})|title }}">
+        <input type="radio"
+               name="filter[{{ name }}]"
+               value=""
+               id="filter-{{ name }}-any"
+               {% if currentValue is null or currentValue == '' %}checked{% endif %}
+               data-action="change->beacon--datatable#filterChange"
+               class="beacon-filter__radio beacon-filter__radio--any">
+        <label for="filter-{{ name }}-any" class="beacon-filter__btn">Any</label>
+
+        <input type="radio"
+               name="filter[{{ name }}]"
+               value="1"
+               id="filter-{{ name }}-yes"
+               {% if currentValue == '1' or currentValue == 1 or currentValue == true %}checked{% endif %}
+               data-action="change->beacon--datatable#filterChange"
+               class="beacon-filter__radio beacon-filter__radio--yes">
+        <label for="filter-{{ name }}-yes" class="beacon-filter__btn">Yes</label>
+
+        <input type="radio"
+               name="filter[{{ name }}]"
+               value="0"
+               id="filter-{{ name }}-no"
+               {% if currentValue == '0' or currentValue == 0 or currentValue === false %}checked{% endif %}
+               data-action="change->beacon--datatable#filterChange"
+               class="beacon-filter__radio beacon-filter__radio--no">
+        <label for="filter-{{ name }}-no" class="beacon-filter__btn">No</label>
+    </div>
+</div>
