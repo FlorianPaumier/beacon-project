@@ -20,7 +20,7 @@ final class TranslationDomainTest extends BeaconWebTestCase
 
         $this->assertResponseIsSuccessful();
 
-        $content = $client->getResponse()->getContent() ?? '';
+        $content = (string) $client->getResponse()->getContent();
         $this->assertStringContainsString('Tableau de bord', $content);
     }
 
@@ -31,7 +31,7 @@ final class TranslationDomainTest extends BeaconWebTestCase
 
         $this->assertResponseIsSuccessful();
 
-        $content = $client->getResponse()->getContent() ?? '';
+        $content = (string) $client->getResponse()->getContent();
         $this->assertStringContainsString('Bon retour', $content);
     }
 
@@ -42,7 +42,7 @@ final class TranslationDomainTest extends BeaconWebTestCase
 
         $this->assertResponseIsSuccessful();
 
-        $content = $client->getResponse()->getContent() ?? '';
+        $content = (string) $client->getResponse()->getContent();
         $this->assertStringContainsString('Aucun widget configuré.', $content);
     }
 

@@ -20,6 +20,9 @@ final class CloneRouteTest extends BeaconWebTestCase
         return TestKernel::class;
     }
 
+    /**
+     * @return array{0: \Symfony\Bundle\FrameworkBundle\KernelBrowser, 1: EntityManagerInterface}
+     */
     private function bootKernelWithSchema(): array
     {
         $client = static::createClient();

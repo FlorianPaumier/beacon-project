@@ -111,6 +111,9 @@ final class FilterTest extends BeaconWebTestCase
         $this->em->flush();
     }
 
+    /**
+     * @param array<string, mixed> $query
+     */
     private function listUrl(array $query = []): string
     {
         $base = '/admin/filter-test-posts/';
@@ -221,7 +224,9 @@ final class FilterTest extends BeaconWebTestCase
 
     private function countTableRows(string $content): int
     {
-        return preg_match_all('/<tr class="beacon-table__row">/', $content);
+        $count = preg_match_all('/<tr class="beacon-table__row">/', $content);
+
+        return $count !== false ? $count : 0;
     }
 
     public function testListPageRendersFilterWidgets(): void

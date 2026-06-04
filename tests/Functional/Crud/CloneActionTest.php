@@ -23,6 +23,9 @@ final class CloneActionTest extends BeaconWebTestCase
         return TestKernel::class;
     }
 
+    /**
+     * @return array{0: EntityManagerInterface, 1: EventDispatcherInterface}
+     */
     private function bootKernelWithSchema(): array
     {
         $client = static::createClient();
