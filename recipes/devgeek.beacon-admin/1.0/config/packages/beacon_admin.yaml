@@ -1,0 +1,45 @@
+beacon_admin:
+    # URL prefix for all admin routes (default: /admin)
+    route_prefix: /admin
+
+    # Title shown in the admin header and <title> tag
+    title: 'Beacon Admin'
+
+    # Default theme name — must be a key in "themes"
+    default_theme: modern
+
+    # Theme name → CSS file path mapping
+    themes:
+        modern: bundles/beaconadmin/beacon-modern.css
+        enterprise: bundles/beaconadmin/beacon-enterprise.css
+        brut: bundles/beaconadmin/beacon-brut.css
+
+    # Sidebar navigation
+    # menu:
+    #     - { label: Dashboard, route: beacon_admin_dashboard, icon: home }
+    #     - { label: Content, icon: file-text, children:
+    #         - { label: Articles, route: beacon_admin_crud_article }
+    #         - { label: Pages, route: beacon_admin_crud_page }
+    #       }
+    #     - { label: Users, route: beacon_admin_crud_user, icon: users, role: ROLE_SUPER_ADMIN }
+
+    # File upload configuration
+    upload:
+        target_directory: '%kernel.project_dir%/public/uploads'
+        public_path: /uploads
+        allowed_mime_types: [image/jpeg, image/png, image/gif, image/webp]
+        max_size: 10485760  # 10 MB
+
+    # Security
+    security:
+        role: ROLE_ADMIN
+        voters: true  # Enable BeaconAccessVoter for #[BeaconAccess] attribute checks
+
+    # Branding
+    brand:
+        name: 'Beacon Admin'
+        # logo_path: ~
+        # favicon_path: ~
+        primary_color: '#2563eb'
+        accent_color: '#0ea5e9'
+        # support_email: ~
