@@ -1,5 +1,7 @@
 # Theming Guide
 
+> **Docs:** [← Widgets](widgets.md) | Theming | [Getting Started](getting-started.md) | [Configuration](configuration.md) | [CRUD Guide](crud.md)
+
 ## CSS Custom Properties
 
 The entire theme is controlled through CSS custom properties prefixed with `--beacon-`:

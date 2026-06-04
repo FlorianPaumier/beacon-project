@@ -1,5 +1,7 @@
 # Widget Development Guide
 
+> **Docs:** [← CRUD Guide](crud.md) | Widgets | [Theming →](theming.md) | [Getting Started](getting-started.md) | [Configuration](configuration.md)
+
 ## Overview
 
 Widgets are self-contained dashboard components that display data on the admin dashboard. They implement `DashboardWidgetInterface` and are registered via YAML configuration or service tags.

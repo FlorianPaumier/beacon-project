@@ -1,5 +1,7 @@
 # Getting Started with Beacon Admin
 
+> **Docs:** Getting Started | [Configuration →](configuration.md) | [CRUD Guide](crud.md) | [Widgets](widgets.md) | [Theming](theming.md)
+
 ## Installing
 
 ```bash

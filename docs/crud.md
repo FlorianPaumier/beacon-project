@@ -1,5 +1,7 @@
 # CRUD Engine Guide
 
+> **Docs:** [← Configuration](configuration.md) | CRUD Guide | [Widgets →](widgets.md) | [Getting Started](getting-started.md) | [Theming](theming.md)
+
 ## Overview
 
 The CRUD engine provides automatic list, create, update, and delete views for Doctrine entities. Create a controller extending `AbstractCrudController` and configure it using the `CrudConfig` fluent API.

@@ -1,5 +1,7 @@
 # Configuration Reference
 
+> **Docs:** [← Getting Started](getting-started.md) | Configuration | [CRUD Guide →](crud.md) | [Widgets](widgets.md) | [Theming](theming.md)
+
 All configuration is set in `config/packages/beacon_admin.yaml` under the `beacon_admin` key.
 
 ## Top-Level Options
