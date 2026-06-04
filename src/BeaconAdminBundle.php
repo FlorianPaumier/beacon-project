@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Devgeek\BeaconAdmin;
 
+use Devgeek\BeaconAdmin\Controller\NotificationController;
 use Devgeek\BeaconAdmin\DependencyInjection\Compiler\MenuPass;
 use Devgeek\BeaconAdmin\DependencyInjection\Compiler\WidgetPass;
 use Devgeek\BeaconAdmin\Security\BeaconAccessVoter;
@@ -98,6 +99,17 @@ class BeaconAdminBundle extends AbstractBundle
                         ->end()
                     ->end()
                 ->end()
+                ->arrayNode('brand')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode('name')->defaultValue('Beacon Admin')->end()
+                        ->scalarNode('logo_path')->defaultNull()->end()
+                        ->scalarNode('favicon_path')->defaultNull()->end()
+                        ->scalarNode('primary_color')->defaultValue('#2563eb')->end()
+                        ->scalarNode('accent_color')->defaultValue('#0ea5e9')->end()
+                        ->scalarNode('support_email')->defaultNull()->end()
+                    ->end()
+                ->end()
             ->end();
     }
 
@@ -136,6 +148,16 @@ class BeaconAdminBundle extends AbstractBundle
         } else {
             $builder->removeDefinition(BeaconAccessVoter::class);
         }
+
+        $builder->findDefinition(NotificationController::class)
+            ->setArgument('$adminRole', $config['security']['role']);
+
+        $builder->setParameter('beacon_admin.brand.name', $config['brand']['name']);
+        $builder->setParameter('beacon_admin.brand.logo_path', $config['brand']['logo_path']);
+        $builder->setParameter('beacon_admin.brand.favicon_path', $config['brand']['favicon_path']);
+        $builder->setParameter('beacon_admin.brand.primary_color', $config['brand']['primary_color']);
+        $builder->setParameter('beacon_admin.brand.accent_color', $config['brand']['accent_color']);
+        $builder->setParameter('beacon_admin.brand.support_email', $config['brand']['support_email']);
     }
 
     /**

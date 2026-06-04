@@ -1,10 +1,13 @@
 {% extends '@BeaconAdmin/layout.html.twig' %}
 
-{% block page_title %}{{ config.entityLabelPlural }}{% endblock %}
+{% block page_title %}{{ config.getEntityLabelPlural() }}{% endblock %}
 
 {% block header_actions %}
-    <a href="{{ path(app.current_route ~ '_create') }}" class="beacon-btn beacon-btn--primary">
-        Add {{ config.entityLabel }}
+    <a href="{{ path(app.current_route ~ '_create') }}"
+       class="beacon-btn beacon-btn--primary"
+       data-beacon-shortcut="new"
+       title="{{ 'beacon_admin.crud.new_shortcut'|trans({'%name%': config.getEntityLabel()}, 'beacon_admin') }}">
+        {{ 'beacon_admin.crud.add'|trans({'%name%': config.getEntityLabel()}, 'beacon_admin') }}
     </a>
 {% endblock %}
 
@@ -14,51 +17,71 @@
          data-beacon--datatable-url-value="{{ path(app.current_route) }}">
         {% include '@BeaconAdmin/crud/_filters.html.twig' %}
 
+        {% include '@BeaconAdmin/crud/_active_filters.html.twig' %}
+
         {% include '@BeaconAdmin/crud/_bulk_actions.html.twig' %}
 
         <div class="beacon-table-wrapper">
-            <table class="beacon-table">
-                <thead>
-                    <tr>
-                        <th class="beacon-table__th beacon-table__th--select"
-                            data-beacon--bulk-actions-target="selectAllContainer">
-                            <input type="checkbox"
-                                   class="beacon-table__select-all"
-                                   data-action="change->beacon--bulk-actions#toggleAll"
-                                   data-beacon--bulk-actions-target="selectAll">
-                        </th>
-                        {% for column in config.columns %}
-                            {% include '@BeaconAdmin/columns/sorting.html.twig' %}
-                        {% endfor %}
-                        <th class="beacon-table__th beacon-table__th--actions">{{ 'Actions'|trans }}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for row in result.items %}
-                        <tr class="beacon-table__row">
-                            <td class="beacon-table__td beacon-table__td--select">
-                                <input type="checkbox"
-                                       class="beacon-table__row-checkbox"
-                                       value="{{ row.id }}"
-                                       data-action="change->beacon--bulk-actions#toggle"
-                                       data-beacon--bulk-actions-target="checkbox">
-                            </td>
-                            {% for column in config.columns %}
-                                {% include '@BeaconAdmin/columns/' ~ column.template %}
-                            {% endfor %}
-                            {% include '@BeaconAdmin/crud/_actions.html.twig' %}
-                        </tr>
-                    {% else %}
+            {% if result.items is empty %}
+                <div class="beacon-table__empty">
+                    {% include '@BeaconAdmin/components/empty-state.html.twig' with {
+                        title: 'beacon_admin.empty.title_search'|trans({'%name%': config.getEntityLabelPlural()}, 'beacon_admin'),
+                        description: result.search is not empty
+                            ? 'beacon_admin.empty.search_description'|trans({'%name%': config.getEntityLabelPlural(), '%search%': result.search}, 'beacon_admin')
+                            : 'beacon_admin.empty.default_description'|trans({'%name%': config.getEntityLabel()}, 'beacon_admin'),
+                        action_label: 'beacon_admin.crud.add'|trans({'%name%': config.getEntityLabel()}, 'beacon_admin'),
+                        action_url: path(app.current_route ~ '_create'),
+                        action_icon: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>'
+                    } %}
+                </div>
+            {% else %}
+                <table class="beacon-table">
+                    <thead class="beacon-table__thead beacon-sticky-header">
+                        {% if config.getColumnGroups() is not empty %}
+                            <tr class="beacon-table__group-row">
+                                <th class="beacon-table__th beacon-table__th--select"></th>
+                                {% for group in config.getColumnGroups() %}
+                                    <th colspan="{{ group.filterColumns(config.columns)|length }}" class="beacon-table__th beacon-table__th--group">{{ group.getLabel() }}</th>
+                                {% endfor %}
+                                {% for column in config.getUngroupedColumns() %}
+                                    <th class="beacon-table__th"></th>
+                                {% endfor %}
+                                <th class="beacon-table__th beacon-table__th--actions"></th>
+                            </tr>
+                        {% endif %}
                         <tr>
-                            <td colspan="99" class="beacon-table__empty">
-                                <div class="beacon-empty-state">
-                                    <p>No records found.</p>
-                                </div>
-                            </td>
+                            <th class="beacon-table__th beacon-table__th--select"
+                                data-beacon--bulk-actions-target="selectAllContainer">
+                                <input type="checkbox"
+                                       class="beacon-table__select-all"
+                                       data-action="change->beacon--bulk-actions#toggleAll"
+                                       data-beacon--bulk-actions-target="selectAll">
+                            </th>
+                            {% for column in config.columns %}
+                                {% include '@BeaconAdmin/columns/sorting.html.twig' %}
+                            {% endfor %}
+                            <th class="beacon-table__th beacon-table__th--actions">{{ 'beacon_admin.crud.actions_column'|trans({}, 'beacon_admin') }}</th>
                         </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {% for row in result.items %}
+                            <tr class="beacon-table__row">
+                                <td class="beacon-table__td beacon-table__td--select">
+                                    <input type="checkbox"
+                                           class="beacon-table__row-checkbox"
+                                           value="{{ row.id }}"
+                                           data-action="change->beacon--bulk-actions#toggle"
+                                           data-beacon--bulk-actions-target="checkbox">
+                                </td>
+                                {% for column in config.columns %}
+                                    {% include '@BeaconAdmin/columns/' ~ column.template %}
+                                {% endfor %}
+                                {% include '@BeaconAdmin/crud/_actions.html.twig' %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
         </div>
 
         {% include '@BeaconAdmin/crud/_pagination.html.twig' %}

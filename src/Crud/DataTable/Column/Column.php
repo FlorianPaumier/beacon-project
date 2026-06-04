@@ -11,6 +11,7 @@ abstract class Column
     protected string $label;
     protected bool $sortable = false;
     protected ?string $template = null;
+    protected ?string $permission = null;
 
     public static function make(string $name): static
     {
@@ -60,5 +61,17 @@ abstract class Column
         $shortName = substr(strrchr($class, '\\'), 1);
 
         return lcfirst($shortName).'.html.twig';
+    }
+
+    public function permission(?string $permission): static
+    {
+        $this->permission = $permission;
+
+        return $this;
+    }
+
+    public function getPermission(): ?string
+    {
+        return $this->permission;
     }
 }

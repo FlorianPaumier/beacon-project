@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en" target-language="fr" original="beacon_admin" datatype="plaintext">
+    <body>
+      <trans-unit id="beacon_admin.action.create" resname="beacon_admin.action.create">
+        <source>Create %name%</source>
+        <target>Créer %name%</target>
+      </trans-unit>
+      <trans-unit id="beacon_admin.action.update" resname="beacon_admin.action.update">
+        <source>Update %name%</source>
+        <target>Mettre à jour %name%</target>
+      </trans-unit>
+      <trans-unit id="beacon_admin.action.delete" resname="beacon_admin.action.delete">
+        <source>Delete</source>
+        <target>Supprimer</target>
+      </trans-unit>
+      <trans-unit id="beacon_admin.action.save" resname="beacon_admin.action.save">
+        <source>Save</source>
+        <target>Enregistrer</target>
+      </trans-unit>
+      <trans-unit id="beacon_admin.action.cancel" resname="beacon_admin.action.cancel">
+        <source>Cancel</source>
+        <target>Annuler</target>
+      </trans-unit>
+      <trans-unit id="beacon_admin.action.back" resname="beacon_admin.action.back">
+        <source>Back</source>
+        <target>Retour</target>
+      </trans-unit>
+      <trans-unit id="beacon_admin.action.edit" resname="beacon_admin.action.edit">
+        <source>Edit</source>
+        <target>Modifier</target>
+      </trans-unit>
+      <trans-unit id="beacon_admin.action.clone" resname="beacon_admin.action.clone">
+        <source>Clone</source>
+        <target>Dupliquer</target>
+      </trans-unit>
+      <trans-unit id="beacon_admin.action.view" resname="beacon_admin.action.view">
+        <source>View</source>
+        <target>Voir</target>
+      </trans-unit>
+      <trans-unit id="beacon_admin.crud.list" resname="beacon_admin.crud.list">
+        <source>List</source>
+        <target>Liste</target>
+      </trans-unit>
+      <trans-unit id="beacon_admin.crud.create" resname="beacon_admin.crud.create">
+        <source>Create</source>
+        <target>Créer</target>
+      </trans-unit>
+      <trans-unit id="beacon_admin.crud.edit" resname="beacon_admin.crud.edit">
+        <source>Edit</source>
+        <target>Modifier</target>
+      </trans-unit>
+      <trans-unit id="beacon_admin.crud.show" resname="beacon_admin.crud.show">
+        <source>Show</source>
+        <target>Afficher</target>
+      </trans-unit>
+      <trans-unit id="beacon_admin.crud.delete_confirm" resname="beacon_admin.crud.delete_confirm">
+        <source>Are you sure you want to delete this item?</source>
+        <target>Êtes-vous sûr de vouloir supprimer cet élément ?</target>
+      </trans-unit>
+      <trans-unit id="beacon_admin.crud.new_entity" resname="beacon_admin.crud.new_entity">
+        <source>New %name%</source>
+        <target>Nouveau %name%</target>
+      </trans-unit>
+      <trans-unit id="beacon_admin.crud.edit_entity" resname="beacon_admin.crud.edit_entity">
+        <source>Edit %name%</source>
+        <target>Modifier %name%</target>
+      </trans-unit>
+      <trans-unit id="beacon_admin.crud.actions_column" resname="beacon_admin.crud.actions_column">
+        <source>Actions</source>
+        <target>Actions</target>
+      </trans-unit>
+      <trans-unit id="beacon_admin.crud.add" resname="beacon_admin.crud.add">
+        <source>Add %name%</source>
+        <target>Ajouter %name%</target>
+      </trans-unit>
+      <trans-unit id="beacon_admin.crud.back_to" resname="beacon_admin.crud.back_to">
+        <source>Back to %name%</source>
+        <target>Retour aux %name%</target>
+      </trans-unit>
+      <trans-unit id="beacon_admin.crud.new_shortcut" resname="beacon_admin.crud.new_shortcut">
+        <source>Add %name% (press n)</source>
+        <target>Ajouter %name% (appuyez sur n)</target>
+      </trans-unit>
+      <trans-unit id="beacon_admin.table.search" resname="beacon_admin.table.search">
+        <source>Search...</source>
+        <target>Rechercher...</target>
+      </trans-unit>
+      <trans-unit id="beacon_admin.table.no_results" resname="beacon_admin.table.no_results">
+        <source>No results found</source>
+        <target>Aucun résultat trouvé</target>
+      </trans-unit>
+      <trans-unit id="beacon_admin.table.showing" resname="beacon_admin.table.showing">
+        <source>Showing %from% to %to% of %total%</source>
+        <target>Affichage de %from% à %to% sur %total%</target>
+      </trans-unit>
+      <trans-unit id="beacon_admin.table.items_per_page" resname="beacon_admin.table.items_per_page">
+        <source>Items per page</source>
+        <target>Éléments par page</target>
+      </trans-unit>
+      <trans-unit id="beacon_admin.notification.success" resname="beacon_admin.notification.success">
+        <source>Success</source>
+        <target>Succès</target>
+      </trans-unit>
+      <trans-unit id="beacon_admin.notification.error" resname="beacon_admin.notification.error">
+        <source>Error</source>
+        <target>Erreur</target>
+      </trans-unit>
+      <trans-unit id="beacon_admin.notification.warning" resname="beacon_admin.notification.warning">
+        <source>Warning</source>
+        <target>Avertissement</target>
+      </trans-unit>
+      <trans-unit id="beacon_admin.notification.info" resname="beacon_admin.notification.info">
+        <source>Info</source>
+        <target>Information</target>
+      </trans-unit>
+      <trans-unit id="beacon_admin.notification.close" resname="beacon_admin.notification.close">
+        <source>Close</source>
+        <target>Fermer</target>
+      </trans-unit>
+      <trans-unit id="beacon_admin.nav.toggle_sidebar" resname="beacon_admin.nav.toggle_sidebar">
+        <source>Toggle sidebar</source>
+        <target>Afficher/Masquer le menu latéral</target>
+      </trans-unit>
+      <trans-unit id="beacon_admin.nav.toggle_navigation" resname="beacon_admin.nav.toggle_navigation">
+        <source>Toggle navigation</source>
+        <target>Afficher/Masquer la navigation</target>
+      </trans-unit>
+      <trans-unit id="beacon_admin.nav.select_theme" resname="beacon_admin.nav.select_theme">
+        <source>Select theme</source>
+        <target>Choisir le thème</target>
+      </trans-unit>
+      <trans-unit id="beacon_admin.nav.toggle_dark_mode" resname="beacon_admin.nav.toggle_dark_mode">
+        <source>Toggle dark mode</source>
+        <target>Activer/Désactiver le mode sombre</target>
+      </trans-unit>
+      <trans-unit id="beacon_admin.nav.breadcrumb" resname="beacon_admin.nav.breadcrumb">
+        <source>Breadcrumb</source>
+        <target>Fil d'Ariane</target>
+      </trans-unit>
+      <trans-unit id="beacon_admin.nav.dashboard" resname="beacon_admin.nav.dashboard">
+        <source>Dashboard</source>
+        <target>Tableau de bord</target>
+      </trans-unit>
+      <trans-unit id="beacon_admin.nav.skip_to_content" resname="beacon_admin.nav.skip_to_content">
+        <source>Skip to content</source>
+        <target>Aller au contenu</target>
+      </trans-unit>
+      <trans-unit id="beacon_admin.breadcrumb.home" resname="beacon_admin.breadcrumb.home">
+        <source>Home</source>
+        <target>Accueil</target>
+      </trans-unit>
+      <trans-unit id="beacon_admin.empty.title" resname="beacon_admin.empty.title">
+        <source>No items</source>
+        <target>Aucun élément</target>
+      </trans-unit>
+      <trans-unit id="beacon_admin.empty.description" resname="beacon_admin.empty.description">
+        <source>There is nothing to display yet.</source>
+        <target>Il n'y a rien à afficher pour le moment.</target>
+      </trans-unit>
+      <trans-unit id="beacon_admin.empty.action_label" resname="beacon_admin.empty.action_label">
+        <source>Create</source>
+        <target>Créer</target>
+      </trans-unit>
+      <trans-unit id="beacon_admin.empty.title_search" resname="beacon_admin.empty.title_search">
+        <source>No %name% found</source>
+        <target>Aucun %name% trouvé</target>
+      </trans-unit>
+      <trans-unit id="beacon_admin.empty.default_description" resname="beacon_admin.empty.default_description">
+        <source>Get started by creating a new %name%.</source>
+        <target>Commencez par créer un(e) nouveau(velle) %name%.</target>
+      </trans-unit>
+      <trans-unit id="beacon_admin.empty.search_description" resname="beacon_admin.empty.search_description">
+        <source>No %name% match your search "%search%".</source>
+        <target>Aucun %name% ne correspond à votre recherche « %search% ».</target>
+      </trans-unit>
+      <trans-unit id="beacon_admin.dashboard.welcome_back" resname="beacon_admin.dashboard.welcome_back">
+        <source>Welcome back</source>
+        <target>Bon retour</target>
+      </trans-unit>
+      <trans-unit id="beacon_admin.dashboard.no_widgets" resname="beacon_admin.dashboard.no_widgets">
+        <source>No widgets configured.</source>
+        <target>Aucun widget configuré.</target>
+      </trans-unit>
+      <trans-unit id="beacon_admin.dashboard.widget_help" resname="beacon_admin.dashboard.widget_help">
+        <source>Create a service implementing DashboardWidgetInterface and tag it with beacon_admin.widget.</source>
+        <target>Créez un service implémentant DashboardWidgetInterface et taguez-le avec beacon_admin.widget.</target>
+      </trans-unit>
+      <trans-unit id="beacon_admin.bulk.selected" resname="beacon_admin.bulk.selected">
+        <source>%count% selected</source>
+        <target>%count% sélectionné(s)</target>
+      </trans-unit>
+      <trans-unit id="beacon_admin.bulk.delete_selected" resname="beacon_admin.bulk.delete_selected">
+        <source>Delete selected</source>
+        <target>Supprimer la sélection</target>
+      </trans-unit>
+      <trans-unit id="beacon_admin.bulk.confirm_delete" resname="beacon_admin.bulk.confirm_delete">
+        <source>Are you sure you want to delete the selected items?</source>
+        <target>Êtes-vous sûr de vouloir supprimer les éléments sélectionnés ?</target>
+      </trans-unit>
+      <trans-unit id="beacon_admin.clone.success" resname="beacon_admin.clone.success">
+        <source>The item has been cloned successfully.</source>
+        <target>L'élément a été dupliqué avec succès.</target>
+      </trans-unit>
+      <trans-unit id="beacon_admin.crud.bulk_delete" resname="beacon_admin.crud.bulk_delete">
+        <source>Delete</source>
+        <target>Supprimer</target>
+      </trans-unit>
+      <trans-unit id="beacon_admin.crud.export_csv" resname="beacon_admin.crud.export_csv">
+        <source>Export CSV</source>
+        <target>Exporter CSV</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

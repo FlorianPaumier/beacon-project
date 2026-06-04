@@ -2,16 +2,24 @@
     <div class="beacon-header-left">
         <button class="beacon-header-mobile-toggle"
                 data-action="@beacon-admin/sidebar#toggle"
-                aria-label="Toggle navigation">
+                aria-label="{{ 'beacon_admin.nav.toggle_navigation'|trans({}, 'beacon_admin') }}">
             <span class="beacon-icon">☰</span>
         </button>
         <h1 class="beacon-page-title">{% block page_title %}{% endblock %}</h1>
     </div>
 
     <div class="beacon-header-right">
+        <button class="beacon-global-search-trigger"
+                data-action="@beacon-admin/keyboard-shortcuts#openGlobalSearch"
+                aria-label="Search (Ctrl+K)"
+                title="Search (Ctrl+K)">
+            <span class="beacon-icon">&#x1F50D;</span>
+            <span class="beacon-global-search-trigger__hint">Ctrl+K</span>
+        </button>
+
         <select class="beacon-theme-select"
                 data-action="change->@beacon-admin/theme#setTheme"
-                aria-label="Select theme">
+                aria-label="{{ 'beacon_admin.nav.select_theme'|trans({}, 'beacon_admin') }}">
             {% for name, path in beacon_admin_themes() %}
                 <option value="{{ name }}" {{ name == beacon_admin_theme() ? 'selected' : '' }}>
                     {{ name|capitalize }}
@@ -21,7 +29,7 @@
 
         <button class="beacon-theme-toggle"
                 data-action="@beacon-admin/theme#toggleColorScheme"
-                aria-label="Toggle dark mode">
+                aria-label="{{ 'beacon_admin.nav.toggle_dark_mode'|trans({}, 'beacon_admin') }}">
             <span class="beacon-icon">🌓</span>
         </button>
 
@@ -30,5 +38,7 @@
                 <span class="beacon-user-name">{{ app.user.userIdentifier }}</span>
             </div>
         {% endif %}
+
+        {% include '@BeaconAdmin/notification/bell.html.twig' with { unreadCountUrl: path('beacon_admin_notifications_unread_count') } %}
     </div>
 </header>

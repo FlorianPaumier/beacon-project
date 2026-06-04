@@ -6,15 +6,22 @@
           data-beacon--bulk-actions-target="count">
         0 selected
     </span>
-    <form method="post"
-          action="{{ path(app.current_route ~ '_bulk') }}"
-          data-beacon--bulk-actions-target="form">
-        <input type="hidden" name="_token" value="{{ csrf_token('bulk_delete') }}">
-        <div data-beacon--bulk-actions-target="idsContainer"></div>
-        <button type="submit"
-                class="beacon-btn beacon-btn--danger beacon-btn--small"
-                onclick="return confirm('Are you sure you want to delete the selected items?');">
-            Delete selected
-        </button>
-    </form>
+    <div class="beacon-bulk-actions__buttons">
+        <form method="post"
+              action="{{ path(app.current_route ~ '_bulk') }}"
+              data-beacon--bulk-actions-target="form"
+              class="beacon-bulk-actions__form">
+            <input type="hidden" name="_token" value="{{ csrf_token('bulk_delete') }}">
+            <div data-beacon--bulk-actions-target="idsContainer"></div>
+            <button type="submit"
+                    class="beacon-btn beacon-btn--danger beacon-btn--small"
+                    onclick="return confirm('{{ 'beacon_admin.bulk.confirm_delete'|trans({}, 'beacon_admin')|e('js') }}');">
+                {{ 'beacon_admin.crud.bulk_delete'|trans({}, 'beacon_admin') }} selected
+            </button>
+        </form>
+        <a href="{{ path(app.current_route ~ '_export') }}"
+           class="beacon-btn beacon-btn--secondary beacon-btn--small">
+            {{ 'beacon_admin.crud.export_csv'|trans({}, 'beacon_admin') }}
+        </a>
+    </div>
 </div>

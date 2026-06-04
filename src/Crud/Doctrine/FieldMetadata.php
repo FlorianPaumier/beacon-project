@@ -12,6 +12,8 @@ class FieldMetadata
     protected ?int $length = null;
     protected bool $unique = false;
 
+    protected ?string $enumClass = null;
+
     public static function make(): self
     {
         return new self();
@@ -75,5 +77,17 @@ class FieldMetadata
     public function isUnique(): bool
     {
         return $this->unique;
+    }
+
+    public function enumClass(?string $enumClass): self
+    {
+        $this->enumClass = $enumClass;
+
+        return $this;
+    }
+
+    public function getEnumClass(): ?string
+    {
+        return $this->enumClass;
     }
 }

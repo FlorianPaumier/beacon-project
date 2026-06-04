@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Devgeek\BeaconAdmin\Controller;
 
+use Devgeek\BeaconAdmin\Crud\Action\CloneAction;
+use Devgeek\BeaconAdmin\Crud\Action\CsvExportAction;
 use Devgeek\BeaconAdmin\Crud\CrudConfig;
 use Devgeek\BeaconAdmin\Crud\Doctrine\EntityIntrospector;
 use Devgeek\BeaconAdmin\Crud\Event\AfterCreateEvent;
@@ -169,13 +171,52 @@ abstract class AbstractCrudController extends AbstractController
         return $this->redirectToRoute($this->getListRoute($request));
     }
 
+    #[Route('/{id}/clone', name: 'clone', methods: ['POST'])]
+    public function clone(Request $request, string $id): Response
+    {
+        $config = $this->getCrudConfig();
+        $entity = $this->entityManager->getRepository($this->getEntityClass())->find($id);
+
+        if ($entity === null) {
+            throw $this->createNotFoundException('Entity not found.');
+        }
+
+        $submittedToken = (string) $request->request->get('_token', '');
+
+        if (!$this->isCsrfTokenValid('clone'.$id, $submittedToken)) {
+            throw $this->createAccessDeniedException('Invalid CSRF token.');
+        }
+
+        $clone = CloneAction::make()->clone($entity, $this->entityManager, $this->eventDispatcher);
+
+        $this->addFlash('success', $config->getEntityLabel().' duplicated successfully.');
+
+        return $this->redirectToRoute(
+            $this->getEditRoute($request),
+            ['id' => $clone->getId()],
+        );
+    }
+
     protected function getListRoute(Request $request): string
     {
         $currentRoute = (string) $request->attributes->get('_route', '');
 
-        $result = preg_replace('/_(create|edit|delete|bulk|toggle)$/', '_list', $currentRoute);
+        $result = preg_replace('/_(create|edit|delete|bulk|toggle|clone|show)$/', '_list', $currentRoute);
 
         return $result !== null ? $result : $currentRoute;
+    }
+
+    protected function getEditRoute(Request $request): string
+    {
+        $currentRoute = (string) $request->attributes->get('_route', '');
+
+        $result = preg_replace('/_(create|list|delete|bulk|toggle|clone|show)$/', '', $currentRoute, -1, $count);
+
+        if (0 === $count) {
+            return $currentRoute;
+        }
+
+        return $result.'_edit';
     }
 
     #[Route('/{id}/toggle/{field}', name: 'toggle', methods: ['POST'], requirements: ['field' => '\w+'])]
@@ -209,6 +250,64 @@ abstract class AbstractCrudController extends AbstractController
         $this->eventDispatcher->dispatch(new AfterUpdateEvent($entity, $config));
 
         return $this->json(['success' => true, 'value' => !$currentValue]);
+    }
+
+    #[Route('/export', name: 'export', methods: ['GET'])]
+    public function export(Request $request): Response
+    {
+        $config = $this->getCrudConfig();
+        $entityClass = $this->getEntityClass();
+        $metadata = $this->introspector->introspectFromDefault($entityClass);
+
+        $repository = $this->entityManager->getRepository($entityClass);
+        $qb = $repository->createQueryBuilder('e');
+
+        $config->applyQueryModifiers($qb);
+
+        if ($request->query->has('search') && $request->query->getString('search') !== '') {
+            $search = $request->query->getString('search');
+            $searchableFields = $config->getSearchableFields();
+
+            if ($searchableFields !== []) {
+                $conditions = [];
+
+                foreach ($searchableFields as $i => $field) {
+                    $param = 'search_'.$i;
+                    $conditions[] = "e.{$field} LIKE :{$param}";
+                    $qb->setParameter($param, "%{$search}%");
+                }
+
+                $qb->andWhere(implode(' OR ', $conditions));
+            }
+        }
+
+        $fieldNames = $config->getSearchableFields();
+        if ($fieldNames === []) {
+            $fieldNames = $metadata->getFieldNames();
+        }
+
+        $entities = $qb->getQuery()->getResult();
+        $filename = strtolower($metadata->getTableName()).'-export-'.date('Y-m-d').'.csv';
+
+        return CsvExportAction::make()->export($entities, $fieldNames, $filename);
+    }
+
+    #[Route('/{id}', name: 'show', methods: ['GET'])]
+    public function show(Request $request, string $id): Response
+    {
+        $config = $this->getCrudConfig();
+        $entity = $this->entityManager->getRepository($this->getEntityClass())->find($id);
+
+        if ($entity === null) {
+            throw $this->createNotFoundException('Entity not found.');
+        }
+
+        return $this->render('@BeaconAdmin/crud/show.html.twig', [
+            'config' => $config,
+            'entity' => $entity,
+            'listRoute' => $this->getListRoute($request),
+            'editRoute' => $this->getEditRoute($request),
+        ]);
     }
 
     #[Route('/bulk', name: 'bulk', methods: ['POST'])]

@@ -2,11 +2,14 @@
        data-controller="@beacon-admin/sidebar">
     <div class="beacon-sidebar-brand">
         <a href="{{ path('beacon_admin.dashboard') }}" class="beacon-sidebar-logo">
-            <span class="beacon-sidebar-title">{{ beacon_admin_config('title')|default('Beacon Admin') }}</span>
+            {% if beacon_admin_brand().logo_path %}
+                <img src="{{ asset(beacon_admin_brand().logo_path) }}" alt="{{ beacon_admin_brand().name }}" class="beacon-sidebar__logo">
+            {% endif %}
+            <span class="beacon-sidebar__brand">{{ beacon_admin_brand().name }}</span>
         </a>
         <button class="beacon-sidebar-toggle"
                 data-action="@beacon-admin/sidebar#toggle"
-                aria-label="Toggle sidebar">
+                aria-label="{{ 'beacon_admin.nav.toggle_sidebar'|trans({}, 'beacon_admin') }}">
             <span class="beacon-icon">☰</span>
         </button>
     </div>
@@ -16,7 +19,7 @@
             <div class="beacon-nav-item{% if item.children is not empty %} beacon-nav-item--has-children{% endif %}">
                 {% if item.route is not null %}
                     <a href="{{ path(item.route) }}"
-                       class="beacon-nav-link"
+                       class="beacon-nav-link{% if item.active %} beacon-nav-link--active{% endif %}"
                        data-action="@beacon-admin/sidebar#navigate">
                 {% else %}
                     <span class="beacon-nav-link">
@@ -36,7 +39,7 @@
                         {% for child in item.children %}
                             <li class="beacon-nav-child-item">
                                 {% if child.route is not null %}
-                                    <a href="{{ path(child.route) }}" class="beacon-nav-link beacon-nav-link--child">
+                                    <a href="{{ path(child.route) }}" class="beacon-nav-link beacon-nav-link--child{% if child.active %} beacon-nav-link--active{% endif %}">
                                 {% else %}
                                     <span class="beacon-nav-link beacon-nav-link--child">
                                 {% endif %}

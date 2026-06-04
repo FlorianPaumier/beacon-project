@@ -18,4 +18,6 @@ interface MenuItemInterface
     public function getChildren(): array;
 
     public function hasChildren(): bool;
+
+    public function matchesRoute(string $currentRoute): bool;
 }

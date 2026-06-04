@@ -2,15 +2,15 @@
 
 {% block page_title %}
     {% if action == 'create' %}
-        New {{ config.entityLabel }}
+        {{ 'beacon_admin.crud.new_entity'|trans({'%name%': config.entityLabel}, 'beacon_admin') }}
     {% else %}
-        Edit {{ config.entityLabel }}
+        {{ 'beacon_admin.crud.edit_entity'|trans({'%name%': config.entityLabel}, 'beacon_admin') }}
     {% endif %}
 {% endblock %}
 
 {% block header_actions %}
     <a href="{{ path(app.current_route ~ '_list') }}" class="beacon-btn beacon-btn--secondary">
-        Back to {{ config.entityLabelPlural }}
+        {{ 'beacon_admin.crud.back_to'|trans({'%name%': config.entityLabelPlural}, 'beacon_admin') }}
     </a>
 {% endblock %}
 
@@ -39,13 +39,13 @@
             <div class="beacon-form__actions">
                 <button type="submit" class="beacon-btn beacon-btn--primary">
                     {% if action == 'create' %}
-                        Create {{ config.entityLabel }}
+                        {{ 'beacon_admin.action.create'|trans({'%name%': config.entityLabel}, 'beacon_admin') }}
                     {% else %}
-                        Update {{ config.entityLabel }}
+                        {{ 'beacon_admin.action.update'|trans({'%name%': config.entityLabel}, 'beacon_admin') }}
                     {% endif %}
                 </button>
                 <a href="{{ path(app.current_route ~ '_list') }}" class="beacon-btn beacon-btn--secondary">
-                    Cancel
+                    {{ 'beacon_admin.action.cancel'|trans({}, 'beacon_admin') }}
                 </a>
             </div>
         {{ form_end(form) }}

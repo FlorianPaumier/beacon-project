@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
+use Devgeek\BeaconAdmin\Controller\GlobalSearchController;
 use Devgeek\BeaconAdmin\Menu\MenuBuilder;
+use Devgeek\BeaconAdmin\Search\GlobalSearchProviderInterface;
 use Devgeek\BeaconAdmin\Twig\AdminRuntime;
 use Devgeek\BeaconAdmin\Twig\BeaconAdminExtension;
+use Devgeek\BeaconAdmin\Twig\BreadcrumbExtension;
+use Devgeek\BeaconAdmin\Twig\BreadcrumbRenderer;
 use Devgeek\BeaconAdmin\Twig\SchemaExtension;
 use Devgeek\BeaconAdmin\Upload\LocalMediaUploader;
 use Devgeek\BeaconAdmin\Upload\MediaUploaderInterface;
@@ -39,10 +43,17 @@ return static function (ContainerConfigurator $container): void {
     // Twig runtime (lazy-loaded)
     $services->set(AdminRuntime::class)
         ->arg('$config', '%beacon_admin.config%')
+        ->arg('$requestStack', service('request_stack'))
         ->tag('twig.runtime');
 
     // Schema Twig extension (Turbo frame integration)
     $services->set(SchemaExtension::class)->tag('twig.extension');
+
+    // Breadcrumbs
+    $services->set(BreadcrumbExtension::class)->tag('twig.extension');
+    $services->set(BreadcrumbRenderer::class)
+        ->tag('beacon_admin.breadcrumb_renderer')
+        ->tag('twig.runtime');
 
     // Default media uploader (local filesystem)
     // Override MediaUploaderInterface alias to use S3, GCS, etc.
@@ -52,4 +63,11 @@ return static function (ContainerConfigurator $container): void {
         ->arg('$publicPath', '%beacon_admin.upload.public_path%')
         ->arg('$allowedMimeTypes', '%beacon_admin.upload.allowed_mime_types%')
         ->arg('$maxSize', '%beacon_admin.upload.max_size%');
+
+    // Global search: auto-tag providers implementing the interface
+    $services->instanceof(GlobalSearchProviderInterface::class)
+        ->tag('beacon_admin.global_search_provider');
+
+    $services->set(GlobalSearchController::class)
+        ->arg('$providers', tagged_iterator('beacon_admin.global_search_provider'));
 };

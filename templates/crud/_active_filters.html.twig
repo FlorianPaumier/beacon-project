@@ -1,0 +1,40 @@
+{% set allQuery = app.request.query.all() %}
+{% set filterValues = allQuery.filter|default({}) %}
+{% set hasActiveFilters = false %}
+{% for name in config.getFilters|keys %}
+    {% set v = filterValues[name]|default(null) %}
+    {% if v is not null and v != '' %}
+        {% set hasActiveFilters = true %}
+    {% endif %}
+{% endfor %}
+
+{% if hasActiveFilters %}
+    <div class="beacon-active-filters">
+        <span class="beacon-active-filters__label">Active filters:</span>
+        <div class="beacon-active-filters__chips">
+            {% for name, filter in config.getFilters %}
+                {% set value = filterValues[name]|default(null) %}
+                {% if value is not null and value != '' %}
+                    {% set clearParams = allQuery|default({}) %}
+                    {% set clearFilter = clearParams.filter|default({})|merge({(name): null}) %}
+                    {% set clearParams = clearParams|merge({'filter': clearFilter}) %}
+                    <a href="{{ path(app.current_route, clearParams) }}"
+                       class="beacon-active-filters__chip"
+                       title="Remove filter">
+                        <span class="beacon-active-filters__chip-label">{{ name|replace({'_': ' '})|title }}:</span>
+                        <span class="beacon-active-filters__chip-value">
+                            {% if value is iterable %}
+                                {{ value|join(' → ') }}
+                            {% elseif filter.choices is defined and filter.choices[value] is defined %}
+                                {{ filter.choices[value] }}
+                            {% else %}
+                                {{ value }}
+                            {% endif %}
+                        </span>
+                        <span class="beacon-active-filters__chip-remove" aria-hidden="true">×</span>
+                    </a>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}

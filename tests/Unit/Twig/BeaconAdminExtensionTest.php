@@ -17,7 +17,7 @@ final class BeaconAdminExtensionTest extends TestCase
 
         $functions = $extension->getFunctions();
 
-        $this->assertCount(5, $functions);
+        $this->assertCount(6, $functions);
     }
 
     #[Test]

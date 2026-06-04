@@ -13,12 +13,14 @@ use Devgeek\BeaconAdmin\Crud\Field\BooleanField;
 use Devgeek\BeaconAdmin\Crud\Field\DateField;
 use Devgeek\BeaconAdmin\Crud\Field\DateTimeField;
 use Devgeek\BeaconAdmin\Crud\Field\EmailField;
+use Devgeek\BeaconAdmin\Crud\Field\EnumField;
 use Devgeek\BeaconAdmin\Crud\Field\Field;
 use Devgeek\BeaconAdmin\Crud\Field\NumberField;
 use Devgeek\BeaconAdmin\Crud\Field\TextField;
 use Devgeek\BeaconAdmin\Crud\Field\TimeField;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -70,12 +72,34 @@ class FormBuilder
             }
         } elseif ($fields !== []) {
             foreach ($fields as $fieldName) {
+                $fieldMeta = $this->findFieldMeta($fieldName, $fieldMetadataList);
+
+                if ($fieldMeta !== null && $fieldMeta->getEnumClass() !== null) {
+                    $choices = $this->buildEnumChoices($fieldMeta->getEnumClass());
+                    $options = [
+                        'label' => ucfirst(str_replace('_', ' ', $fieldName)),
+                        'choices' => $choices,
+                    ];
+                    $builder->add($fieldName, ChoiceType::class, $options);
+                    continue;
+                }
+
                 $symfonyType = $this->resolveType($fieldName, $fieldMetadataList);
                 $options = $this->buildFieldOptions($fieldName, $fieldMetadataList);
                 $builder->add($fieldName, $symfonyType, $options);
             }
         } else {
             foreach ($fieldMetadataList as $fieldMeta) {
+                if ($fieldMeta->getEnumClass() !== null) {
+                    $choices = $this->buildEnumChoices($fieldMeta->getEnumClass());
+                    $options = [
+                        'label' => ucfirst(str_replace('_', ' ', $fieldMeta->getName())),
+                        'choices' => $choices,
+                    ];
+                    $builder->add($fieldMeta->getName(), ChoiceType::class, $options);
+                    continue;
+                }
+
                 $symfonyType = self::TYPE_MAP[$fieldMeta->getType()] ?? TextType::class;
                 $options = ['label' => ucfirst(str_replace('_', ' ', $fieldMeta->getName()))];
 
@@ -155,6 +179,13 @@ class FormBuilder
             $builder->add($field->getName(), $field->getFormType(), $options);
         } elseif ($field instanceof EmailField) {
             $builder->add($field->getName(), $field->getFormType(), $options);
+        } elseif ($field instanceof EnumField) {
+            $choices = $field->getOptions();
+            if ($field->getEnumClass() !== null && $choices === []) {
+                $choices = $this->buildEnumChoices($field->getEnumClass());
+            }
+            $options['choices'] = $choices;
+            $builder->add($field->getName(), $field->getFormType(), $options);
         } elseif ($field instanceof AssociationField) {
             $options['class'] = $field->getTargetEntity();
             $options['multiple'] = $field->getIsMultiple();
@@ -162,6 +193,20 @@ class FormBuilder
         } else {
             $builder->add($field->getName(), $field->getFormType(), $options);
         }
+    }
+
+    /**
+     * @param array<FieldMetadata> $fieldMetadataList
+     */
+    protected function findFieldMeta(string $fieldName, array $fieldMetadataList): ?FieldMetadata
+    {
+        foreach ($fieldMetadataList as $fieldMeta) {
+            if ($fieldMeta->getName() === $fieldName) {
+                return $fieldMeta;
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -176,6 +221,19 @@ class FormBuilder
         }
 
         return TextType::class;
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    private function buildEnumChoices(string $enumClass): array
+    {
+        $choices = [];
+        foreach ($enumClass::cases() as $case) {
+            $choices[$case->name] = $case instanceof \BackedEnum ? $case->value : $case->name;
+        }
+
+        return $choices;
     }
 
     /**

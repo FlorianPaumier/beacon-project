@@ -70,4 +70,9 @@ class MenuItemGroup implements MenuItemInterface
     {
         return null;
     }
+
+    public function matchesRoute(string $currentRoute): bool
+    {
+        return false;
+    }
 }

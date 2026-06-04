@@ -110,4 +110,56 @@ final class MenuItemTest extends TestCase
 
         $this->assertNull($item->getRole());
     }
+
+    #[Test]
+    public function itMatchesExactRoute(): void
+    {
+        $item = MenuItem::make()
+            ->label('Users')
+            ->route('beacon_admin.crud.user');
+
+        $this->assertTrue($item->matchesRoute('beacon_admin.crud.user'));
+    }
+
+    #[Test]
+    public function itMatchesChildRoute(): void
+    {
+        $item = MenuItem::make()
+            ->label('Users')
+            ->route('beacon_admin.crud.user');
+
+        $this->assertTrue($item->matchesRoute('beacon_admin.crud.user.edit'));
+        $this->assertTrue($item->matchesRoute('beacon_admin.crud.user.new'));
+        $this->assertTrue($item->matchesRoute('beacon_admin.crud.user.show'));
+    }
+
+    #[Test]
+    public function itDoesNotMatchUnrelatedRoute(): void
+    {
+        $item = MenuItem::make()
+            ->label('Users')
+            ->route('beacon_admin.crud.user');
+
+        $this->assertFalse($item->matchesRoute('beacon_admin.crud.product'));
+        $this->assertFalse($item->matchesRoute('beacon_admin.dashboard'));
+    }
+
+    #[Test]
+    public function itDoesNotMatchRouteWhenRouteIsNull(): void
+    {
+        $item = MenuItem::make()->label('Home');
+
+        $this->assertNull($item->getRoute());
+        $this->assertFalse($item->matchesRoute('beacon_admin.dashboard'));
+    }
+
+    #[Test]
+    public function itDoesNotPartialMatchUnrelatedPrefix(): void
+    {
+        $item = MenuItem::make()
+            ->label('Users')
+            ->route('beacon_admin.crud.user');
+
+        $this->assertFalse($item->matchesRoute('beacon_admin.crud.user_management'));
+    }
 }

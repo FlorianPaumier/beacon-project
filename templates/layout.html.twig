@@ -10,9 +10,18 @@
     {% block stylesheets %}
         {% include '@BeaconAdmin/_styles.html.twig' %}
     {% endblock %}
+
+    {% block brand_styles %}
+        <style>
+            :root {
+                --beacon-brand-primary: {{ beacon_admin_brand().primary_color }};
+                --beacon-brand-accent: {{ beacon_admin_brand().accent_color }};
+            }
+        </style>
+    {% endblock %}
 </head>
 <body class="beacon-body"
-      data-controller="@beacon-admin/theme"
+      data-controller="@beacon-admin/theme @beacon-admin/keyboard-shortcuts"
       data-themes="{{ beacon_admin_themes()|json_encode|e('html_attr') }}">
     {% block body %}
         <div class="beacon-admin-layout">
@@ -30,6 +39,10 @@
                 {% endblock %}
 
                 <main class="beacon-admin-main">
+                    {% block breadcrumbs %}
+                        {% include '@BeaconAdmin/components/breadcrumbs.html.twig' %}
+                    {% endblock %}
+
                     {% block content %}{% endblock %}
                 </main>
 
@@ -38,6 +51,10 @@
                 {% endblock %}
             </div>
         </div>
+
+        {% include '@BeaconAdmin/components/global_search.html.twig' with {
+            searchUrl: path('beacon_admin_global_search')
+        } %}
     {% endblock %}
 
     {% block javascripts %}

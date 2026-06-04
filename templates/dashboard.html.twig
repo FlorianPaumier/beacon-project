@@ -1,12 +1,12 @@
 {% extends '@BeaconAdmin/base.html.twig' %}
 
-{% block title %}Dashboard{% endblock %}
+{% block title %}{{ 'beacon_admin.nav.dashboard'|trans({}, 'beacon_admin') }}{% endblock %}
 
 {% block content %}
     <div class="beacon-dashboard">
         <div class="beacon-dashboard-header">
             <h1 class="beacon-dashboard-title">{{ beacon_admin_config('title')|default('Dashboard') }}</h1>
-            <p class="beacon-dashboard-subtitle">{{ 'Welcome back'|trans }}{% if app.user is not null %}, {{ app.user.userIdentifier }}{% endif %}</p>
+            <p class="beacon-dashboard-subtitle">{{ 'beacon_admin.dashboard.welcome_back'|trans({}, 'beacon_admin') }}{% if app.user is not null %}, {{ app.user.userIdentifier }}{% endif %}</p>
         </div>
 
         <div class="beacon-widget-grid" {{ stimulus_controller('@beacon-admin/dashboard') }}>
@@ -24,8 +24,8 @@
                 </div>
             {% else %}
                 <div class="beacon-empty-state">
-                    <p>{{ 'No widgets configured.'|trans }}</p>
-                    <p>{{ 'Create a service implementing DashboardWidgetInterface and tag it with beacon_admin.widget.'|trans }}</p>
+                    <p>{{ 'beacon_admin.dashboard.no_widgets'|trans({}, 'beacon_admin') }}</p>
+                    <p>{{ 'beacon_admin.dashboard.widget_help'|trans({}, 'beacon_admin') }}</p>
                 </div>
             {% endfor %}
         </div>

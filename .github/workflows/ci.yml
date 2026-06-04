@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php: ['8.4']
+        php: ['8.4', '8.5']
         symfony: ['^7.4', '^8.0']
     steps:
       - uses: actions/checkout@v4
@@ -15,8 +15,11 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           tools: composer:v2
+          coverage: pcov
       - run: composer require symfony/framework-bundle:${{ matrix.symfony }} --no-update
       - run: composer install --prefer-dist --no-interaction
       - run: vendor/bin/phpunit
+      - run: vendor/bin/phpunit --coverage-text --coverage-clover=coverage.xml
+      - run: php bin/audit-spec.php
       - run: vendor/bin/phpstan analyse --level 6
       - run: vendor/bin/php-cs-fixer fix --dry-run --diff --allow-risky=yes

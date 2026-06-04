@@ -90,6 +90,18 @@ final class AbstractCrudControllerTest extends BeaconWebTestCase
         $this->assertSame('admin_user_list', $result);
     }
 
+    public function testGetListRouteStripsCloneSuffix(): void
+    {
+        $controller = new TestCrudController();
+        $request = new Request();
+        $request->attributes->set('_route', 'admin_user_clone');
+
+        $refl = new \ReflectionMethod($controller, 'getListRoute');
+        $result = $refl->invoke($controller, $request);
+
+        $this->assertSame('admin_user_list', $result);
+    }
+
     public function testToggleBooleanRouteExists(): void
     {
         $refl = new \ReflectionMethod(AbstractCrudController::class, 'toggleBoolean');
@@ -109,6 +121,30 @@ final class AbstractCrudControllerTest extends BeaconWebTestCase
         $refl = new \ReflectionClass(TestEntity::class);
         $this->assertTrue($refl->hasProperty('active'));
         $this->assertFalse($refl->hasProperty('nonexistent'));
+    }
+
+    public function testGetEditRouteStripsCloneSuffix(): void
+    {
+        $controller = new TestCrudController();
+        $request = new Request();
+        $request->attributes->set('_route', 'admin_user_clone');
+
+        $refl = new \ReflectionMethod($controller, 'getEditRoute');
+        $result = $refl->invoke($controller, $request);
+
+        $this->assertSame('admin_user_edit', $result);
+    }
+
+    public function testGetEditRouteReturnsRouteUnchangedWhenPatternDoesNotMatch(): void
+    {
+        $controller = new TestCrudController();
+        $request = new Request();
+        $request->attributes->set('_route', 'beacon_admin_dashboard');
+
+        $refl = new \ReflectionMethod($controller, 'getEditRoute');
+        $result = $refl->invoke($controller, $request);
+
+        $this->assertSame('beacon_admin_dashboard', $result);
     }
 }
 
