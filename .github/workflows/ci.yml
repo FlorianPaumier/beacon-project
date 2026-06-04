@@ -1,6 +1,10 @@
 name: CI
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
   test:
@@ -18,8 +22,22 @@ jobs:
           coverage: pcov
       - run: composer require symfony/framework-bundle:${{ matrix.symfony }} --no-update
       - run: composer install --prefer-dist --no-interaction
-      - run: vendor/bin/phpunit
       - run: vendor/bin/phpunit --coverage-text --coverage-clover=coverage.xml
       - run: php bin/audit-spec.php
       - run: vendor/bin/phpstan analyse --level 6
       - run: vendor/bin/php-cs-fixer fix --dry-run --diff --allow-risky=yes
+
+  # Gate job — all matrix jobs must pass for this single check to pass.
+  # Use this job name in branch protection rules.
+  ci-pass:
+    needs: test
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify all matrix jobs passed
+        if: contains(needs.test.result, 'failure') || contains(needs.test.result, 'cancelled')
+        run: |
+          echo "One or more matrix jobs failed. CI cannot pass."
+          exit 1
+      - name: CI passed
+        run: echo "All CI checks passed"
