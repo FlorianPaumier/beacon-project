@@ -1,0 +1,53 @@
+{
+    "controllers": {
+        "@beacon-admin/sidebar": {
+            "enabled": true,
+            "fetch": "lazy"
+        },
+        "@beacon-admin/datatable": {
+            "enabled": true,
+            "fetch": "lazy"
+        },
+        "@beacon-admin/bulk-actions": {
+            "enabled": true,
+            "fetch": "lazy"
+        },
+        "@beacon-admin/theme": {
+            "enabled": true,
+            "fetch": "lazy"
+        },
+        "@beacon-admin/notification": {
+            "enabled": true,
+            "fetch": "lazy"
+        },
+        "@beacon-admin/notification-bell": {
+            "enabled": true,
+            "fetch": "lazy"
+        },
+        "@beacon-admin/delete-confirm": {
+            "enabled": true,
+            "fetch": "lazy"
+        },
+        "@beacon-admin/inline-toggle": {
+            "enabled": true,
+            "fetch": "lazy"
+        },
+        "@beacon-admin/beacon": {
+            "enabled": true,
+            "fetch": "lazy"
+        },
+        "@beacon-admin/keyboard-shortcuts": {
+            "enabled": true,
+            "fetch": "lazy"
+        },
+        "@beacon-admin/global-search": {
+            "enabled": true,
+            "fetch": "lazy"
+        },
+        "@beacon-admin/association-search": {
+            "enabled": true,
+            "fetch": "lazy"
+        }
+    },
+    "entrypoints": []
+}

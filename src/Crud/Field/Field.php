@@ -10,6 +10,7 @@ abstract class Field
     protected string $name;
     protected string $label;
     protected bool $required = false;
+    protected ?string $permission = null;
 
     public static function make(string $name): static
     {
@@ -47,6 +48,18 @@ abstract class Field
     public function isRequired(): bool
     {
         return $this->required;
+    }
+
+    public function permission(?string $permission): static
+    {
+        $this->permission = $permission;
+
+        return $this;
+    }
+
+    public function getPermission(): ?string
+    {
+        return $this->permission;
     }
 
     abstract public function getFormType(): string;

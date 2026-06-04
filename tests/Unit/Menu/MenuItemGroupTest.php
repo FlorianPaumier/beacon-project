@@ -88,10 +88,20 @@ final class MenuItemGroupTest extends TestCase
     }
 
     #[Test]
-    public function itDefaultsIconToNull(): void
+    public function itDefaultsRouteAndRoleToNull(): void
     {
-        $group = MenuItemGroup::make()->label('Home');
+        $group = MenuItemGroup::make()->label('Content');
 
-        $this->assertNull($group->getIcon());
+        $this->assertNull($group->getRoute());
+        $this->assertNull($group->getRole());
+    }
+
+    #[Test]
+    public function itNeverMatchesRoute(): void
+    {
+        $group = MenuItemGroup::make()->label('Content');
+
+        $this->assertFalse($group->matchesRoute('beacon_admin.dashboard'));
+        $this->assertFalse($group->matchesRoute('beacon_admin.content.articles'));
     }
 }

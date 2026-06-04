@@ -11,6 +11,7 @@ final readonly class PaginationService
 {
     private const int DEFAULT_LIMIT = 25;
     private const int MAX_LIMIT = 100;
+    private const int MAX_ENTITY_OPTIONS = 1000;
 
     public function paginateFromConfig(
         QueryBuilder $queryBuilder,
@@ -23,10 +24,12 @@ final readonly class PaginationService
             $allowedSorts[$field] = [];
         }
 
-        $allowedFilters = [];
-        foreach ($config->getSearchableFields() as $field) {
-            $allowedFilters[$field] = ['operator' => 'like'];
+        $allowedFilters = $this->buildSearchFilters($config->getSearchableFields());
+        foreach ($config->getFilters() as $name => $filter) {
+            $allowedFilters[$name] = $filter;
         }
+
+        $this->stashEntityFilterOptions($queryBuilder, $request, $config);
 
         return $this->paginate(
             $queryBuilder,
@@ -35,12 +38,141 @@ final readonly class PaginationService
             allowedFilters: $allowedFilters,
             allowedSorts: $allowedSorts,
             mapper: $mapper,
+            entityClass: $config->hasEntityClass() ? $config->getEntityClass() : null,
         );
+    }
+
+    private function stashEntityFilterOptions(QueryBuilder $queryBuilder, Request $request, CrudConfig $config): void
+    {
+        $entityOptions = [];
+        foreach ($config->getFilters() as $name => $filter) {
+            if (($filter['type'] ?? null) !== 'entity' || !isset($filter['class'])) {
+                continue;
+            }
+
+            $class = $filter['class'];
+            try {
+                $repository = $queryBuilder->getEntityManager()->getRepository($class);
+            } catch (\Throwable) {
+                continue;
+            }
+
+            $labelField = $filter['label'] ?? $this->resolveLabelField($class);
+
+            if (null !== $labelField) {
+                $rows = $queryBuilder->getEntityManager()->createQuery(
+                    'SELECT e.id AS id, e.'.$labelField.' AS label FROM '.$class.' e'
+                )->getArrayResult();
+
+                $options = [];
+                foreach ($rows as $row) {
+                    $options[(string) ($row['id'] ?? '')] = (string) ($row['label'] ?? '');
+                }
+            } else {
+                $entities = $repository->findBy([], null, self::MAX_ENTITY_OPTIONS);
+                $options = [];
+                foreach ($entities as $entity) {
+                    $options[(string) $this->extractEntityIdentifier($entity)] = $this->extractEntityLabel($entity);
+                }
+            }
+
+            $entityOptions[$name] = $options;
+        }
+
+        if ($entityOptions !== []) {
+            $request->attributes->set('_beacon_admin_entity_filter_options', $entityOptions);
+        }
+    }
+
+    private function resolveLabelField(string $class): ?string
+    {
+        static $cache = [];
+
+        if (array_key_exists($class, $cache)) {
+            return $cache[$class];
+        }
+
+        if (method_exists($class, '__toString')) {
+            $cache[$class] = null;
+
+            return null;
+        }
+
+        $refl = new \ReflectionClass($class);
+        $properties = $refl->getProperties();
+        usort($properties, static fn ($a, $b) => $a->getName() <=> $b->getName());
+        foreach ($properties as $property) {
+            $type = $property->getType();
+            if ($type instanceof \ReflectionNamedType && 'string' === $type->getName()) {
+                $cache[$class] = $property->getName();
+
+                return $property->getName();
+            }
+        }
+
+        $cache[$class] = null;
+
+        return null;
+    }
+
+    private function extractEntityIdentifier(object $entity): mixed
+    {
+        $refl = new \ReflectionClass($entity);
+        if ($refl->hasMethod('getId')) {
+            $method = $refl->getMethod('getId');
+            if ($method->getNumberOfRequiredParameters() === 0) {
+                return $method->invoke($entity);
+            }
+        }
+
+        return spl_object_id($entity);
+    }
+
+    private function extractEntityLabel(object $entity): string
+    {
+        if (method_exists($entity, '__toString')) {
+            $label = (string) $entity;
+
+            if ($label !== '') {
+                return $label;
+            }
+        }
+
+        $refl = new \ReflectionClass($entity);
+        $properties = $refl->getProperties();
+        usort($properties, static fn ($a, $b) => $a->getName() <=> $b->getName());
+        foreach ($properties as $property) {
+            $type = $property->getType();
+            if (!$type instanceof \ReflectionNamedType || $type->getName() !== 'string') {
+                continue;
+            }
+            $value = $property->getValue($entity);
+
+            return is_string($value) ? $value : '#'.$this->extractEntityIdentifier($entity);
+        }
+
+        return '#'.$this->extractEntityIdentifier($entity);
+    }
+
+    /**
+     * @param array<string> $searchableFields
+     *
+     * @return array<string, array{operator: string, type: string}>
+     */
+    private function buildSearchFilters(array $searchableFields): array
+    {
+        $filters = [];
+        foreach ($searchableFields as $field) {
+            $filters[$field] = ['operator' => 'like', 'type' => 'string'];
+        }
+
+        return $filters;
     }
 
     /**
      * @param array<string, array{operator?: string, type?: string, field?: string}> $allowedFilters
      * @param array<string, array{default?: string}>                                 $allowedSorts
+     * @param class-string|null                                                      $entityClass
      */
     public function paginate(
         QueryBuilder $queryBuilder,
@@ -52,6 +184,7 @@ final readonly class PaginationService
         /* @var array<string, array{default?: string}> */
         array $allowedSorts = [],
         ?callable $mapper = null,
+        ?string $entityClass = null,
     ): PaginatedResult {
         $page = max(1, $request->query->getInt('page', 1));
         $limit = min($maxLimit, max(1, $request->query->getInt('limit', $defaultLimit)));
@@ -68,7 +201,7 @@ final readonly class PaginationService
             $sortDir = 'desc';
         }
 
-        $queryBuilder = $this->applyFilters($queryBuilder, $request, $allowedFilters, $search);
+        $queryBuilder = $this->applyFilters($queryBuilder, $request, $allowedFilters, $search, $entityClass, $queryBuilder->getEntityManager());
         $queryBuilder = $this->applySorting($queryBuilder, $request, $allowedSorts, $sortField, $sortDir);
 
         $countQueryBuilder = clone $queryBuilder;
@@ -114,9 +247,16 @@ final readonly class PaginationService
 
     /**
      * @param array<string, array{operator?: string, type?: string, field?: string}> $allowedFilters
+     * @param class-string|null                                                      $entityClass
      */
-    private function applyFilters(QueryBuilder $queryBuilder, Request $request, array $allowedFilters, string $search): QueryBuilder
-    {
+    private function applyFilters(
+        QueryBuilder $queryBuilder,
+        Request $request,
+        array $allowedFilters,
+        string $search,
+        ?string $entityClass,
+        \Doctrine\ORM\EntityManagerInterface $em,
+    ): QueryBuilder {
         if ($allowedFilters === [] && $search === '') {
             return $queryBuilder;
         }
@@ -128,6 +268,10 @@ final readonly class PaginationService
             $paramName = 'search_'.$parameterIndex++;
             $expr = $queryBuilder->expr()->orX();
             foreach (array_keys($allowedFilters) as $field) {
+                $filterType = $allowedFilters[$field]['type'] ?? 'string';
+                if ($filterType !== 'string') {
+                    continue;
+                }
                 $fieldPath = str_contains($field, '.') ? $field : $alias.'.'.$field;
                 $expr->add(sprintf('LOWER(%s) LIKE LOWER(:%s)', $fieldPath, $paramName));
             }
@@ -152,10 +296,48 @@ final readonly class PaginationService
                 ? $field
                 : $alias.'.'.$field;
 
-            $this->applyFilterToQuery($queryBuilder, $operator, $fieldPath, $paramName, $value, $fieldType);
+            $resolvedType = $this->resolveFieldType($em, $entityClass, $field, $fieldType);
+            $this->applyFilterToQuery($queryBuilder, $operator, $fieldPath, $paramName, $value, $resolvedType);
         }
 
         return $queryBuilder;
+    }
+
+    /**
+     * @param class-string|null $entityClass
+     */
+    private function resolveFieldType(\Doctrine\ORM\EntityManagerInterface $em, ?string $entityClass, string $field, string $declaredType): string
+    {
+        if (!in_array($declaredType, ['date', 'datetime'], true)) {
+            return $declaredType;
+        }
+
+        if (null === $entityClass || str_contains($field, '.')) {
+            return $declaredType;
+        }
+
+        try {
+            $metadata = $em->getClassMetadata($entityClass);
+        } catch (\Throwable) {
+            return $declaredType;
+        }
+
+        if (!$metadata->hasField($field)) {
+            return $declaredType;
+        }
+
+        $mapping = $metadata->getFieldMapping($field);
+        $doctrineType = $mapping['type'] ?? null;
+
+        if (in_array($doctrineType, ['datetime_immutable', 'date_immutable'], true)) {
+            return 'datetime';
+        }
+
+        if (in_array($doctrineType, ['datetime', 'date'], true)) {
+            return 'date';
+        }
+
+        return $declaredType;
     }
 
     /**
@@ -259,10 +441,15 @@ final readonly class PaginationService
         string $fieldType,
     ): QueryBuilder {
         if (is_array($value) && count($value) === 2) {
+            $min = $value[0];
+            $max = $value[1];
+            if ($min === '' || $min === null || $max === '' || $max === null) {
+                return $queryBuilder;
+            }
             $queryBuilder
                 ->andWhere(sprintf('%s BETWEEN :%s_min AND :%s_max', $fieldPath, $paramName, $paramName))
-                ->setParameter($paramName.'_min', $this->castValue($value[0], $fieldType))
-                ->setParameter($paramName.'_max', $this->castValue($value[1], $fieldType));
+                ->setParameter($paramName.'_min', $this->castValue($min, $fieldType))
+                ->setParameter($paramName.'_max', $this->castValue($max, $fieldType));
         }
 
         return $queryBuilder;
@@ -327,8 +514,20 @@ final readonly class PaginationService
         return match ($type) {
             'int', 'integer' => (int) $value,
             'bool', 'boolean' => filter_var($value, FILTER_VALIDATE_BOOLEAN),
-            'date' => new \DateTime((string) $value),
-            'datetime' => new \DateTimeImmutable((string) $value),
+            'date' => (function () use ($value) {
+                try {
+                    return new \DateTime((string) $value);
+                } catch (\Throwable) {
+                    return null;
+                }
+            })(),
+            'datetime' => (function () use ($value) {
+                try {
+                    return new \DateTimeImmutable((string) $value);
+                } catch (\Throwable) {
+                    return null;
+                }
+            })(),
             'float' => (float) $value,
             default => (string) $value,
         };

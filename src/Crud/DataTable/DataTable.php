@@ -5,11 +5,14 @@ declare(strict_types=1);
 namespace Devgeek\BeaconAdmin\Crud\DataTable;
 
 use Devgeek\BeaconAdmin\Crud\DataTable\Column\Column;
+use Devgeek\BeaconAdmin\Crud\DataTable\Column\ColumnGroup;
 
 class DataTable
 {
     /** @var array<Column> */
     protected array $columns = [];
+    /** @var array<ColumnGroup> */
+    protected array $groups = [];
     protected bool $sortable = true;
     protected bool $searchable = true;
     protected int $pageSize = 25;
@@ -78,5 +81,52 @@ class DataTable
     public function getPageSize(): int
     {
         return $this->pageSize;
+    }
+
+    /** @param array<ColumnGroup> $groups */
+    public function groups(array $groups): static
+    {
+        $this->groups = $groups;
+
+        return $this;
+    }
+
+    /** @return array<ColumnGroup> */
+    public function getGroups(): array
+    {
+        return $this->groups;
+    }
+
+    /**
+     * Returns all column names that belong to at least one group.
+     *
+     * @return array<string>
+     */
+    public function getGroupedColumnNames(): array
+    {
+        $names = [];
+
+        foreach ($this->groups as $group) {
+            foreach ($group->getColumns() as $colName) {
+                $names[] = $colName;
+            }
+        }
+
+        return array_unique($names);
+    }
+
+    /**
+     * Returns columns that are NOT in any group.
+     *
+     * @return array<Column>
+     */
+    public function getUngroupedColumns(): array
+    {
+        $grouped = $this->getGroupedColumnNames();
+
+        return array_filter(
+            $this->columns,
+            static fn (Column $col) => !\in_array($col->getName(), $grouped, true),
+        );
     }
 }

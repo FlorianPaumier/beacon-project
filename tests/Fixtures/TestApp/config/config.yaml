@@ -46,3 +46,13 @@ doctrine:
                 dir: '%kernel.project_dir%/Entity'
                 prefix: 'Devgeek\BeaconAdmin\Tests\Fixtures\TestApp\Entity'
                 type: attribute
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+
+    Devgeek\BeaconAdmin\Tests\Functional\Crud\ShowPageTestCrudController: ~
+    Devgeek\BeaconAdmin\Tests\Fixtures\TestApp\Controller\ClonePostCrudController: ~
+    Devgeek\BeaconAdmin\Tests\Fixtures\TestApp\Controller\FilterTestPostCrudController: ~

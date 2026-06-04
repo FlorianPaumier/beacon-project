@@ -1,0 +1,73 @@
+{% extends '@BeaconAdmin/layout.html.twig' %}
+
+{% block content %}
+    <div class="beacon-card beacon-show">
+        <div class="beacon-show__header">
+                <h1 class="beacon-show__title">{{ config.getEntityLabel }} #{{ attribute(entity, 'id') }}</h1>
+                <div class="beacon-show__actions">
+                    <a href="{{ path(listRoute) }}" class="beacon-btn beacon-btn--secondary">
+                        Back to {{ config.getEntityLabelPlural }}
+                    </a>
+                    <a href="{{ path(editRoute, { id: attribute(entity, 'id') }) }}" class="beacon-btn beacon-btn--primary">
+                        Edit {{ config.getEntityLabel }}
+                    </a>
+                </div>
+        </div>
+
+        <div class="beacon-show__layout">
+            <div class="beacon-show__main">
+                <dl class="beacon-show__fields">
+                    {% for field in config.getShowFields %}
+                        {% set column = null %}
+                        {% for col in config.columns %}
+                            {% if col.name == field %}
+                                {% set column = col %}
+                            {% endif %}
+                        {% endfor %}
+
+                        <div class="beacon-show__field">
+                            <dt class="beacon-show__label">
+                                {% if column is not null %}{{ column.getLabel }}{% else %}{{ field|capitalize }}{% endif %}
+                            </dt>
+                            <dd class="beacon-show__value">
+                                {% set value = attribute(entity, field) %}
+                                {% if value is null %}
+                                    <span class="beacon-show__null">—</span>
+                                {% elseif column is not null and column.getTemplate == 'date.html.twig' %}
+                                    {{ value|date(column.format|default('Y-m-d H:i')) }}
+                                {% elseif column is not null and column.getTemplate == 'boolean.html.twig' %}
+                                    {% if value %}
+                                        <span class="beacon-badge beacon-badge--{{ column.getTrueColor }}">{{ column.getTrueLabel }}</span>
+                                    {% else %}
+                                        <span class="beacon-badge beacon-badge--{{ column.getFalseColor }}">{{ column.getFalseLabel }}</span>
+                                    {% endif %}
+                                {% elseif column is not null and column.getTemplate == 'number.html.twig' %}
+                                    {{ value|number_format(column.getDecimals, column.getDecimalSeparator, column.getThousandsSeparator) }}
+                                {% elseif column is not null and column.getTemplate == 'link.html.twig' %}
+                                    {% set label = column.text ?? attribute(entity, column.labelField) ?? value %}
+                                    <a href="{{ value }}" class="beacon-link"{% if column.shouldOpenInNewTab %} target="_blank" rel="noopener noreferrer"{% endif %}>{{ label }}</a>
+                                {% elseif column is not null and column.getTemplate == 'image.html.twig' and value is not empty %}
+                                    <img src="{{ value }}" alt="{{ field }}" class="beacon-image-preview">
+                                {% elseif value is same as(true) or value is same as(false) %}
+                                    {{ value ? 'Yes' : 'No' }}
+                                {% else %}
+                                    {{ value }}
+                                {% endif %}
+                            </dd>
+                        </div>
+                    {% endfor %}
+                </dl>
+            </div>
+
+            <aside class="beacon-show__sidebar">
+                <div class="beacon-show__metadata">
+                    <h3 class="beacon-show__metadata-title">Metadata</h3>
+                    <div class="beacon-show__metadata-item">
+                        <span class="beacon-show__metadata-label">ID</span>
+                        <span class="beacon-show__metadata-value">{{ attribute(entity, 'id') }}</span>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+{% endblock %}

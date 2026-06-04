@@ -88,4 +88,17 @@ class MenuItem implements MenuItemInterface
     {
         return [] !== $this->children;
     }
+
+    public function matchesRoute(string $currentRoute): bool
+    {
+        if ($this->route === null) {
+            return false;
+        }
+
+        if ($currentRoute === $this->route) {
+            return true;
+        }
+
+        return str_starts_with($currentRoute, $this->route.'.');
+    }
 }

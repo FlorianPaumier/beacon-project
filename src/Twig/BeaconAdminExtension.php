@@ -18,6 +18,7 @@ class BeaconAdminExtension extends AbstractExtension
             new TwigFunction('beacon_admin_themes', [AdminRuntime::class, 'getThemes']),
             new TwigFunction('beacon_admin_menu', [AdminRuntime::class, 'getMenu']),
             new TwigFunction('beacon_admin_widgets', [AdminRuntime::class, 'getWidgets']),
+            new TwigFunction('beacon_admin_brand', [AdminRuntime::class, 'getBrand']),
         ];
     }
 

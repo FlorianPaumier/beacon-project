@@ -1,5 +1,10 @@
 <td class="beacon-table__td beacon-table__td--actions">
     <div class="beacon-actions">
+        <a href="{{ path(app.current_route ~ '_show', { id: row.id }) }}"
+           class="beacon-btn beacon-btn--small beacon-btn--view"
+           title="View">
+            View
+        </a>
         <a href="{{ path(app.current_route ~ '_edit', { id: row.id }) }}"
            class="beacon-btn beacon-btn--small beacon-btn--secondary"
            title="Edit">

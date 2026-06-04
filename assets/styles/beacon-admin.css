@@ -431,6 +431,54 @@ body {
     color: var(--beacon-text-muted);
 }
 
+/* Reusable empty-state component */
+.beacon-empty-state-component {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1.5rem;
+    text-align: center;
+    background: var(--beacon-bg);
+    border: 2px dashed var(--beacon-border);
+    border-radius: var(--beacon-radius);
+    color: var(--beacon-text-muted);
+}
+
+.beacon-empty-state-component__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    color: var(--beacon-text-muted);
+    opacity: 0.75;
+}
+
+.beacon-empty-state-component__title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--beacon-text);
+    margin: 0 0 0.375rem;
+}
+
+.beacon-empty-state-component__description {
+    font-size: 0.875rem;
+    color: var(--beacon-text-muted);
+    max-width: 32rem;
+    margin: 0 0 1rem;
+    line-height: 1.5;
+}
+
+.beacon-empty-state-component__action {
+    margin-top: 0.5rem;
+    text-decoration: none;
+}
+
+.beacon-empty-state-component__action-icon {
+    display: inline-flex;
+    align-items: center;
+}
+
 .beacon-stat-card {
     background: var(--beacon-surface);
     border: 1px solid var(--beacon-border);
@@ -487,6 +535,28 @@ body {
 
 .beacon-table tr:hover td {
     background: var(--beacon-bg);
+}
+
+/* Sticky table header: requires .beacon-table-wrapper to constrain
+   height with max-height + overflow-y-auto, and <th> gets sticky top-0.
+   The wrapper handles the scroll container; <th> stays pinned inside. */
+.beacon-table-wrapper {
+    max-height: calc(100vh - var(--beacon-header-height, 64px) - 12rem);
+    overflow-y: auto;
+}
+
+.beacon-table-wrapper .beacon-table {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.beacon-sticky-header th,
+.beacon-table th.beacon-table__th--sticky {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: var(--beacon-bg);
+    box-shadow: 0 1px 0 0 var(--beacon-border);
 }
 
 .beacon-form-group {
@@ -750,4 +820,453 @@ body {
     .beacon-widget--cols-3 {
         grid-column: span 6;
     }
+}
+
+.beacon-sidebar__logo {
+    max-height: 2rem;
+    max-width: 100%;
+}
+
+.beacon-sidebar__brand {
+    font-weight: 600;
+}
+
+/* Toast notifications */
+.beacon-toast-container {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: min(420px, calc(100vw - 2rem));
+    pointer-events: none;
+}
+
+.beacon-toast {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.875rem 1rem;
+    border-radius: var(--beacon-radius, 0.5rem);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    font-size: 0.875rem;
+    line-height: 1.4;
+    opacity: 0;
+    transform: translateX(1rem);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: auto;
+    cursor: pointer;
+}
+
+.beacon-toast--visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.beacon-toast--dismissing {
+    opacity: 0;
+    transform: translateX(1rem);
+}
+
+.beacon-toast--success {
+    background: var(--beacon-alert-success-bg, #dcfce7);
+    color: var(--beacon-alert-success-text, #166534);
+    border: 1px solid var(--beacon-alert-success-border, #bbf7d0);
+}
+
+.beacon-toast--error {
+    background: var(--beacon-alert-error-bg, #fef2f2);
+    color: var(--beacon-alert-error-text, #991b1b);
+    border: 1px solid var(--beacon-alert-error-border, #fecaca);
+}
+
+.beacon-toast--warning {
+    background: var(--beacon-alert-warning-bg, #fffbeb);
+    color: var(--beacon-alert-warning-text, #92400e);
+    border: 1px solid var(--beacon-alert-warning-border, #fde68a);
+}
+
+.beacon-toast--info {
+    background: var(--beacon-alert-info-bg, #eff6ff);
+    color: var(--beacon-alert-info-text, #1e40af);
+    border: 1px solid var(--beacon-alert-info-border, #bfdbfe);
+}
+
+.beacon-toast-icon {
+    flex-shrink: 0;
+    font-size: 1.125rem;
+    line-height: 1.25rem;
+    font-weight: 700;
+}
+
+.beacon-toast-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 0;
+}
+
+.beacon-toast-message {
+    word-break: break-word;
+}
+
+.beacon-toast-action {
+    display: inline-block;
+    margin-top: 0.25rem;
+    font-weight: 600;
+    color: inherit;
+    text-decoration: underline;
+}
+
+.beacon-toast-close {
+    flex-shrink: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.125rem 0.25rem;
+    font-size: 1.125rem;
+    line-height: 1;
+    color: inherit;
+    opacity: 0.6;
+}
+
+.beacon-toast-close:hover {
+    opacity: 1;
+}
+
+@media (max-width: 640px) {
+    .beacon-toast-container {
+        top: 0.5rem;
+        right: 0.5rem;
+        left: 0.5rem;
+        max-width: none;
+        align-items: center;
+    }
+}
+
+/* Notification bell */
+.beacon-notification-bell {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+.beacon-notification-bell-button {
+    position: relative;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: var(--beacon-radius, 0.375rem);
+    color: inherit;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 0;
+}
+
+.beacon-notification-bell-button:hover {
+    background: var(--beacon-surface-hover, rgba(0, 0, 0, 0.05));
+}
+
+.beacon-notification-bell-badge {
+    position: absolute;
+    top: 0.125rem;
+    right: 0.125rem;
+    min-width: 1.125rem;
+    height: 1.125rem;
+    padding: 0 0.3rem;
+    border-radius: 999px;
+    background: var(--beacon-trend-down, #dc2626);
+    color: #fff;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    line-height: 1.125rem;
+    text-align: center;
+    box-sizing: border-box;
+    pointer-events: none;
+}
+
+.beacon-notification-bell-badge--hidden {
+    display: none;
+}
+
+.beacon-notification-bell-dropdown {
+    position: absolute;
+    top: calc(100% + 0.25rem);
+    right: 0;
+    min-width: 280px;
+    max-width: 360px;
+    max-height: 400px;
+    overflow-y: auto;
+    background: var(--beacon-surface, #fff);
+    border: 1px solid var(--beacon-border, #e5e7eb);
+    border-radius: var(--beacon-radius, 0.5rem);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    padding: 0.5rem 0;
+}
+
+.beacon-notification-bell-dropdown--hidden {
+    display: none;
+}
+
+.beacon-notification-bell-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.beacon-notification-bell-empty,
+.beacon-notification-bell-item {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8125rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.beacon-notification-bell-empty {
+    color: var(--beacon-text-muted, #6b7280);
+    text-align: center;
+    justify-content: center;
+}
+
+.beacon-notification-bell-item {
+    border-bottom: 1px solid var(--beacon-border, #e5e7eb);
+}
+
+.beacon-notification-bell-item:last-child {
+    border-bottom: none;
+}
+
+.beacon-notification-bell-item-icon {
+    font-weight: 700;
+    line-height: 1;
+}
+
+.beacon-notification-bell-item-message {
+    flex: 1;
+    min-width: 0;
+    word-break: break-word;
+}
+
+.beacon-notification-bell-item--success .beacon-notification-bell-item-icon { color: #16a34a; }
+.beacon-notification-bell-item--error   .beacon-notification-bell-item-icon { color: #dc2626; }
+.beacon-notification-bell-item--warning .beacon-notification-bell-item-icon { color: #d97706; }
+.beacon-notification-bell-item--info    .beacon-notification-bell-item-icon { color: #2563eb; }
+
+/* Inbox */
+.beacon-notification-inbox-empty {
+    color: var(--beacon-text-muted, #6b7280);
+    font-style: italic;
+}
+
+.beacon-notification-inbox-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.beacon-notification-inbox-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: var(--beacon-surface, #fff);
+    border: 1px solid var(--beacon-border, #e5e7eb);
+    border-radius: var(--beacon-radius, 0.5rem);
+}
+
+.beacon-notification-inbox-icon {
+    font-weight: 700;
+    font-size: 1rem;
+    line-height: 1;
+}
+
+.beacon-notification-inbox-message {
+    flex: 1;
+    min-width: 0;
+    word-break: break-word;
+}
+
+.beacon-notification-inbox-action {
+    font-weight: 600;
+    text-decoration: underline;
+    color: inherit;
+}
+
+.beacon-notification-inbox-item--success { border-left: 3px solid #16a34a; }
+.beacon-notification-inbox-item--error   { border-left: 3px solid #dc2626; }
+.beacon-notification-inbox-item--warning { border-left: 3px solid #d97706; }
+.beacon-notification-inbox-item--info    { border-left: 3px solid #2563eb; }
+
+.beacon-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: flex-end;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--beacon-border);
+    background: var(--beacon-bg);
+}
+
+.beacon-filters__search {
+    flex: 1 1 16rem;
+    min-width: 12rem;
+}
+
+.beacon-filters__field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 8rem;
+}
+
+.beacon-filters__label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--beacon-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.beacon-filter__input,
+.beacon-filter__select {
+    padding: 0.375rem 0.5rem;
+    border: 1px solid var(--beacon-border);
+    border-radius: var(--beacon-radius);
+    background: var(--beacon-surface);
+    color: var(--beacon-text);
+    font-size: 0.8125rem;
+    font-family: inherit;
+    min-width: 8rem;
+    cursor: pointer;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.beacon-filter__input:focus,
+.beacon-filter__select:focus {
+    outline: none;
+    border-color: var(--beacon-primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.beacon-filter__group {
+    display: inline-flex;
+    border: 1px solid var(--beacon-border);
+    border-radius: var(--beacon-radius);
+    overflow: hidden;
+    background: var(--beacon-surface);
+}
+
+.beacon-filter__radio {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.beacon-filter__btn {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.8125rem;
+    color: var(--beacon-text-muted);
+    cursor: pointer;
+    user-select: none;
+    border-right: 1px solid var(--beacon-border);
+    transition: background 0.1s ease, color 0.1s ease;
+}
+
+.beacon-filter__btn:last-of-type {
+    border-right: none;
+}
+
+.beacon-filter__radio:checked + .beacon-filter__btn {
+    background: var(--beacon-primary);
+    color: var(--beacon-btn-primary-text, #ffffff);
+}
+
+.beacon-filter__btn:hover {
+    background: var(--beacon-bg);
+}
+
+.beacon-filter__radio:checked + .beacon-filter__btn:hover {
+    background: var(--beacon-primary-hover);
+}
+
+.beacon-filter__date-range {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+}
+
+.beacon-filter__date-separator {
+    color: var(--beacon-text-muted);
+    font-size: 0.875rem;
+}
+
+.beacon-active-filters {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: var(--beacon-bg);
+    border-bottom: 1px solid var(--beacon-border);
+}
+
+.beacon-active-filters__label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--beacon-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.beacon-active-filters__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+}
+
+.beacon-active-filters__chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    color: var(--beacon-text);
+    background: var(--beacon-surface);
+    border: 1px solid var(--beacon-border);
+    border-radius: 999px;
+    text-decoration: none;
+    transition: background 0.1s ease, border-color 0.1s ease;
+}
+
+.beacon-active-filters__chip:hover {
+    background: var(--beacon-alert-error-bg, #fef2f2);
+    border-color: var(--beacon-alert-error-border, #fecaca);
+    color: var(--beacon-alert-error-text, #991b1b);
+}
+
+.beacon-active-filters__chip-label {
+    font-weight: 600;
+    color: var(--beacon-text-muted);
+}
+
+.beacon-active-filters__chip-value {
+    font-weight: 500;
+}
+
+.beacon-active-filters__chip-remove {
+    font-weight: 700;
+    font-size: 0.875rem;
+    line-height: 1;
+    margin-left: 0.125rem;
+    opacity: 0.6;
 }

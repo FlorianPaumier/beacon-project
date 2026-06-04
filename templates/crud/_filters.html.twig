@@ -2,9 +2,22 @@
     <div class="beacon-filters__search">
         <input type="text"
                class="beacon-input"
-               placeholder="Search {{ config.entityLabelPlural|lower }}..."
+               placeholder="Search {{ config.getEntityLabelPlural()|lower }}... (press / to focus)"
                value="{{ result.search }}"
                data-action="input->beacon--datatable#search"
-               data-beacon--datatable-target="search">
+               data-beacon--datatable-target="search"
+               data-beacon-shortcut="search">
     </div>
+    {% set allQuery = app.request.query.all() %}
+    {% set filterValues = allQuery.filter|default({}) %}
+    {% for name, filter in config.getFilters %}
+        <div class="beacon-filters__field">
+            <label for="filter-{{ name }}" class="beacon-filters__label">{{ name|replace({'_': ' '})|title }}</label>
+            {% include '@BeaconAdmin/crud/filters/' ~ filter.type ~ '.html.twig' with {
+                name: name,
+                filter: filter,
+                currentValue: filterValues[name]|default(null)
+            } %}
+        </div>
+    {% endfor %}
 </div>

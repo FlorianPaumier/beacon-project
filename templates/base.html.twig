@@ -1,4 +1,24 @@
 {% extends '@BeaconAdmin/layout.html.twig' %}
 
 {% block content %}
+    {% set pending = [] %}
+    {% for type, messages in app.flashes %}
+        {% for message in messages %}
+            {% set entry = {
+                type: type,
+                message: message is iterable ? (message.message|default('')) : message,
+                action_label: message is iterable ? (message.actionLabel|default(null)) : null,
+                action_url: message is iterable ? (message.actionUrl|default(null)) : null,
+                duration: message is iterable ? (message.duration|default(5000)) : 5000,
+                sticky: message is iterable ? (message.isSticky|default(false)) : false,
+            } %}
+            {% set pending = pending|merge([entry]) %}
+        {% endfor %}
+    {% endfor %}
+    <div class="beacon-toast-container"
+         data-controller="@beacon-admin/notification"
+         data-beacon--notification-notifications-value="{{ pending|json_encode|e('html_attr') }}"
+         aria-live="polite"
+         aria-atomic="false">
+    </div>
 {% endblock %}

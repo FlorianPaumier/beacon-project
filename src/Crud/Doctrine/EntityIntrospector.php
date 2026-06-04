@@ -50,6 +50,7 @@ class EntityIntrospector
     private function buildMetadata(ClassMetadata $metadata): EntityMetadata
     {
         $fields = $this->extractFields($metadata);
+        $this->detectEnumFields($metadata, $fields);
         $identifier = $this->extractIdentifier($metadata, $fields);
         $associations = $this->extractAssociations($metadata);
 
@@ -135,5 +136,47 @@ class EntityIntrospector
             ClassMetadata::MANY_TO_MANY => 'MANY_TO_MANY',
             default => 'UNKNOWN',
         };
+    }
+
+    /**
+     * @param ClassMetadata<object> $metadata
+     * @param array<FieldMetadata>  $fields
+     */
+    private function detectEnumFields(ClassMetadata $metadata, array $fields): void
+    {
+        $entityClass = $metadata->getName();
+
+        $reflection = new \ReflectionClass($entityClass);
+
+        $fieldMap = [];
+        foreach ($fields as $f) {
+            $fieldMap[$f->getName()] = $f;
+        }
+
+        foreach ($reflection->getProperties() as $property) {
+            $name = $property->getName();
+
+            if (!isset($fieldMap[$name])) {
+                continue;
+            }
+
+            $type = $property->getType();
+
+            if (!$type instanceof \ReflectionNamedType) {
+                continue;
+            }
+
+            $typeName = $type->getName();
+
+            if (!class_exists($typeName) && !interface_exists($typeName)) {
+                continue;
+            }
+
+            if (!is_a($typeName, \BackedEnum::class, true)) {
+                continue;
+            }
+
+            $fieldMap[$name]->enumClass($typeName);
+        }
     }
 }
