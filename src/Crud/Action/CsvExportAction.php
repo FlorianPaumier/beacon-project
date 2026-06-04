@@ -61,11 +61,11 @@ final readonly class CsvExportAction
                 }
 
                 if (!\is_object($current)) {
-                    return (string) $current;
+                    return $this->sanitizeCsvValue((string) $current);
                 }
             }
 
-            return $this->objectToString($current);
+            return $this->sanitizeCsvValue($this->objectToString($current));
         }
 
         $value = $this->getPropertyValue($entity, $field);
@@ -83,10 +83,19 @@ final readonly class CsvExportAction
         }
 
         if (\is_object($value)) {
-            return $this->objectToString($value);
+            return $this->sanitizeCsvValue($this->objectToString($value));
         }
 
-        return (string) $value;
+        return $this->sanitizeCsvValue((string) $value);
+    }
+
+    private function sanitizeCsvValue(string $value): string
+    {
+        if ($value !== '' && in_array($value[0], ['=', '+', '-', '@'], true)) {
+            return "'".$value;
+        }
+
+        return $value;
     }
 
     private function getPropertyValue(object $entity, string $field): mixed
