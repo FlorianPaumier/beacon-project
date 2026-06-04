@@ -1,0 +1,21 @@
+# Exclude dev-only files from Packagist archive to keep the distributed package lean
+/tests               export-ignore
+/docs                export-ignore
+/specs               export-ignore
+/.github             export-ignore
+/.claude             export-ignore
+/.idea               export-ignore
+/bin                 export-ignore
+/node_modules        export-ignore
+/phpstan             export-ignore
+.php-cs-fixer.cache  export-ignore
+.php-cs-fixer.dist.php export-ignore
+.phpunit.result.cache export-ignore
+phpstan.neon.dist    export-ignore
+phpunit.xml.dist     export-ignore
+rector.php           export-ignore
+bun.lock             export-ignore
+package.json         export-ignore
+RULE.md              export-ignore
+CLAUDE.md            export-ignore
+CONTRIBUTING.md      export-ignore
