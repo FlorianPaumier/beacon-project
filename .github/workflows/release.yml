@@ -19,6 +19,13 @@ jobs:
       - run: vendor/bin/phpstan analyse --level 6
       - run: |
           TAG=${GITHUB_REF#refs/tags/}
-          gh release view "$TAG" &>/dev/null && echo "Release already exists, skipping." || gh release create "$TAG" --generate-notes
+          if gh release view "$TAG" &>/dev/null; then
+            echo "Release already exists, skipping."
+          else
+            gh release create "$TAG" --generate-notes || {
+              rc=$?
+              gh release view "$TAG" &>/dev/null && echo "Release already exists (created by concurrent run)." || exit $rc
+            }
+          fi
         env:
           GH_TOKEN: ${{ github.token }}
