@@ -11,7 +11,7 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
-      - uses: shivammathur/setup-php@v2
+      - uses: shivammathur/setup-php@cf4a053ecb2fb6747a7f4dac22bce3603fcebf01 # v2.31.1
         with:
           php-version: '8.4'
       - run: composer install --prefer-dist --no-interaction
