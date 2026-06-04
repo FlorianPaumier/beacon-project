@@ -156,7 +156,7 @@ final class PaginationServiceTest extends TestCase
             allowedSorts: ['name' => []],
         );
 
-        $this->assertStringContainsString('DESC', $qb->getDQL());
+        $this->assertStringContainsStringIgnoringCase('DESC', $qb->getDQL());
     }
 
     #[Test]
@@ -173,7 +173,7 @@ final class PaginationServiceTest extends TestCase
         );
 
         $this->assertStringContainsString('ORDER BY', $qb->getDQL());
-        $this->assertStringContainsString('DESC', $qb->getDQL());
+        $this->assertStringContainsStringIgnoringCase('DESC', $qb->getDQL());
     }
 
     #[Test]
@@ -307,7 +307,7 @@ final class PaginationServiceTest extends TestCase
 
         $this->assertSame('name', $result->sortField);
         $this->assertSame('desc', $result->sortDir);
-        $this->assertStringContainsString('DESC', $qb->getDQL());
+        $this->assertStringContainsStringIgnoringCase('DESC', $qb->getDQL());
     }
 
     #[Test]
