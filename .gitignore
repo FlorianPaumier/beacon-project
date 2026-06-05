@@ -39,6 +39,8 @@
 /.phpstan.cache/
 /phpstan-baseline.neon
 /phpstan.neon
+/phpstan
+/graphify-out
 
 #──────────────────────────────────────────────────────────────
 # Rector
