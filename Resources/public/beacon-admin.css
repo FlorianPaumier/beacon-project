@@ -559,6 +559,10 @@ body {
     box-shadow: 0 1px 0 0 var(--beacon-border);
 }
 
+/* ==========================================================================
+   Form Inputs — themed via --beacon-* custom properties
+   ========================================================================== */
+
 .beacon-form-group {
     margin-bottom: 1rem;
 }
@@ -571,21 +575,200 @@ body {
     margin-bottom: 0.375rem;
 }
 
-.beacon-form-input {
+/* -- Shared input base -------------------------------- */
+
+.beacon-input,
+.beacon-form-input,
+.beacon-select,
+.beacon-textarea {
     width: 100%;
     padding: 0.5rem 0.75rem;
-    border: 1px solid var(--beacon-border);
-    border-radius: var(--beacon-radius);
     font-size: 0.875rem;
-    background: var(--beacon-surface);
+    font-family: inherit;
+    line-height: 1.5;
     color: var(--beacon-text);
+    background: var(--beacon-input-bg, var(--beacon-surface));
+    border: var(--beacon-input-border-width, 1px) var(--beacon-input-border-style, solid) var(--beacon-input-border, var(--beacon-border));
+    border-radius: var(--beacon-input-radius, var(--beacon-radius));
+    box-shadow: var(--beacon-input-shadow, none);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    outline: none;
+}
+
+.beacon-input::placeholder,
+.beacon-form-input::placeholder,
+.beacon-select::placeholder,
+.beacon-textarea::placeholder {
+    color: var(--beacon-input-placeholder, var(--beacon-text-muted));
+    opacity: 1;
+}
+
+/* Focus */
+.beacon-input:focus,
+.beacon-form-input:focus,
+.beacon-select:focus,
+.beacon-textarea:focus {
+    border-color: var(--beacon-input-focus-border, var(--beacon-primary));
+    box-shadow: var(--beacon-input-focus-ring, 0 0 0 3px color-mix(in srgb, var(--beacon-primary) 20%, transparent));
+}
+
+/* Disabled / Read-only */
+.beacon-input:disabled,
+.beacon-form-input:disabled,
+.beacon-select:disabled,
+.beacon-textarea:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    background: var(--beacon-input-disabled-bg, var(--beacon-border));
+}
+
+.beacon-input:read-only,
+.beacon-form-input:read-only,
+.beacon-select:read-only,
+.beacon-textarea:read-only {
+    background: var(--beacon-input-readonly-bg, var(--beacon-bg));
+}
+
+/* Invalid */
+.beacon-input.is-invalid,
+.beacon-form-input.is-invalid,
+.beacon-select.is-invalid,
+.beacon-textarea.is-invalid {
+    border-color: var(--beacon-input-invalid-border, #dc2626);
+}
+
+.beacon-input.is-invalid:focus,
+.beacon-form-input.is-invalid:focus,
+.beacon-select.is-invalid:focus,
+.beacon-textarea.is-invalid:focus {
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15);
+}
+
+/* -- Select ------------------------------------------- */
+
+.beacon-select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7280' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    padding-right: 2.25rem;
+}
+
+/* -- Textarea ----------------------------------------- */
+
+.beacon-textarea {
+    min-height: 6rem;
+    resize: vertical;
+}
+
+/* -- Checkbox & Radio --------------------------------- */
+
+.beacon-checkbox,
+.beacon-radio {
+    width: 1rem;
+    height: 1rem;
+    accent-color: var(--beacon-primary);
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+.beacon-checkbox + label,
+.beacon-radio + label {
+    margin-left: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--beacon-text);
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+/* -- Component form classes (fi-fo-*) ------------------ */
+
+.fi-fo-input,
+.fi-fo-select-input,
+.fi-fo-textarea-input {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    font-family: inherit;
+    line-height: 1.5;
+    color: var(--beacon-text);
+    background: var(--beacon-input-bg, var(--beacon-surface));
+    border: var(--beacon-input-border-width, 1px) var(--beacon-input-border-style, solid) var(--beacon-input-border, var(--beacon-border));
+    border-radius: var(--beacon-input-radius, var(--beacon-radius));
+    box-shadow: var(--beacon-input-shadow, none);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    outline: none;
+}
+
+.fi-fo-input:focus,
+.fi-fo-select-input:focus,
+.fi-fo-textarea-input:focus {
+    border-color: var(--beacon-input-focus-border, var(--beacon-primary));
+    box-shadow: var(--beacon-input-focus-ring, 0 0 0 3px color-mix(in srgb, var(--beacon-primary) 20%, transparent));
+}
+
+.fi-fo-select-input {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7280' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    padding-right: 2.25rem;
+}
+
+.fi-fo-textarea-input {
+    min-height: 6rem;
+    resize: vertical;
+}
+
+.fi-fo-error {
+    margin-top: 0.25rem;
+    font-size: 0.8125rem;
+    color: #dc2626;
+}
+
+.fi-fo-required-indicator {
+    color: #dc2626;
+    margin-left: 0.125rem;
+}
+
+/* -- Number input variant ----------------------------- */
+
+.beacon-input--number {
+    max-width: 8rem;
+}
+
+/* -- Date input variant ------------------------------- */
+
+.beacon-input--date {
+    max-width: 12rem;
+}
+
+/* -- Filter inputs (compact) -------------------------- */
+
+.beacon-filter__input,
+.beacon-filter__select {
+    padding: 0.375rem 0.625rem;
+    font-size: 0.8125rem;
+    border: var(--beacon-input-border-width, 1px) solid var(--beacon-input-border, var(--beacon-border));
+    border-radius: var(--beacon-input-radius, var(--beacon-radius));
+    background: var(--beacon-input-bg, var(--beacon-surface));
+    color: var(--beacon-text);
+    outline: none;
     transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-.beacon-form-input:focus {
-    outline: none;
-    border-color: var(--beacon-primary);
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+.beacon-filter__input:focus,
+.beacon-filter__select:focus {
+    border-color: var(--beacon-input-focus-border, var(--beacon-primary));
+    box-shadow: var(--beacon-input-focus-ring, 0 0 0 2px color-mix(in srgb, var(--beacon-primary) 20%, transparent));
+}
+
+.beacon-filter__select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%236b7280' d='M5 7L1 3h8z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.5rem center;
+    padding-right: 1.75rem;
 }
 
 .beacon-btn {

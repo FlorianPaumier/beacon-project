@@ -7,6 +7,7 @@ namespace Devgeek\BeaconAdmin;
 use Devgeek\BeaconAdmin\Controller\NotificationController;
 use Devgeek\BeaconAdmin\DependencyInjection\Compiler\MenuPass;
 use Devgeek\BeaconAdmin\DependencyInjection\Compiler\WidgetPass;
+use Devgeek\BeaconAdmin\EventSubscriber\LoginRedirectSubscriber;
 use Devgeek\BeaconAdmin\Security\BeaconAccessVoter;
 use Symfony\Component\Config\Definition\Configurator\DefinitionConfigurator;
 use Symfony\Component\Config\FileLocator;
@@ -97,6 +98,19 @@ class BeaconAdminBundle extends AbstractBundle
                             ->defaultTrue()
                             ->info('Enable BeaconAccessVoter for #[BeaconAccess] attribute checks')
                         ->end()
+                        ->booleanNode('redirect_to_login')
+                            ->defaultTrue()
+                            ->info('Redirect unauthenticated users to the login page')
+                        ->end()
+                        ->scalarNode('login_route')
+                            ->defaultValue('beacon_admin_login')
+                            ->info('Route name for the login page')
+                        ->end()
+                        ->arrayNode('locales')
+                            ->scalarPrototype()->end()
+                            ->defaultValue([])
+                            ->info('Supported locale codes for login redirect (empty = auto-detect from Accept-Language)')
+                        ->end()
                     ->end()
                 ->end()
                 ->arrayNode('brand')
@@ -147,6 +161,16 @@ class BeaconAdminBundle extends AbstractBundle
                 ->setArgument('$adminRole', $config['security']['role']);
         } else {
             $builder->removeDefinition(BeaconAccessVoter::class);
+        }
+
+        if ((bool) $config['security']['redirect_to_login']) {
+            $builder->findDefinition(LoginRedirectSubscriber::class)
+                ->setArgument('$enabled', true)
+                ->setArgument('$loginRoute', $config['security']['login_route'])
+                ->setArgument('$routePrefix', $config['route_prefix'])
+                ->setArgument('$locales', $config['security']['locales']);
+        } else {
+            $builder->removeDefinition(LoginRedirectSubscriber::class);
         }
 
         $builder->findDefinition(NotificationController::class)

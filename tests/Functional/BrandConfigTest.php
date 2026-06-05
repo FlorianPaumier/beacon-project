@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Devgeek\BeaconAdmin\Tests\Functional;
 
 use Devgeek\BeaconAdmin\Tests\Fixtures\TestApp\BrandTestKernel;
+use Symfony\Component\Security\Core\User\InMemoryUser;
 
 final class BrandConfigTest extends BeaconWebTestCase
 {
@@ -16,6 +17,7 @@ final class BrandConfigTest extends BeaconWebTestCase
     public function testBrandNameIsRenderedInDashboard(): void
     {
         $client = static::createClient();
+        $client->loginUser(new InMemoryUser('admin_user', 'admin_pass', ['ROLE_ADMIN']));
         $crawler = $client->request('GET', '/admin');
 
         $this->assertResponseIsSuccessful();
@@ -25,6 +27,7 @@ final class BrandConfigTest extends BeaconWebTestCase
     public function testBrandNameIsRenderedInSidebar(): void
     {
         $client = static::createClient();
+        $client->loginUser(new InMemoryUser('admin_user', 'admin_pass', ['ROLE_ADMIN']));
         $crawler = $client->request('GET', '/admin');
 
         $this->assertResponseIsSuccessful();
@@ -34,6 +37,7 @@ final class BrandConfigTest extends BeaconWebTestCase
     public function testBrandPrimaryColorCssVariableIsInjected(): void
     {
         $client = static::createClient();
+        $client->loginUser(new InMemoryUser('admin_user', 'admin_pass', ['ROLE_ADMIN']));
         $client->request('GET', '/admin');
 
         $this->assertResponseIsSuccessful();
@@ -45,6 +49,7 @@ final class BrandConfigTest extends BeaconWebTestCase
     public function testBrandAccentColorCssVariableIsInjected(): void
     {
         $client = static::createClient();
+        $client->loginUser(new InMemoryUser('admin_user', 'admin_pass', ['ROLE_ADMIN']));
         $client->request('GET', '/admin');
 
         $this->assertResponseIsSuccessful();
@@ -56,6 +61,7 @@ final class BrandConfigTest extends BeaconWebTestCase
     public function testBrandStyleBlockIsPresentInHead(): void
     {
         $client = static::createClient();
+        $client->loginUser(new InMemoryUser('admin_user', 'admin_pass', ['ROLE_ADMIN']));
         $client->request('GET', '/admin');
 
         $this->assertResponseIsSuccessful();

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Devgeek\BeaconAdmin\Tests\Functional;
 
 use Devgeek\BeaconAdmin\Tests\Fixtures\TestApp\TestKernel;
+use Symfony\Component\Security\Core\User\InMemoryUser;
 
 final class BreadcrumbsRenderTest extends BeaconWebTestCase
 {
@@ -16,6 +17,7 @@ final class BreadcrumbsRenderTest extends BeaconWebTestCase
     public function testBreadcrumbNavAppearsOnDashboard(): void
     {
         $client = static::createClient();
+        $client->loginUser(new InMemoryUser('admin_user', 'admin_pass', ['ROLE_ADMIN']));
         $crawler = $client->request('GET', '/admin');
 
         $this->assertResponseIsSuccessful();
@@ -25,6 +27,7 @@ final class BreadcrumbsRenderTest extends BeaconWebTestCase
     public function testBreadcrumbHasOrderedList(): void
     {
         $client = static::createClient();
+        $client->loginUser(new InMemoryUser('admin_user', 'admin_pass', ['ROLE_ADMIN']));
         $crawler = $client->request('GET', '/admin');
 
         $this->assertResponseIsSuccessful();
@@ -34,6 +37,7 @@ final class BreadcrumbsRenderTest extends BeaconWebTestCase
     public function testLastBreadcrumbItemIsCurrentPage(): void
     {
         $client = static::createClient();
+        $client->loginUser(new InMemoryUser('admin_user', 'admin_pass', ['ROLE_ADMIN']));
         $crawler = $client->request('GET', '/admin');
 
         $this->assertResponseIsSuccessful();

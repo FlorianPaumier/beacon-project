@@ -6,6 +6,7 @@ namespace Devgeek\BeaconAdmin\Tests\Functional;
 
 use Devgeek\BeaconAdmin\Security\BeaconAccess;
 use Devgeek\BeaconAdmin\Tests\Fixtures\TestApp\TestKernel;
+use Symfony\Component\Security\Core\User\InMemoryUser;
 
 final class SecurityTest extends BeaconWebTestCase
 {
@@ -48,6 +49,7 @@ final class SecurityTest extends BeaconWebTestCase
     public function testDashboardRouteIsAccessible(): void
     {
         $client = static::createClient();
+        $client->loginUser(new InMemoryUser('admin_user', 'admin_pass', ['ROLE_ADMIN']));
         $client->request('GET', '/admin');
 
         $this->assertResponseIsSuccessful();
