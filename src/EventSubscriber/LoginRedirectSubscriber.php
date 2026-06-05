@@ -46,8 +46,10 @@ final class LoginRedirectSubscriber
 
         $request = $event->getRequest();
 
-        // Only intercept routes under the admin prefix
-        if (!str_starts_with($request->getPathInfo(), $this->routePrefix)) {
+        // Only intercept routes under the admin prefix (e.g. /admin or /en/admin)
+        $path = $request->getPathInfo();
+        if (!str_starts_with($path, $this->routePrefix)
+            && !preg_match('#^/[a-z]{2}(_[A-Z]{2})?'.preg_quote($this->routePrefix, '#').'#', $path)) {
             return;
         }
 

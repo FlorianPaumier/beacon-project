@@ -4,4 +4,4 @@
 beacon_admin:
     resource: '@BeaconAdminBundle/src/Controller/'
     type: attribute
-    prefix: '%beacon_admin.route_prefix%'
+    prefix: ''

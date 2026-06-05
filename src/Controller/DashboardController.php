@@ -31,6 +31,7 @@ class DashboardController extends AbstractController
         return new self($widgets, $eventDispatcher);
     }
 
+    #[Route('/{_locale}%beacon_admin.route_prefix%', name: 'beacon_admin.dashboard_locale')]
     #[Route('/%beacon_admin.route_prefix%', name: 'beacon_admin.dashboard')]
     public function __invoke(): Response
     {
