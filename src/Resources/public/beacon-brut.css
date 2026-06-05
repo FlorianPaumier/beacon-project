@@ -1,0 +1,61 @@
+[data-theme="brut"] {
+    --beacon-font: "Courier New", Consolas, "Liberation Mono", monospace;
+    --beacon-primary: #ea580c;
+    --beacon-primary-hover: #c2410c;
+    --beacon-bg: #fafaf9;
+    --beacon-surface: #ffffff;
+    --beacon-text: #1c1917;
+    --beacon-text-muted: #78716c;
+    --beacon-border: #292524;
+    --beacon-sidebar-bg: #ffffff;
+    --beacon-sidebar-width: 280px;
+    --beacon-header-height: 64px;
+    --beacon-radius: 0;
+    --beacon-shadow: 4px 4px 0px rgba(0, 0, 0, 0.15);
+    --beacon-alert-success-bg: #f0fdf4;
+    --beacon-alert-success-text: #166534;
+    --beacon-alert-success-border: #292524;
+    --beacon-alert-error-bg: #fef2f2;
+    --beacon-alert-error-text: #991b1b;
+    --beacon-alert-error-border: #292524;
+    --beacon-alert-warning-bg: #fffbeb;
+    --beacon-alert-warning-text: #92400e;
+    --beacon-alert-warning-border: #292524;
+    --beacon-alert-info-bg: #eff6ff;
+    --beacon-alert-info-text: #1e40af;
+    --beacon-alert-info-border: #292524;
+    --beacon-trend-up: #16a34a;
+    --beacon-trend-down: #dc2626;
+    --beacon-btn-primary-text: #ffffff;
+    --beacon-btn-danger-bg: #dc2626;
+    --beacon-btn-danger-text: #ffffff;
+    --beacon-btn-danger-hover: #b91c1c;
+}
+
+[data-theme="brut"].dark {
+    --beacon-primary: #f97316;
+    --beacon-primary-hover: #fb923c;
+    --beacon-bg: #1c1917;
+    --beacon-surface: #292524;
+    --beacon-text: #fafaf9;
+    --beacon-text-muted: #a8a29e;
+    --beacon-border: #fafaf9;
+    --beacon-sidebar-bg: #292524;
+    --beacon-shadow: 4px 4px 0px rgba(255, 255, 255, 0.15);
+    --beacon-alert-success-bg: #064e3b;
+    --beacon-alert-success-text: #6ee7b7;
+    --beacon-alert-success-border: #fafaf9;
+    --beacon-alert-error-bg: #450a0a;
+    --beacon-alert-error-text: #fca5a5;
+    --beacon-alert-error-border: #fafaf9;
+    --beacon-alert-warning-bg: #451a03;
+    --beacon-alert-warning-text: #fcd34d;
+    --beacon-alert-warning-border: #fafaf9;
+    --beacon-alert-info-bg: #1e3a5f;
+    --beacon-alert-info-text: #93c5fd;
+    --beacon-alert-info-border: #fafaf9;
+    --beacon-btn-primary-text: #ffffff;
+    --beacon-btn-danger-bg: #dc2626;
+    --beacon-btn-danger-text: #ffffff;
+    --beacon-btn-danger-hover: #b91c1c;
+}
