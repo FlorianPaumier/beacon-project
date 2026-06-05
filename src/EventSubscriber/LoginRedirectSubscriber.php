@@ -49,7 +49,7 @@ final class LoginRedirectSubscriber
         // Only intercept routes under the admin prefix (e.g. /admin or /en/admin)
         $path = $request->getPathInfo();
         if (!str_starts_with($path, $this->routePrefix)
-            && !preg_match('#^/[a-z]{2}(_[A-Z]{2})?' . preg_quote($this->routePrefix, '#') . '#', $path)) {
+            && !preg_match('#^/[a-z]{2}(_[A-Z]{2})?'.preg_quote($this->routePrefix, '#').'#', $path)) {
             return;
         }
 
