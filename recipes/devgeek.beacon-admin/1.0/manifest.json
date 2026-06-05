@@ -6,7 +6,7 @@
         "config/": "%CONFIG_DIR%/"
     },
     "copy-from-package": {
-        "src/Resources/public/": "%PUBLIC_DIR%/bundles/beaconadmin/"
+        "Resources/public/": "%PUBLIC_DIR%/bundles/beaconadmin/"
     },
     "aliases": {
         "beacon_admin": "beacon_admin"
