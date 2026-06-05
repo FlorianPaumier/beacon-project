@@ -34,6 +34,10 @@ beacon_admin:
     security:
         role: ROLE_ADMIN
         voters: true  # Enable BeaconAccessVoter for #[BeaconAccess] attribute checks
+        redirect_to_login: true  # Redirect unauthenticated users to the login page
+        login_route: 'beacon_admin_login'  # Route name for the login page
+        # Restrict login redirect to these locale codes (empty = auto-detect from browser)
+        # locales: [en, fr, de]
 
     # Branding
     brand:

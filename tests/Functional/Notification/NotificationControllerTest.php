@@ -66,12 +66,12 @@ final class NotificationControllerTest extends BeaconWebTestCase
         $this->assertContains('info', $types);
     }
 
-    public function testUnreadCountIsForbiddenForUnauthenticatedUser(): void
+    public function testUnreadCountRedirectsUnauthenticatedUserToLogin(): void
     {
         $client = static::createClient();
         $client->request('GET', '/admin/notifications/unread-count');
 
-        $this->assertResponseStatusCodeSame(401);
+        $this->assertResponseRedirects('/en/admin/login');
     }
 
     public function testUnreadCountIsForbiddenForNonAdminUser(): void

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Devgeek\BeaconAdmin\Tests\Functional;
 
 use Devgeek\BeaconAdmin\Tests\Fixtures\TestApp\TestKernel;
+use Symfony\Component\Security\Core\User\InMemoryUser;
 
 final class EnglishTranslationTest extends BeaconWebTestCase
 {
@@ -16,6 +17,7 @@ final class EnglishTranslationTest extends BeaconWebTestCase
     public function testEnglishWelcomeBackIsRendered(): void
     {
         $client = static::createClient();
+        $client->loginUser(new InMemoryUser('admin_user', 'admin_pass', ['ROLE_ADMIN']));
         $client->request('GET', '/admin');
 
         $this->assertResponseIsSuccessful();
@@ -27,6 +29,7 @@ final class EnglishTranslationTest extends BeaconWebTestCase
     public function testEnglishNoWidgetsMessageIsRendered(): void
     {
         $client = static::createClient();
+        $client->loginUser(new InMemoryUser('admin_user', 'admin_pass', ['ROLE_ADMIN']));
         $client->request('GET', '/admin');
 
         $this->assertResponseIsSuccessful();
@@ -38,6 +41,7 @@ final class EnglishTranslationTest extends BeaconWebTestCase
     public function testEnglishBreadcrumbAriaLabelIsRendered(): void
     {
         $client = static::createClient();
+        $client->loginUser(new InMemoryUser('admin_user', 'admin_pass', ['ROLE_ADMIN']));
         $crawler = $client->request('GET', '/admin');
 
         $this->assertResponseIsSuccessful();

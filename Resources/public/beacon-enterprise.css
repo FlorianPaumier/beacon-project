@@ -12,6 +12,12 @@
     --beacon-header-height: 56px;
     --beacon-radius: 0;
     --beacon-shadow: none;
+    --beacon-input-bg: #ffffff;
+    --beacon-input-border: #94a3b8;
+    --beacon-input-radius: 0;
+    --beacon-input-shadow: none;
+    --beacon-input-focus-ring: 0 0 0 2px rgba(30, 64, 175, 0.2);
+    --beacon-input-placeholder: #94a3b8;
     --beacon-alert-success-bg: #f0fdf4;
     --beacon-alert-success-text: #166534;
     --beacon-alert-success-border: #bbf7d0;

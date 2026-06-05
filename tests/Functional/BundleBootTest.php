@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Devgeek\BeaconAdmin\Tests\Functional;
 
 use Devgeek\BeaconAdmin\Tests\Fixtures\TestApp\TestKernel;
+use Symfony\Component\Security\Core\User\InMemoryUser;
 
 final class BundleBootTest extends BeaconWebTestCase
 {
@@ -45,6 +46,7 @@ final class BundleBootTest extends BeaconWebTestCase
     public function testDashboardRouteIsRegistered(): void
     {
         $client = static::createClient();
+        $client->loginUser(new InMemoryUser('admin_user', 'admin_pass', ['ROLE_ADMIN']));
         $client->request('GET', '/admin');
 
         $this->assertResponseIsSuccessful();
