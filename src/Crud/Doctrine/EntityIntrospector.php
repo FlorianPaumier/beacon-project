@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Devgeek\BeaconAdmin\Crud\Doctrine;
 
+use Devgeek\BeaconAdmin\Exception\BeaconAdminLogicException;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
 
@@ -38,7 +39,7 @@ class EntityIntrospector
     public function introspectFromDefault(string $entityClass): EntityMetadata
     {
         if (null === $this->entityManager) {
-            throw new \LogicException('No EntityManager available. Use introspect($em, $class) or inject one via constructor.');
+            throw new BeaconAdminLogicException('No EntityManager available. Use introspect($em, $class) or inject one via constructor.');
         }
 
         return $this->introspect($this->entityManager, $entityClass);

@@ -55,7 +55,7 @@ final class BeaconAccessControllerSubscriber
 
             try {
                 $isGranted = $this->authorizationChecker->isGranted($instance);
-            } catch (\Throwable) {
+            } catch (\Exception) {
                 // No authentication context or voter error — treat as access denied
                 $isGranted = false;
             }
