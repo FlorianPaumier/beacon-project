@@ -20,22 +20,17 @@ use Symfony\Component\Security\Core\User\InMemoryUser;
 
 final class LoginRedirectSubscriberTest extends TestCase
 {
-    private UrlGeneratorInterface $urlGenerator;
-    private TokenStorageInterface $tokenStorage;
-    private HttpKernelInterface $kernel;
-
-    protected function setUp(): void
-    {
-        $this->urlGenerator = $this->createMock(UrlGeneratorInterface::class);
-        $this->tokenStorage = $this->createMock(TokenStorageInterface::class);
-        $this->kernel = $this->createMock(HttpKernelInterface::class);
-    }
-
-    private function createSubscriber(array $overrides = []): LoginRedirectSubscriber
-    {
+    /**
+     * @param array<string, mixed> $overrides
+     */
+    private function createSubscriber(
+        UrlGeneratorInterface $urlGenerator,
+        TokenStorageInterface $tokenStorage,
+        array $overrides = [],
+    ): LoginRedirectSubscriber {
         return new LoginRedirectSubscriber(
-            urlGenerator: $this->urlGenerator,
-            tokenStorage: $this->tokenStorage,
+            urlGenerator: $urlGenerator,
+            tokenStorage: $tokenStorage,
             enabled: $overrides['enabled'] ?? true,
             loginRoute: $overrides['loginRoute'] ?? 'beacon_admin_login',
             routePrefix: $overrides['routePrefix'] ?? '/admin',
@@ -49,7 +44,7 @@ final class LoginRedirectSubscriberTest extends TestCase
         Request $request,
         int $requestType = HttpKernelInterface::MAIN_REQUEST,
     ): ExceptionEvent {
-        return new ExceptionEvent($this->kernel, $request, $requestType, $exception);
+        return new ExceptionEvent($this->createMock(HttpKernelInterface::class), $request, $requestType, $exception);
     }
 
     private function createRequest(string $path, string $route = 'some_admin_route'): Request
@@ -64,14 +59,15 @@ final class LoginRedirectSubscriberTest extends TestCase
     #[Test]
     public function itRedirectsUnauthenticatedUserToLoginForAdminPath(): void
     {
-        $this->tokenStorage->method('getToken')->willReturn(null);
+        $tokenStorage = $this->createMock(TokenStorageInterface::class);
+        $tokenStorage->method('getToken')->willReturn(null);
 
-        $this->urlGenerator
-            ->method('generate')
+        $urlGenerator = $this->createMock(UrlGeneratorInterface::class);
+        $urlGenerator->method('generate')
             ->with('beacon_admin_login', ['_locale' => 'en'])
             ->willReturn('/en/admin/login');
 
-        $subscriber = $this->createSubscriber();
+        $subscriber = $this->createSubscriber($urlGenerator, $tokenStorage);
         $request = $this->createRequest('/admin');
         $event = $this->createExceptionEvent(new AccessDeniedException(), $request);
 
@@ -84,9 +80,12 @@ final class LoginRedirectSubscriberTest extends TestCase
     #[Test]
     public function itDoesNotRedirectWhenSubscriberIsDisabled(): void
     {
-        $this->tokenStorage->expects($this->never())->method('getToken');
+        $tokenStorage = $this->createMock(TokenStorageInterface::class);
+        $tokenStorage->expects($this->never())->method('getToken');
 
-        $subscriber = $this->createSubscriber(['enabled' => false]);
+        $urlGenerator = $this->createMock(UrlGeneratorInterface::class);
+
+        $subscriber = $this->createSubscriber($urlGenerator, $tokenStorage, ['enabled' => false]);
         $request = $this->createRequest('/admin');
         $event = $this->createExceptionEvent(new AccessDeniedException(), $request);
 
@@ -98,9 +97,12 @@ final class LoginRedirectSubscriberTest extends TestCase
     #[Test]
     public function itDoesNotRedirectForNonAccessDeniedException(): void
     {
-        $this->tokenStorage->expects($this->never())->method('getToken');
+        $tokenStorage = $this->createMock(TokenStorageInterface::class);
+        $tokenStorage->expects($this->never())->method('getToken');
 
-        $subscriber = $this->createSubscriber();
+        $urlGenerator = $this->createMock(UrlGeneratorInterface::class);
+
+        $subscriber = $this->createSubscriber($urlGenerator, $tokenStorage);
         $request = $this->createRequest('/admin');
         $event = $this->createExceptionEvent(new \RuntimeException('Some other error'), $request);
 
@@ -112,9 +114,12 @@ final class LoginRedirectSubscriberTest extends TestCase
     #[Test]
     public function itDoesNotRedirectForNonAdminPath(): void
     {
-        $this->tokenStorage->expects($this->never())->method('getToken');
+        $tokenStorage = $this->createMock(TokenStorageInterface::class);
+        $tokenStorage->expects($this->never())->method('getToken');
 
-        $subscriber = $this->createSubscriber();
+        $urlGenerator = $this->createMock(UrlGeneratorInterface::class);
+
+        $subscriber = $this->createSubscriber($urlGenerator, $tokenStorage);
         $request = $this->createRequest('/some-other-page', 'app_home');
         $event = $this->createExceptionEvent(new AccessDeniedException(), $request);
 
@@ -126,9 +131,12 @@ final class LoginRedirectSubscriberTest extends TestCase
     #[Test]
     public function itDoesNotRedirectForLoginRouteItself(): void
     {
-        $this->tokenStorage->expects($this->never())->method('getToken');
+        $tokenStorage = $this->createMock(TokenStorageInterface::class);
+        $tokenStorage->expects($this->never())->method('getToken');
 
-        $subscriber = $this->createSubscriber();
+        $urlGenerator = $this->createMock(UrlGeneratorInterface::class);
+
+        $subscriber = $this->createSubscriber($urlGenerator, $tokenStorage);
         $request = $this->createRequest('/admin/login', 'beacon_admin_login');
         $event = $this->createExceptionEvent(new AccessDeniedException(), $request);
 
@@ -142,9 +150,13 @@ final class LoginRedirectSubscriberTest extends TestCase
     {
         $user = new InMemoryUser('admin_user', 'admin_pass', ['ROLE_USER']);
         $token = new UsernamePasswordToken($user, 'admin', ['ROLE_USER']);
-        $this->tokenStorage->method('getToken')->willReturn($token);
 
-        $subscriber = $this->createSubscriber();
+        $tokenStorage = $this->createMock(TokenStorageInterface::class);
+        $tokenStorage->method('getToken')->willReturn($token);
+
+        $urlGenerator = $this->createMock(UrlGeneratorInterface::class);
+
+        $subscriber = $this->createSubscriber($urlGenerator, $tokenStorage);
         $request = $this->createRequest('/admin');
         $event = $this->createExceptionEvent(new AccessDeniedException(), $request);
 
@@ -156,14 +168,15 @@ final class LoginRedirectSubscriberTest extends TestCase
     #[Test]
     public function itHandlesLocalePrefixedAdminPath(): void
     {
-        $this->tokenStorage->method('getToken')->willReturn(null);
+        $tokenStorage = $this->createMock(TokenStorageInterface::class);
+        $tokenStorage->method('getToken')->willReturn(null);
 
-        $this->urlGenerator
-            ->method('generate')
+        $urlGenerator = $this->createMock(UrlGeneratorInterface::class);
+        $urlGenerator->method('generate')
             ->with('beacon_admin_login', ['_locale' => 'fr'])
             ->willReturn('/fr/admin/login');
 
-        $subscriber = $this->createSubscriber();
+        $subscriber = $this->createSubscriber($urlGenerator, $tokenStorage);
         $request = $this->createRequest('/fr/admin', 'beacon_admin.dashboard_locale');
         $request->headers->set('Accept-Language', 'fr-FR,fr;q=0.9');
         $event = $this->createExceptionEvent(new AccessDeniedException(), $request);
@@ -177,14 +190,15 @@ final class LoginRedirectSubscriberTest extends TestCase
     #[Test]
     public function itHandlesLocaleWithRegionInAdminPath(): void
     {
-        $this->tokenStorage->method('getToken')->willReturn(null);
+        $tokenStorage = $this->createMock(TokenStorageInterface::class);
+        $tokenStorage->method('getToken')->willReturn(null);
 
-        $this->urlGenerator
-            ->method('generate')
+        $urlGenerator = $this->createMock(UrlGeneratorInterface::class);
+        $urlGenerator->method('generate')
             ->with('beacon_admin_login', ['_locale' => 'en'])
             ->willReturn('/en/admin/login');
 
-        $subscriber = $this->createSubscriber();
+        $subscriber = $this->createSubscriber($urlGenerator, $tokenStorage);
         $request = $this->createRequest('/en_US/admin', 'beacon_admin.dashboard_locale');
         $request->headers->set('Accept-Language', 'en-US,en;q=0.9');
         $event = $this->createExceptionEvent(new AccessDeniedException(), $request);
@@ -198,13 +212,13 @@ final class LoginRedirectSubscriberTest extends TestCase
     #[Test]
     public function itSavesTargetPathForPostLoginRedirect(): void
     {
-        $this->tokenStorage->method('getToken')->willReturn(null);
+        $tokenStorage = $this->createMock(TokenStorageInterface::class);
+        $tokenStorage->method('getToken')->willReturn(null);
 
-        $this->urlGenerator
-            ->method('generate')
-            ->willReturn('/en/admin/login');
+        $urlGenerator = $this->createMock(UrlGeneratorInterface::class);
+        $urlGenerator->method('generate')->willReturn('/en/admin/login');
 
-        $subscriber = $this->createSubscriber(['firewallName' => 'admin']);
+        $subscriber = $this->createSubscriber($urlGenerator, $tokenStorage, ['firewallName' => 'admin']);
         $request = $this->createRequest('/admin/some-page');
         $event = $this->createExceptionEvent(new AccessDeniedException(), $request);
 
@@ -220,14 +234,15 @@ final class LoginRedirectSubscriberTest extends TestCase
     #[Test]
     public function itUsesConfiguredLocalesWhenProvided(): void
     {
-        $this->tokenStorage->method('getToken')->willReturn(null);
+        $tokenStorage = $this->createMock(TokenStorageInterface::class);
+        $tokenStorage->method('getToken')->willReturn(null);
 
-        $this->urlGenerator
-            ->method('generate')
+        $urlGenerator = $this->createMock(UrlGeneratorInterface::class);
+        $urlGenerator->method('generate')
             ->with('beacon_admin_login', ['_locale' => 'de'])
             ->willReturn('/de/admin/login');
 
-        $subscriber = $this->createSubscriber(['locales' => ['en', 'fr', 'de']]);
+        $subscriber = $this->createSubscriber($urlGenerator, $tokenStorage, ['locales' => ['en', 'fr', 'de']]);
         $request = $this->createRequest('/admin');
         // de-DE has highest priority (no explicit q, defaults to 1.0)
         $request->headers->set('Accept-Language', 'de-DE,fr;q=0.8,en;q=0.5');
