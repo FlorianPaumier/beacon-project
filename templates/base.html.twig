@@ -16,7 +16,7 @@
         {% endfor %}
     {% endfor %}
     <div class="beacon-toast-container"
-         data-controller="@beacon-admin/notification"
+         data-controller="beacon-admin--notification"
          data-beacon--notification-notifications-value="{{ pending|json_encode|e('html_attr') }}"
          aria-live="polite"
          aria-atomic="false">

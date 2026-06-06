@@ -1,24 +1,24 @@
-[data-theme="modern"] {
+[data-theme="enterprise"] {
     --beacon-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    --beacon-primary: #2563eb;
-    --beacon-primary-hover: #1d4ed8;
-    --beacon-bg: #f8fafc;
+    --beacon-primary: #1e40af;
+    --beacon-primary-hover: #1e3a8a;
+    --beacon-bg: #f1f5f9;
     --beacon-surface: #ffffff;
     --beacon-text: #0f172a;
-    --beacon-text-muted: #64748b;
-    --beacon-border: #e2e8f0;
-    --beacon-sidebar-bg: #ffffff;
-    --beacon-sidebar-width: 260px;
-    --beacon-header-height: 64px;
-    --beacon-radius: 0.5rem;
-    --beacon-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    --beacon-text-muted: #475569;
+    --beacon-border: #cbd5e1;
+    --beacon-sidebar-bg: #1e293b;
+    --beacon-sidebar-width: 240px;
+    --beacon-header-height: 56px;
+    --beacon-radius: 0;
+    --beacon-shadow: none;
     --beacon-input-bg: #ffffff;
-    --beacon-input-border: #e2e8f0;
-    --beacon-input-radius: 0.5rem;
-    --beacon-input-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
-    --beacon-input-focus-ring: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    --beacon-input-border: #94a3b8;
+    --beacon-input-radius: 0;
+    --beacon-input-shadow: none;
+    --beacon-input-focus-ring: 0 0 0 2px rgba(30, 64, 175, 0.2);
     --beacon-input-placeholder: #94a3b8;
-    --beacon-alert-success-bg: #dcfce7;
+    --beacon-alert-success-bg: #f0fdf4;
     --beacon-alert-success-text: #166534;
     --beacon-alert-success-border: #bbf7d0;
     --beacon-alert-error-bg: #fef2f2;
@@ -33,12 +33,21 @@
     --beacon-trend-up: #16a34a;
     --beacon-trend-down: #dc2626;
     --beacon-btn-primary-text: #ffffff;
+    --beacon-btn-primary-shadow: none;
+    --beacon-btn-primary-hover-shadow: 0 2px 8px rgba(30, 64, 175, 0.2);
+    --beacon-btn-radius: 0;
+    --beacon-btn-font-weight: 600;
+    --beacon-btn-border-width: 1px;
+    --beacon-btn-focus-ring: 0 0 0 2px rgba(30, 64, 175, 0.3);
+    --beacon-btn-secondary-border: #94a3b8;
+    --beacon-btn-secondary-hover-bg: #e2e8f0;
     --beacon-btn-danger-bg: #dc2626;
     --beacon-btn-danger-text: #ffffff;
     --beacon-btn-danger-hover: #b91c1c;
+    --beacon-btn-danger-hover-shadow: 0 2px 8px rgba(220, 38, 38, 0.2);
 }
 
-[data-theme="modern"].dark {
+[data-theme="enterprise"].dark {
     --beacon-primary: #3b82f6;
     --beacon-primary-hover: #60a5fa;
     --beacon-bg: #0f172a;
@@ -46,8 +55,15 @@
     --beacon-text: #f1f5f9;
     --beacon-text-muted: #94a3b8;
     --beacon-border: #334155;
-    --beacon-sidebar-bg: #1e293b;
-    --beacon-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    --beacon-sidebar-bg: #0f172a;
+    --beacon-shadow: none;
+    --beacon-btn-primary-text: #ffffff;
+    --beacon-btn-primary-shadow: none;
+    --beacon-btn-primary-hover-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
+    --beacon-btn-focus-ring: 0 0 0 2px rgba(59, 130, 246, 0.3);
+    --beacon-btn-secondary-border: #475569;
+    --beacon-btn-secondary-hover-bg: #334155;
+    --beacon-btn-danger-hover-shadow: 0 2px 8px rgba(220, 38, 38, 0.2);
     --beacon-alert-success-bg: #064e3b;
     --beacon-alert-success-text: #6ee7b7;
     --beacon-alert-success-border: #065f46;

@@ -2,8 +2,8 @@
     {% for message in messages %}
         <div class="beacon-alert beacon-alert--{{ type }}"
              role="alert"
-             data-controller="@beacon-admin/notification"
-             data-action="click->@beacon-admin/notification#dismiss">
+             data-controller="beacon-admin--notification"
+             data-action="click->beacon-admin--notification#dismiss">
             <div class="beacon-alert-content">
                 <span class="beacon-alert-icon">
                     {% if type == 'success' %}✓{% elseif type == 'error' %}✗{% elseif type == 'warning' %}⚠{% else %}ℹ{% endif %}
@@ -11,7 +11,7 @@
                 <span class="beacon-alert-message">{{ message }}</span>
             </div>
             <button class="beacon-alert-close"
-                    data-action="@beacon-admin/notification#dismiss"
+                    data-action="beacon-admin--notification#dismiss"
                     aria-label="{{ 'beacon_admin.notification.close'|trans({}, 'beacon_admin') }}">&times;</button>
         </div>
     {% endfor %}

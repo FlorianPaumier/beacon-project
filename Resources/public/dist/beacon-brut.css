@@ -34,9 +34,18 @@
     --beacon-trend-up: #16a34a;
     --beacon-trend-down: #dc2626;
     --beacon-btn-primary-text: #ffffff;
+    --beacon-btn-primary-shadow: 3px 3px 0px rgba(0, 0, 0, 0.2);
+    --beacon-btn-primary-hover-shadow: 4px 4px 0px rgba(0, 0, 0, 0.25);
+    --beacon-btn-radius: 0;
+    --beacon-btn-font-weight: 700;
+    --beacon-btn-border-width: 2px;
+    --beacon-btn-focus-ring: 0 0 0 3px #292524;
+    --beacon-btn-secondary-border: #292524;
+    --beacon-btn-secondary-hover-bg: #e7e5e4;
     --beacon-btn-danger-bg: #dc2626;
     --beacon-btn-danger-text: #ffffff;
     --beacon-btn-danger-hover: #b91c1c;
+    --beacon-btn-danger-hover-shadow: 4px 4px 0px rgba(220, 38, 38, 0.3);
 }
 
 [data-theme="brut"].dark {
@@ -49,6 +58,13 @@
     --beacon-border: #fafaf9;
     --beacon-sidebar-bg: #292524;
     --beacon-shadow: 4px 4px 0px rgba(255, 255, 255, 0.15);
+    --beacon-btn-primary-text: #ffffff;
+    --beacon-btn-primary-shadow: 3px 3px 0px rgba(255, 255, 255, 0.15);
+    --beacon-btn-primary-hover-shadow: 4px 4px 0px rgba(255, 255, 255, 0.2);
+    --beacon-btn-focus-ring: 0 0 0 3px #fafaf9;
+    --beacon-btn-secondary-border: #fafaf9;
+    --beacon-btn-secondary-hover-bg: #44403c;
+    --beacon-btn-danger-hover-shadow: 4px 4px 0px rgba(220, 38, 38, 0.35);
     --beacon-alert-success-bg: #064e3b;
     --beacon-alert-success-text: #6ee7b7;
     --beacon-alert-success-border: #fafaf9;
@@ -62,7 +78,16 @@
     --beacon-alert-info-text: #93c5fd;
     --beacon-alert-info-border: #fafaf9;
     --beacon-btn-primary-text: #ffffff;
+    --beacon-btn-primary-shadow: 3px 3px 0px rgba(0, 0, 0, 0.2);
+    --beacon-btn-primary-hover-shadow: 4px 4px 0px rgba(0, 0, 0, 0.25);
+    --beacon-btn-radius: 0;
+    --beacon-btn-font-weight: 700;
+    --beacon-btn-border-width: 2px;
+    --beacon-btn-focus-ring: 0 0 0 3px #292524;
+    --beacon-btn-secondary-border: #292524;
+    --beacon-btn-secondary-hover-bg: #e7e5e4;
     --beacon-btn-danger-bg: #dc2626;
     --beacon-btn-danger-text: #ffffff;
     --beacon-btn-danger-hover: #b91c1c;
+    --beacon-btn-danger-hover-shadow: 4px 4px 0px rgba(220, 38, 38, 0.3);
 }

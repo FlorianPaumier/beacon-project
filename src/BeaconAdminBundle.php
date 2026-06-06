@@ -9,6 +9,7 @@ use Devgeek\BeaconAdmin\DependencyInjection\Compiler\MenuPass;
 use Devgeek\BeaconAdmin\DependencyInjection\Compiler\WidgetPass;
 use Devgeek\BeaconAdmin\EventSubscriber\LoginRedirectSubscriber;
 use Devgeek\BeaconAdmin\Security\BeaconAccessVoter;
+use Devgeek\BeaconAdmin\Security\LoginFormAuthenticator;
 use Symfony\Component\Config\Definition\Configurator\DefinitionConfigurator;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -18,6 +19,93 @@ use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
 
 class BeaconAdminBundle extends AbstractBundle
 {
+    /**
+     * Auto-inject the admin firewall and access control into the app's
+     * security config — the user doesn't need to write it manually.
+     *
+     * security.firewalls uses performNoDeepMerging() which prevents adding
+     * firewalls across config sources. We work around this by merging the
+     * admin firewall into the app's first security config set via reflection
+     * on ContainerBuilder. This is safe because we only run once and only if
+     * no admin firewall already exists.
+     */
+    public function prependExtension(ContainerConfigurator $configurator, ContainerBuilder $container): void
+    {
+        $configs = $container->getExtensionConfig('security');
+
+        if ([] === $configs) {
+            return;
+        }
+
+        // Only prepend if no admin firewall is already defined
+        foreach ($configs as $config) {
+            if (isset($config['firewalls']['admin'])) {
+                return;
+            }
+        }
+
+        // Skip if any firewall uses http_basic/stateless (e.g. test environments)
+        foreach ($configs as $config) {
+            foreach ($config['firewalls'] ?? [] as $fw) {
+                if (array_key_exists('http_basic', $fw) || ($fw['stateless'] ?? false)) {
+                    return;
+                }
+            }
+        }
+
+        // Auto-detect the user provider from the first non-dev firewall
+        $provider = null;
+        foreach ($configs as $config) {
+            foreach ($config['firewalls'] ?? [] as $name => $fw) {
+                if ('dev' === $name) {
+                    continue;
+                }
+                if (isset($fw['provider'])) {
+                    $provider = $fw['provider'];
+                    break 2;
+                }
+            }
+        }
+
+        $adminFirewall = [
+            'lazy' => true,
+            'pattern' => '^/([a-z]{2}/)?admin',
+            'provider' => $provider,
+            'form_login' => [
+                'login_path' => 'beacon_admin_login',
+                'check_path' => 'beacon_admin_login',
+                'default_target_path' => 'beacon_admin.dashboard_locale',
+            ],
+            'logout' => [
+                'path' => 'beacon_admin_logout',
+                'target' => 'beacon_admin_login',
+            ],
+        ];
+
+        $adminAccessControl = [
+            ['path' => '^/([a-z]{2}/)?admin/login', 'roles' => 'PUBLIC_ACCESS'],
+            ['path' => '^/([a-z]{2}/)?admin', 'roles' => 'ROLE_ADMIN'],
+        ];
+
+        // Merge admin firewall before existing firewalls in the first config set
+        $configs[0]['firewalls'] = isset($configs[0]['firewalls'])
+            ? ['admin' => $adminFirewall] + $configs[0]['firewalls']
+            : ['admin' => $adminFirewall];
+
+        // Prepend admin access control rules
+        $configs[0]['access_control'] = array_merge(
+            $adminAccessControl,
+            $configs[0]['access_control'] ?? [],
+        );
+
+        // Replace only the security extension configs (preserve all others)
+        $refl = new \ReflectionClass($container);
+        $prop = $refl->getProperty('extensionConfigs');
+        $allConfigs = $prop->getValue($container);
+        $allConfigs['security'] = $configs;
+        $prop->setValue($container, $allConfigs);
+    }
+
     /**
      * Hook: defines the semantic configuration tree.
      * Replaces the standalone Configuration class.
@@ -38,9 +126,9 @@ class BeaconAdminBundle extends AbstractBundle
                     ->useAttributeAsKey('name')
                     ->scalarPrototype()->end()
                     ->defaultValue([
-                        'modern' => 'bundles/beaconadmin/beacon-modern.css',
-                        'enterprise' => 'bundles/beaconadmin/beacon-enterprise.css',
-                        'brut' => 'bundles/beaconadmin/beacon-brut.css',
+                        'modern' => 'bundles/beaconadmin/dist/beacon-modern.css',
+                        'enterprise' => 'bundles/beaconadmin/dist/beacon-enterprise.css',
+                        'brut' => 'bundles/beaconadmin/dist/beacon-brut.css',
                     ])
                     ->info('Map of theme name → CSS file path')
                 ->end()
@@ -101,6 +189,10 @@ class BeaconAdminBundle extends AbstractBundle
                         ->booleanNode('redirect_to_login')
                             ->defaultTrue()
                             ->info('Redirect unauthenticated users to the login page')
+                        ->end()
+                        ->booleanNode('use_builtin_authenticator')
+                            ->defaultFalse()
+                            ->info('Wire LoginFormAuthenticator into the container (set true then reference Devgeek\BeaconAdmin\Security\LoginFormAuthenticator in security.yaml custom_authenticator)')
                         ->end()
                         ->scalarNode('login_route')
                             ->defaultValue('beacon_admin_login')
@@ -171,6 +263,15 @@ class BeaconAdminBundle extends AbstractBundle
                 ->setArgument('$locales', $config['security']['locales']);
         } else {
             $builder->removeDefinition(LoginRedirectSubscriber::class);
+        }
+
+        if ((bool) $config['security']['use_builtin_authenticator']) {
+            $builder->findDefinition(LoginFormAuthenticator::class)
+                ->setArgument('$loginRoute', $config['security']['login_route'])
+                ->setArgument('$afterLoginRedirect', 'beacon_admin_dashboard')
+                ->setArgument('$firewallName', 'admin');
+        } else {
+            $builder->removeDefinition(LoginFormAuthenticator::class);
         }
 
         $builder->findDefinition(NotificationController::class)

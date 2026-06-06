@@ -107,14 +107,26 @@ final readonly class BreadcrumbRenderer
         }
 
         $segments = array_values(array_filter(explode('/', $path), static fn (string $s): bool => '' !== $s));
+
+        // Skip locale prefix segments (2-letter locale codes like "en", "fr")
+        $startIndex = 0;
+        if (count($segments) > 0 && preg_match('/^[a-z]{2}$/', $segments[0])) {
+            $startIndex = 1;
+        }
+
+        $segments = array_slice($segments, $startIndex);
         $count = count($segments);
         $items = [];
+
+        // Build URLs from the original full segments (including locale for correct URL generation)
+        $fullSegments = array_values(array_filter(explode('/', $path), static fn (string $s): bool => '' !== $s));
+        $fullOffset = $startIndex;
 
         foreach ($segments as $index => $segment) {
             $isLast = $index === $count - 1;
             $items[] = [
                 'label' => $this->humanize($segment),
-                'url' => $isLast ? null : $this->urlForPath($segments, $index + 1),
+                'url' => $isLast ? null : $this->urlForPath($fullSegments, $fullOffset + $index + 1),
             ];
         }
 

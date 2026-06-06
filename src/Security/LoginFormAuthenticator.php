@@ -20,6 +20,33 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\ParameterBagUtils;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
+/**
+ * Built-in authenticator for the admin firewall.
+ *
+ * ## Enabling in an app
+ *
+ * 1. Enable in the bundle config:
+ *    beacon_admin:
+ *        security:
+ *            use_builtin_authenticator: true
+ *
+ * 2. Reference in the app's security.yaml:
+ *    firewalls:
+ *        admin:
+ *            custom_authenticator: Devgeek\BeaconAdmin\Security\LoginFormAuthenticator
+ *            provider: app_user_provider
+ *            logout: ...
+ *
+ * ## Overriding the login template
+ *
+ * Create templates/bundles/BeaconAdminBundle/security/login.html.twig
+ * in your app — it automatically replaces the bundle's template.
+ *
+ * ## Replacing the authenticator entirely
+ *
+ * Keep use_builtin_authenticator: false (default), implement your own
+ * authenticator, and reference it in security.yaml instead.
+ */
 class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 {
     use TargetPathTrait;
