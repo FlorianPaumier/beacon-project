@@ -53,7 +53,7 @@ final readonly class PaginationService
             $class = $filter['class'];
             try {
                 $repository = $queryBuilder->getEntityManager()->getRepository($class);
-            } catch (\Throwable) {
+            } catch (\Exception) {
                 continue;
             }
 
@@ -318,7 +318,7 @@ final readonly class PaginationService
 
         try {
             $metadata = $em->getClassMetadata($entityClass);
-        } catch (\Throwable) {
+        } catch (\Exception) {
             return $declaredType;
         }
 
@@ -517,14 +517,14 @@ final readonly class PaginationService
             'date' => (function () use ($value) {
                 try {
                     return new \DateTime((string) $value);
-                } catch (\Throwable) {
+                } catch (\Exception) {
                     return null;
                 }
             })(),
             'datetime' => (function () use ($value) {
                 try {
                     return new \DateTimeImmutable((string) $value);
-                } catch (\Throwable) {
+                } catch (\Exception) {
                     return null;
                 }
             })(),
