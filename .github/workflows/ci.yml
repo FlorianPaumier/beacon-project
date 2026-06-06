@@ -21,7 +21,7 @@ jobs:
           tools: composer:v2
           coverage: pcov
       - run: composer require symfony/framework-bundle:${{ matrix.symfony }} --no-update
-      - run: composer update --prefer-dist --no-interaction
+      - run: composer install --prefer-dist --no-interaction
       - run: vendor/bin/phpunit --coverage-text --coverage-clover=coverage.xml
       - run: php bin/audit-spec.php
       - run: vendor/bin/phpstan analyse --level 6

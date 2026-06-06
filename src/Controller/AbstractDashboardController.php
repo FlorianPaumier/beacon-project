@@ -51,7 +51,7 @@ abstract class AbstractDashboardController extends AbstractController
     /**
      * Override to define the admin menu.
      *
-     * @return array<array{label: string, route?: string, icon?: string, role?: string, children?: array}>
+     * @return array<int, array{label: string, route?: string, icon?: string, role?: string, children?: array<int, mixed>}>
      */
     public function configureMenuItems(): array
     {

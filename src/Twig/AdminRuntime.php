@@ -66,7 +66,7 @@ class AdminRuntime
 
     public function getTitle(): string
     {
-        if ($this->dashboardController) {
+        if ($this->dashboardController !== null) {
             $title = $this->dashboardController->configureTitle();
 
             if (null !== $title) {
@@ -79,7 +79,7 @@ class AdminRuntime
 
     public function getTheme(): string
     {
-        if ($this->dashboardController) {
+        if ($this->dashboardController !== null) {
             $theme = $this->dashboardController->configureDefaultTheme();
 
             if (null !== $theme) {
@@ -108,7 +108,7 @@ class AdminRuntime
         }
 
         // Controller config takes precedence
-        if ($this->dashboardController) {
+        if ($this->dashboardController !== null) {
             $controllerBrand = $this->dashboardController->configureBrand();
             $brand = array_merge($brand, $controllerBrand);
         }
@@ -126,7 +126,7 @@ class AdminRuntime
     /** @return array<string, string> */
     public function getThemes(): array
     {
-        if ($this->dashboardController) {
+        if ($this->dashboardController !== null) {
             $themes = $this->dashboardController->configureThemes();
 
             if ([] !== $themes) {
@@ -142,7 +142,7 @@ class AdminRuntime
     /** @return array<array{label: string, route: ?string, icon: ?string, role: ?string, children: array<mixed>}> */
     public function getMenu(): array
     {
-        if ($this->dashboardController) {
+        if ($this->dashboardController !== null) {
             $items = $this->dashboardController->configureMenuItems();
 
             if ([] !== $items) {
