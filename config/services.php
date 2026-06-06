@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
+use Devgeek\BeaconAdmin\Controller\AbstractDashboardController;
 use Devgeek\BeaconAdmin\Controller\GlobalSearchController;
 use Devgeek\BeaconAdmin\Menu\MenuBuilder;
 use Devgeek\BeaconAdmin\Search\GlobalSearchProviderInterface;
@@ -41,6 +42,8 @@ return static function (ContainerConfigurator $container): void {
     $services->set(BeaconAdminExtension::class)->tag('twig.extension');
 
     // Twig runtime (lazy-loaded)
+    // $dashboardController is autowired — apps alias
+    // AbstractDashboardController to their own subclass in services.yaml
     $services->set(AdminRuntime::class)
         ->arg('$config', '%beacon_admin.config%')
         ->arg('$requestStack', service('request_stack'))
