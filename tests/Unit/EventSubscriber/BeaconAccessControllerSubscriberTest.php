@@ -42,7 +42,9 @@ final class BeaconAccessControllerSubscriberTest extends TestCase
 
         $subscriber = $this->createSubscriber($authorizationChecker);
         $controller = new #[BeaconAccess(role: 'ROLE_ADMIN')] class {
-            public function __invoke(): void {}
+            public function __invoke(): void
+            {
+            }
         };
 
         $event = $this->createControllerEvent($controller, HttpKernelInterface::SUB_REQUEST);
@@ -75,7 +77,9 @@ final class BeaconAccessControllerSubscriberTest extends TestCase
 
         $subscriber = $this->createSubscriber($authorizationChecker);
         $controller = new #[BeaconAccess(role: 'ROLE_ADMIN')] class {
-            public function __invoke(): void {}
+            public function __invoke(): void
+            {
+            }
         };
 
         $event = $this->createControllerEvent($controller);
@@ -92,7 +96,9 @@ final class BeaconAccessControllerSubscriberTest extends TestCase
 
         $subscriber = $this->createSubscriber($authorizationChecker);
         $controller = new #[BeaconAccess(role: 'ROLE_ADMIN')] class {
-            public function __invoke(): void {}
+            public function __invoke(): void
+            {
+            }
         };
 
         $event = $this->createControllerEvent($controller);
@@ -112,7 +118,9 @@ final class BeaconAccessControllerSubscriberTest extends TestCase
 
         $subscriber = $this->createSubscriber($authorizationChecker);
         $controller = new #[BeaconAccess(role: 'ROLE_ADMIN')] class {
-            public function __invoke(): void {}
+            public function __invoke(): void
+            {
+            }
         };
 
         $event = $this->createControllerEvent($controller);
@@ -130,7 +138,9 @@ final class BeaconAccessControllerSubscriberTest extends TestCase
 
         $subscriber = $this->createSubscriber($authorizationChecker);
         $controller = new class {
-            public function __invoke(): void {}
+            public function __invoke(): void
+            {
+            }
         };
 
         $event = $this->createControllerEvent($controller);
@@ -149,7 +159,9 @@ final class BeaconAccessControllerSubscriberTest extends TestCase
 
         $controller = new class {
             #[BeaconAccess(role: 'ROLE_SUPER_ADMIN')]
-            public function edit(): void {}
+            public function edit(): void
+            {
+            }
         };
 
         $event = $this->createControllerEvent([$controller, 'edit']);
@@ -174,7 +186,9 @@ final class BeaconAccessControllerSubscriberTest extends TestCase
 
         $controller = new #[BeaconAccess(role: 'ROLE_ADMIN')] class {
             #[BeaconAccess(role: 'ROLE_SUPER_ADMIN')]
-            public function edit(): void {}
+            public function edit(): void
+            {
+            }
         };
 
         $event = $this->createControllerEvent([$controller, 'edit']);
@@ -193,7 +207,9 @@ final class BeaconAccessControllerSubscriberTest extends TestCase
 
         $subscriber = $this->createSubscriber($authorizationChecker);
         $controller = new #[BeaconAccess] class {
-            public function __invoke(): void {}
+            public function __invoke(): void
+            {
+            }
         };
 
         $event = $this->createControllerEvent($controller);
@@ -213,7 +229,9 @@ final class BeaconAccessControllerSubscriberTest extends TestCase
         $subscriber = $this->createSubscriber($authorizationChecker);
 
         $controller = new #[BeaconAccess(role: 'ROLE_ADMIN')] class {
-            public function customMethod(): void {}
+            public function customMethod(): void
+            {
+            }
         };
 
         $event = $this->createControllerEvent([$controller, 'customMethod']);
