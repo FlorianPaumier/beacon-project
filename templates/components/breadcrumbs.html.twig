@@ -1,20 +1,27 @@
 {% set trail = beacon_admin_breadcrumbs() %}
 {% if trail is not empty %}
-    <nav aria-label="{{ 'beacon_admin.nav.breadcrumb'|trans({}, 'beacon_admin') }}" class="beacon-breadcrumbs-nav mb-4">
-        <ol class="beacon-breadcrumbs flex flex-wrap items-center gap-1 text-sm text-gray-500">
+    <nav aria-label="{{ 'beacon_admin.nav.breadcrumb'|trans({}, 'beacon_admin') }}" class="beacon-breadcrumbs-nav">
+        <ol class="beacon-breadcrumbs">
+            {# Home link with icon #}
+            <li class="beacon-breadcrumb-item">
+                <a href="{{ path('beacon_admin.dashboard_locale') }}"
+                   class="beacon-breadcrumb-link"
+                   title="{{ 'beacon_admin.nav.dashboard'|trans({}, 'beacon_admin') }}">
+                    <span class="beacon-breadcrumb-icon">&#x1F3E0;</span>
+                </a>
+                <span class="beacon-breadcrumb-separator" aria-hidden="true">&rsaquo;</span>
+            </li>
             {% for item in trail %}
-                <li class="beacon-breadcrumb-item flex items-center gap-1
-                           {{ loop.last ? 'beacon-breadcrumb-item--current text-gray-900 font-medium' : '' }}">
-                    {% if loop.last or item.url is null %}
-                        <span aria-current="page">{{ item.label }}</span>
-                    {% else %}
-                        <a href="{{ item.url }}"
-                           class="beacon-breadcrumb-link hover:text-gray-700 hover:underline">
+                <li class="beacon-breadcrumb-item{{ loop.last ? ' beacon-breadcrumb-item--current' : '' }}">
+                    {% if not loop.last and item.url is not null %}
+                        <a href="{{ item.url }}" class="beacon-breadcrumb-link">
                             {{ item.label }}
                         </a>
+                    {% else %}
+                        <span aria-current="page">{{ item.label }}</span>
                     {% endif %}
                     {% if not loop.last %}
-                        <span class="beacon-breadcrumb-separator text-gray-300" aria-hidden="true">/</span>
+                        <span class="beacon-breadcrumb-separator" aria-hidden="true">&rsaquo;</span>
                     {% endif %}
                 </li>
             {% endfor %}

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ app.request.locale|default('en') }}"
-      data-theme="{{ beacon_admin_theme() }}">
+      data-theme="{{ beacon_admin_theme() }}"
+      data-env="{{ app.environment }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,8 +22,8 @@
     {% endblock %}
 </head>
 <body class="beacon-body"
-      data-controller="@beacon-admin/theme @beacon-admin/keyboard-shortcuts"
-      data-themes="{{ beacon_admin_themes()|json_encode|e('html_attr') }}">
+      data-controller="beacon-admin--theme beacon-admin--keyboard-shortcuts"
+      data-themes="{{ beacon_admin_themes()|map((path, name) => asset(path))|json_encode|e('html_attr') }}">
     {% block body %}
         <div class="beacon-admin-layout">
             {% block sidebar %}

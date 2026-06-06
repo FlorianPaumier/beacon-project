@@ -9,10 +9,10 @@
             <p class="beacon-dashboard-subtitle">{{ 'beacon_admin.dashboard.welcome_back'|trans({}, 'beacon_admin') }}{% if app.user is not null %}, {{ app.user.userIdentifier }}{% endif %}</p>
         </div>
 
-        <div class="beacon-widget-grid" {{ stimulus_controller('@beacon-admin/dashboard') }}>
+        <div class="beacon-widget-grid" {{ stimulus_controller('beacon-admin--dashboard') }}>
             {% for widget in widgets %}
                 <div class="beacon-widget beacon-widget--cols-{{ widget.getCols() }}"
-                    {{ stimulus_target('@beacon-admin/dashboard', 'widget') }}
+                    {{ stimulus_target('beacon-admin--dashboard', 'widget') }}
                     data-widget-name="{{ widget.getName() }}"
                 >
                     <div class="beacon-widget__header">

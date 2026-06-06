@@ -1,5 +1,16 @@
 import { Application } from "@hotwired/stimulus";
 
+const isDebug = document.head.querySelector('meta[name="beacon-debug"]')?.content === 'true'
+    || document.documentElement.dataset.env === 'dev';
+
+if (isDebug) {
+    console.info(
+        '%cBeacon Admin%c JS loaded',
+        'font-weight:bold;color:#2563eb',
+        'color:inherit',
+    );
+}
+
 import AssociationSearchController from "../controllers/association_search_controller.js";
 import BeaconController from "../controllers/beacon_controller.js";
 import BulkActionsController from "../controllers/bulk_actions_controller.js";
@@ -15,7 +26,7 @@ import ThemeController from "../controllers/theme_controller.js";
 
 const app = Application.start();
 
-// Register with StimulusBundle-resolved names (beacon-admin--<name>)
+// Register with StimulusBundle format (@beacon-admin/<name>)
 app.register("beacon-admin--association-search", AssociationSearchController);
 app.register("beacon-admin--beacon", BeaconController);
 app.register("beacon-admin--bulk-actions", BulkActionsController);
@@ -29,8 +40,12 @@ app.register("beacon-admin--notification-bell", NotificationBellController);
 app.register("beacon-admin--sidebar", SidebarController);
 app.register("beacon-admin--theme", ThemeController);
 
-// Also register with short names used directly in some templates (beacon--<name>)
-app.register("beacon--bulk-actions", BulkActionsController);
-app.register("beacon--datatable", DatatableController);
-app.register("beacon--delete-confirm", DeleteConfirmController);
-app.register("beacon--inline-toggle", InlineToggleController);
+if (isDebug) {
+    const count = app.router.modules ? [...app.router.modules].length : 0;
+    console.info(
+        '%cBeacon Admin%c %d controllers ready',
+        'font-weight:bold;color:#16a34a',
+        'color:inherit',
+        count,
+    );
+}
