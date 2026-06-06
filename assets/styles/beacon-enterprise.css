@@ -33,9 +33,18 @@
     --beacon-trend-up: #16a34a;
     --beacon-trend-down: #dc2626;
     --beacon-btn-primary-text: #ffffff;
+    --beacon-btn-primary-shadow: none;
+    --beacon-btn-primary-hover-shadow: 0 2px 8px rgba(30, 64, 175, 0.2);
+    --beacon-btn-radius: 0;
+    --beacon-btn-font-weight: 600;
+    --beacon-btn-border-width: 1px;
+    --beacon-btn-focus-ring: 0 0 0 2px rgba(30, 64, 175, 0.3);
+    --beacon-btn-secondary-border: #94a3b8;
+    --beacon-btn-secondary-hover-bg: #e2e8f0;
     --beacon-btn-danger-bg: #dc2626;
     --beacon-btn-danger-text: #ffffff;
     --beacon-btn-danger-hover: #b91c1c;
+    --beacon-btn-danger-hover-shadow: 0 2px 8px rgba(220, 38, 38, 0.2);
 }
 
 [data-theme="enterprise"].dark {
@@ -48,6 +57,13 @@
     --beacon-border: #334155;
     --beacon-sidebar-bg: #0f172a;
     --beacon-shadow: none;
+    --beacon-btn-primary-text: #ffffff;
+    --beacon-btn-primary-shadow: none;
+    --beacon-btn-primary-hover-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
+    --beacon-btn-focus-ring: 0 0 0 2px rgba(59, 130, 246, 0.3);
+    --beacon-btn-secondary-border: #475569;
+    --beacon-btn-secondary-hover-bg: #334155;
+    --beacon-btn-danger-hover-shadow: 0 2px 8px rgba(220, 38, 38, 0.2);
     --beacon-alert-success-bg: #064e3b;
     --beacon-alert-success-text: #6ee7b7;
     --beacon-alert-success-border: #065f46;

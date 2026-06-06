@@ -9,6 +9,7 @@ use Devgeek\BeaconAdmin\DependencyInjection\Compiler\MenuPass;
 use Devgeek\BeaconAdmin\DependencyInjection\Compiler\WidgetPass;
 use Devgeek\BeaconAdmin\EventSubscriber\LoginRedirectSubscriber;
 use Devgeek\BeaconAdmin\Security\BeaconAccessVoter;
+use Devgeek\BeaconAdmin\Security\LoginFormAuthenticator;
 use Symfony\Component\Config\Definition\Configurator\DefinitionConfigurator;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -102,6 +103,10 @@ class BeaconAdminBundle extends AbstractBundle
                             ->defaultTrue()
                             ->info('Redirect unauthenticated users to the login page')
                         ->end()
+                        ->booleanNode('use_builtin_authenticator')
+                            ->defaultFalse()
+                            ->info('Wire LoginFormAuthenticator into the container (set true then reference Devgeek\BeaconAdmin\Security\LoginFormAuthenticator in security.yaml custom_authenticator)')
+                        ->end()
                         ->scalarNode('login_route')
                             ->defaultValue('beacon_admin_login')
                             ->info('Route name for the login page')
@@ -171,6 +176,15 @@ class BeaconAdminBundle extends AbstractBundle
                 ->setArgument('$locales', $config['security']['locales']);
         } else {
             $builder->removeDefinition(LoginRedirectSubscriber::class);
+        }
+
+        if ((bool) $config['security']['use_builtin_authenticator']) {
+            $builder->findDefinition(LoginFormAuthenticator::class)
+                ->setArgument('$loginRoute', $config['security']['login_route'])
+                ->setArgument('$afterLoginRedirect', 'beacon_admin_dashboard')
+                ->setArgument('$firewallName', 'admin');
+        } else {
+            $builder->removeDefinition(LoginFormAuthenticator::class);
         }
 
         $builder->findDefinition(NotificationController::class)
