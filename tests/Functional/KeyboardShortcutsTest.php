@@ -60,9 +60,9 @@ final class KeyboardShortcutsTest extends TestCase
 
         $json = json_decode(file_get_contents($path), true, 512, \JSON_THROW_ON_ERROR);
         $this->assertArrayHasKey('controllers', $json);
-        $this->assertArrayHasKey('@beacon-admin/keyboard-shortcuts', $json['controllers']);
+        $this->assertArrayHasKey('beacon-admin--keyboard-shortcuts', $json['controllers']);
 
-        $entry = $json['controllers']['@beacon-admin/keyboard-shortcuts'];
+        $entry = $json['controllers']['beacon-admin--keyboard-shortcuts'];
         $this->assertTrue($entry['enabled']);
         $this->assertSame('lazy', $entry['fetch']);
     }
@@ -73,7 +73,7 @@ final class KeyboardShortcutsTest extends TestCase
         $path = dirname(__DIR__, 2).'/templates/layout.html.twig';
         $content = file_get_contents($path);
 
-        $this->assertStringContainsString('@beacon-admin/keyboard-shortcuts', $content);
+        $this->assertStringContainsString('beacon-admin--keyboard-shortcuts', $content);
     }
 
     #[Test]
@@ -83,7 +83,7 @@ final class KeyboardShortcutsTest extends TestCase
         $content = file_get_contents($path);
 
         $this->assertMatchesRegularExpression(
-            '/data-controller="[^"]*@beacon-admin\/keyboard-shortcuts/',
+            '/data-controller="[^"]*beacon-admin--keyboard-shortcuts/',
             $content
         );
     }

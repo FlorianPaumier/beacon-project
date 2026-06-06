@@ -44,6 +44,15 @@ class BeaconAdminBundle extends AbstractBundle
             }
         }
 
+        // Skip if any firewall uses http_basic/stateless (e.g. test environments)
+        foreach ($configs as $config) {
+            foreach ($config['firewalls'] ?? [] as $fw) {
+                if (array_key_exists('http_basic', $fw) || ($fw['stateless'] ?? false)) {
+                    return;
+                }
+            }
+        }
+
         // Auto-detect the user provider from the first non-dev firewall
         $provider = null;
         foreach ($configs as $config) {

@@ -36,7 +36,7 @@ final class SecurityTest extends BeaconWebTestCase
 
     public function testBeaconAccessAttributeExistsOnDashboard(): void
     {
-        $refl = new \ReflectionClass('Devgeek\BeaconAdmin\Controller\DashboardController');
+        $refl = new \ReflectionClass('Devgeek\BeaconAdmin\Controller\AbstractDashboardController');
         $attrs = $refl->getAttributes(BeaconAccess::class);
 
         $this->assertCount(1, $attrs);
